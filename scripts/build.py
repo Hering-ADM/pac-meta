@@ -263,6 +263,8 @@ def main():
                     'type': i.get('type'), 'cost': i.get('cost'), 'cmc': i.get('cmc'), 'colors': i.get('colors'), 'rarity': i.get('rarity'),
                     'uri': i.get('uri'), 'full': i.get('full'), 'f': ci['f']}
     save(os.path.join(OUT, 'cards.json'), cards)
+    fx = load(os.path.join(DATA, 'fx.json'), None)
+    if fx and fx.get('rate'): save(os.path.join(OUT, 'fx.json'), {'rate': fx['rate'], 'date': fx.get('date')})
     movers = []
     for n, c in cards.items():
         if c['usd'] and c['usd7'] and c['usd7'] >= 1 and abs(c['usd'] - c['usd7']) >= 0.5:

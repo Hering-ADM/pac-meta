@@ -249,7 +249,10 @@ table.dt tr.sp td { height: .5rem; border: 0; }
 /* Link para a loja parceira */
 .loja-ic { display: inline-flex; align-items: center; justify-content: center; width: 1.9rem; height: 1.9rem; margin: -.3rem 0; border-radius: 6px; color: var(--mut); vertical-align: middle; }
 .loja-ic:hover, table.dt td a.loja-ic:hover { color: var(--acc); background: var(--acc-soft); }
-table.dt td.lj, table.dt th.lj { width: 2.2rem; padding-left: 0; padding-right: .3rem; text-align: center; }
+table.dt td.lj, table.dt th.lj { width: 4.2rem; white-space: nowrap; padding-left: 0; padding-right: .3rem; text-align: center; }
 table.dt td a.loja-ic { color: var(--mut); }
 .btn.loja { display: inline-flex; align-items: center; gap: .45rem; background: var(--acc); color: #fff; border-color: var(--acc); font-weight: 600; }
 .btn.loja:hover { filter: brightness(1.08); }
+.btn.liga { display: inline-flex; align-items: center; gap: .45rem; font-weight: 600; }
+table.dt td.n, table.t td.n { white-space: nowrap; }
+.pricebox b { white-space: nowrap; font-size: clamp(1rem, 1.6vw, 1.25rem); }

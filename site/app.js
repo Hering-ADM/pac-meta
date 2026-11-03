@@ -24,7 +24,13 @@ async function get(path) {
   try { return await cache[path]; } catch (e) { delete cache[path]; throw e; }
 }
 const pct = (v, d = 1) => v == null ? '—' : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: d, maximumFractionDigits: d }) + '%';
-const usd = (v) => v == null ? '—' : 'US$ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const money = (v) => Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const usdRaw = (v) => v == null ? '—' : 'US$ ' + money(v);
+/* Preços em real: o preço do Scryfall (US$) convertido pela cotação do dólar em data/fx.json. */
+let FX = null;
+async function loadFx() { if (FX === null) { try { const d = await get('data/fx.json'); FX = d && d.rate > 0 ? d : false; } catch (e) { FX = false; } } }
+const usd = (v) => v == null ? '—' : FX ? 'R$ ' + money(v * FX.rate) : usdRaw(v);
+const fxNote = () => FX ? 'Preço em dólar do Scryfall convertido para real (US$ 1 = R$ ' + money(FX.rate) + (FX.date ? ', ' + dat(FX.date) : '') + '). Na loja o valor pode ser outro.' : 'Preços em dólar, do Scryfall.';
 const eur = (v) => v == null ? '—' : '€ ' + Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const tix = (v) => v == null ? '—' : Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' tix';
 const dat = (s) => { if (!s) return '—'; const [y, m, d] = s.split('-'); return `${+d} ${MESES[+m - 1]} ${y}`; };
@@ -46,6 +52,12 @@ function typeOf(n) { const t = ((CARDS || {})[n] || {}).type || ''; const f = t.
 const LOJA = 'Pac Deck';
 const lojaUrl = (n) => 'https://www.pacdeck.com.br/?view=ecom/itens&busca=' + enc(String(n).split(' // ')[0]) + '&searchExactMatch=1';
 const CART = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.4 11.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2l1.6-6.8H6.2"/></svg>';
+const ligaUrl = (n) => 'https://www.ligamagic.com.br/?view=cards/card&card=' + enc(String(n).split(' // ')[0]);
+const LUPA = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5.5 5.5"/></svg>';
+function ligaLink(n, txt) {
+  const a = h('a', { class: txt ? 'btn liga' : 'loja-ic', href: ligaUrl(n), target: '_blank', rel: 'noopener', title: 'Consultar preços de ' + n + ' na LigaMagic', 'aria-label': 'Consultar preços de ' + n + ' na LigaMagic' });
+  a.innerHTML = LUPA; if (txt) a.append(h('span', null, txt)); return a;
+}
 function lojaLink(n, txt) {
   const a = h('a', { class: txt ? 'btn loja' : 'loja-ic', href: lojaUrl(n), target: '_blank', rel: 'noopener', title: 'Procurar ' + n + ' na ' + LOJA, 'aria-label': 'Procurar ' + n + ' na loja ' + LOJA });
   a.innerHTML = CART; if (txt) a.append(h('span', null, txt)); return a;
@@ -202,7 +214,7 @@ function deckBlock(main, side, opts = {}) {
     } else {
       box.replaceChildren(h('table', { class: 'dt' }, h('thead', null, h('tr', null, h('th', null, 'Qtd'), h('th', null, 'Carta'), h('th', { class: 'hide-sm' }, 'Custo'), h('th', { class: 'n' }, 'Papel'), h('th', { class: 'n hide-sm' }, 'MTGO'), h('th', { class: 'lj' }, h('span', { class: 'sr-only' }, 'Loja')))),
         h('tbody', null, secs.map(([t, l], k) => [k ? h('tr', { class: 'sp' }, h('td', { colspan: 6 })) : null, h('tr', null, h('th', { colspan: 6 }, t + ' (' + l.reduce((s, x) => s + x[0], 0) + ')')),
-          l.map(([q, n]) => h('tr', null, h('td', { class: 'q' }, q), h('td', null, cardLink(n)), h('td', { class: 'c hide-sm' }, mana((C[n] || {}).cost)), h('td', { class: 'n' }, C[n] && C[n].usd != null ? usd(q * C[n].usd) : '—'), h('td', { class: 'n hide-sm' }, C[n] && C[n].tix != null ? tix(q * C[n].tix) : '—'), h('td', { class: 'lj' }, lojaLink(n))))]))));
+          l.map(([q, n]) => h('tr', null, h('td', { class: 'q' }, q), h('td', null, cardLink(n)), h('td', { class: 'c hide-sm' }, mana((C[n] || {}).cost)), h('td', { class: 'n' }, C[n] && C[n].usd != null ? usd(q * C[n].usd) : '—'), h('td', { class: 'n hide-sm' }, C[n] && C[n].tix != null ? tix(q * C[n].tix) : '—'), h('td', { class: 'lj' }, lojaLink(n), ligaLink(n))))]))));
     }
   }
   const sg = h('div', { class: 'seg', role: 'group', 'aria-label': 'Modo de ver a lista' }, [['lista', 'Lista'], ['visual', 'Visual']].map(([k, t]) => h('button', { 'aria-pressed': String(k === view), onclick: (e) => { view = k; store.set('vistadeck', k); sg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); draw(); } }, t)));
@@ -212,8 +224,8 @@ function deckBlock(main, side, opts = {}) {
   return h('div', { class: 'dl' },
     h('div', { style: 'display:grid;gap:.8rem;min-width:0' }, h('div', { class: 'row between' }, sg, opts.export || null), box),
     h('aside', { class: 'side-box' },
-      card(h('h3', null, 'Preço do deck'), h('div', { class: 'pricebox' }, h('div', null, h('small', null, 'Papel'), h('b', null, usd(tot(all, 'usd')))), h('div', null, h('small', null, 'MTGO'), h('b', null, tix(tot(all, 'tix'))))), h('p', { class: 'crumb', style: 'margin:.5rem 0 0' }, 'Versão mais barata de cada carta, pelo Scryfall.')),
-      card(h('h3', null, 'Comprar as cartas'), h('p', { class: 'crumb', style: 'margin:0' }, 'Na lista, o carrinho ao lado de cada carta abre a busca dela na loja ', h('a', { href: 'https://www.pacdeck.com.br/?view=ecom/home', target: '_blank', rel: 'noopener' }, LOJA), '. Preço e estoque são os da loja.')),
+      card(h('h3', null, 'Preço do deck'), h('div', { class: 'pricebox' }, h('div', null, h('small', null, 'Papel'), h('b', null, usd(tot(all, 'usd')))), h('div', null, h('small', null, 'MTGO'), h('b', null, tix(tot(all, 'tix'))))), h('p', { class: 'crumb', style: 'margin:.5rem 0 0' }, 'Versão mais barata de cada carta, pelo Scryfall. ' + fxNote())),
+      card(h('h3', null, 'Comprar as cartas'), h('p', { class: 'crumb', style: 'margin:0' }, 'Na lista, o carrinho abre a carta na loja ', h('a', { href: 'https://www.pacdeck.com.br/?view=ecom/home', target: '_blank', rel: 'noopener' }, LOJA), ' e a lupa mostra os preços dela nas lojas do Brasil, na ', h('a', { href: 'https://www.ligamagic.com.br/', target: '_blank', rel: 'noopener' }, 'LigaMagic'), '.')),
       card(h('h3', null, 'Curva de mana'), curveOf(main)),
       card(h('h3', null, 'Tipos'), h('div', { class: 'deck' }, h('section', null, typeRows)))));
 }
@@ -289,9 +301,9 @@ async function cardPage(n) {
     h('div', { class: 'split' },
       h('div', { style: 'display:grid;gap:1.2rem' },
         card(h('h2', null, 'Preços'), h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, ''), h('th', { class: 'n' }, 'Agora'), h('th', { class: 'n' }, '7 dias'))),
-          h('tbody', null, h('tr', null, h('td', null, 'Papel, mais barata (US$)'), h('td', { class: 'n price' }, usd(c.usd)), h('td', { class: 'n' }, ch(c.usd, c.usd7))), h('tr', null, h('td', null, 'Papel, mais barata (EUR)'), h('td', { class: 'n' }, eur(c.eur)), h('td', { class: 'n' }, '')), h('tr', null, h('td', null, 'MTGO'), h('td', { class: 'n' }, tix(c.tix)), h('td', { class: 'n' }, ch(c.tix, c.tix7)))))),
-          h('div', { class: 'row', style: 'margin:.9rem 0 .5rem' }, lojaLink(n, 'Procurar na ' + LOJA)),
-          h('p', { class: 'crumb' }, 'Preços de referência do Scryfall, atualizados uma vez por dia. ', c.uri ? h('a', { href: c.uri, target: '_blank', rel: 'noopener' }, 'Ver no Scryfall') : '')),
+          h('tbody', null, h('tr', null, h('td', null, FX ? 'Papel, mais barata (R$)' : 'Papel, mais barata (US$)'), h('td', { class: 'n price' }, usd(c.usd)), h('td', { class: 'n' }, ch(c.usd, c.usd7))), FX ? h('tr', null, h('td', null, 'Papel, mais barata (US$)'), h('td', { class: 'n' }, usdRaw(c.usd)), h('td', { class: 'n' }, '')) : null, h('tr', null, h('td', null, 'Papel, mais barata (EUR)'), h('td', { class: 'n' }, eur(c.eur)), h('td', { class: 'n' }, '')), h('tr', null, h('td', null, 'MTGO'), h('td', { class: 'n' }, tix(c.tix)), h('td', { class: 'n' }, ch(c.tix, c.tix7)))))),
+          h('div', { class: 'row', style: 'margin:.9rem 0 .5rem' }, lojaLink(n, 'Procurar na ' + LOJA), ligaLink(n, 'Preços na LigaMagic')),
+          h('p', { class: 'crumb' }, 'Preços de referência do Scryfall, atualizados uma vez por dia. ' + (FX ? fxNote() + ' ' : ''), c.uri ? h('a', { href: c.uri, target: '_blank', rel: 'noopener' }, 'Ver no Scryfall') : '')),
         card(h('h2', null, 'Onde é jogada (30 dias)'), h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Formato'), h('th', { class: 'n' }, '% das listas'), h('th', { class: 'n' }, 'Cópias'), h('th', null, 'Arquétipos'))),
           h('tbody', null, uses.map(([f, u]) => h('tr', null, h('td', { class: 'nm' }, h('a', { href: '#/f/' + f }, FNAME[f])), h('td', { class: 'n' }, pct(u[0])), h('td', { class: 'n' }, u[1].toLocaleString('pt-BR')), h('td', null, u[2].map((s, k) => [k ? ', ' : '', h('a', { href: `#/f/${f}/a/${s}` }, s.replace(/-/g, ' '))]))))))))),
       c.img ? h('img', { class: 'cardimg', src: c.img, alt: 'Imagem da carta ' + n, loading: 'lazy' }) : h('div')));
@@ -304,7 +316,7 @@ async function precos() {
   function drawTop() {
     const list = Object.entries(C).filter(([, c]) => c.f[f] && c.usd != null).map(([n, c]) => ({ n, c, use: c.f[f][0] })).sort((a, b) => b.use - a.use).slice(0, 60);
     box.replaceChildren(h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Carta'), h('th', { class: 'n' }, '% das listas'), h('th', { class: 'n' }, 'Papel'), h('th', { class: 'n hide-sm' }, 'MTGO'))),
-      h('tbody', null, list.map(({ n, c, use }) => h('tr', null, h('td', { class: 'nm' }, cardLink(n), ' ', lojaLink(n)), h('td', { class: 'n' }, pct(use)), h('td', { class: 'n' }, usd(c.usd)), h('td', { class: 'n hide-sm' }, tix(c.tix))))))));
+      h('tbody', null, list.map(({ n, c, use }) => h('tr', null, h('td', { class: 'nm' }, cardLink(n), ' ', lojaLink(n), ligaLink(n)), h('td', { class: 'n' }, pct(use)), h('td', { class: 'n' }, usd(c.usd)), h('td', { class: 'n hide-sm' }, tix(c.tix))))))));
   }
   const sel = h('select', { 'aria-label': 'Formato', onchange: (e) => { f = e.target.value; store.set('fmtprecos', f); drawTop(); } }, FORMATS.map(([k, n]) => h('option', { value: k, selected: k === f }, n)));
   drawTop();
@@ -416,7 +428,7 @@ function sobre() {
   prose('Sobre o Pac-Meta',
     P('O Pac-Meta é um site gratuito, feito por fãs, com o metagame dos formatos competitivos de Magic: The Gathering, as listas dos torneios oficiais do MTGO e o preço das cartas.'),
     h('h2', null, 'De onde vêm os dados'),
-    h('ul', null, h('li', null, 'Resultados e listas: páginas públicas de decklists do Magic: The Gathering Online (mtgo.com). O site verifica novos resultados a cada hora.'), h('li', null, 'Dados, imagens e preços das cartas: Scryfall, uma vez por dia. O preço mostrado é o da versão mais barata em inglês.'), h('li', null, 'Arquétipos: o site classifica cada lista por cartas-chave. Listas que não se encaixam em nenhuma regra recebem o nome das cores e de uma carta marcante.')),
+    h('ul', null, h('li', null, 'Resultados e listas: páginas públicas de decklists do Magic: The Gathering Online (mtgo.com). O site verifica novos resultados a cada hora.'), h('li', null, 'Dados, imagens e preços das cartas: Scryfall, uma vez por dia. O preço mostrado é o da versão mais barata em inglês, em dólar, convertido para real pela cotação do dia.'), h('li', null, 'Arquétipos: o site classifica cada lista por cartas-chave. Listas que não se encaixam em nenhuma regra recebem o nome das cores e de uma carta marcante.')),
     h('h2', null, 'Limitações'),
     h('ul', null, h('li', null, 'Nas ligas, o MTGO publica só parte das listas 5-0, então elas não representam todo o campo.'), h('li', null, 'Torneios presenciais e Commander ainda não estão incluídos.'), h('li', null, 'Preços são referência e não oferta de venda.')),
     h('h2', null, 'Contato'), P('Sugestões, correções e pedidos de remoção: ', h('span', { id: 'contato' }, 'contato a definir'), '.'),
@@ -436,7 +448,7 @@ function termos() {
     P('Última atualização: 3 de novembro de 2026. Ao usar o Pac-Meta você concorda com estes termos.'),
     h('ul', null,
       h('li', null, 'O site é gratuito e informativo. Metagame, classificações de arquétipo, guias e preços são estimativas e podem conter erros ou atrasos.'),
-      h('li', null, 'Preços são de referência, vindos do Scryfall, e não são oferta de venda. Confira sempre com a loja.'),
+      h('li', null, 'Preços são de referência: valores do Scryfall em dólar convertidos para real pela cotação do dia. Não são oferta de venda. Confira sempre com a loja.'),
       h('li', null, 'Magic: The Gathering, nomes de cartas, símbolos e imagens são propriedade da Wizards of the Coast. O site segue a Política de Conteúdo de Fãs da Wizards e não é afiliado a ela.'),
       h('li', null, 'Os dados de cartas e imagens são fornecidos pelo Scryfall, sem vínculo com este site.'),
       h('li', null, 'Os guias de confronto refletem a opinião de quem escreveu, na data indicada.'),
@@ -451,6 +463,7 @@ async function route() {
   document.querySelectorAll('.sub a').forEach((a) => { const t = a.getAttribute('href').slice(2); a.toggleAttribute('aria-current', (t === '' && !p[0]) || (t && p[0] === t)); });
   $main.replaceChildren(h('p', { class: 'loading' }, 'Carregando…'));
   try {
+    await loadFx();
     if (!p[0]) await home();
     else if (p[0] === 'f' && FNAME[p[1]]) { if (p[2] === 'a' && p[3]) await archetype(p[1], p[3]); else if (p[2] === 'torneios') await eventsPage(p[1]); else if (p[2] === '5-0') await ligas(p[1], params); else await metagame(p[1], params); }
     else if (p[0] === 'torneios') await eventsPage(null);

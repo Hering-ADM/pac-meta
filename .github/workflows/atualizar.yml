@@ -36,6 +36,10 @@ jobs:
         continue-on-error: true
         working-directory: scripts
         run: python prices.py
+      - name: Cotação do dólar
+        continue-on-error: true
+        working-directory: scripts
+        run: python fx.py
       - name: Montar os dados do site
         working-directory: scripts
         run: python build.py
