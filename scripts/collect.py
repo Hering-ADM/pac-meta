@@ -99,7 +99,7 @@ def main():
     links = sorted(set(links), key=dkey, reverse=True)  # mais recentes primeiro
     t0 = time.time()
     for href in links:
-        if novos >= MAX_NEW or time.time() - t0 > 20 * 60: break
+        if novos >= MAX_NEW or time.time() - t0 > 8 * 60: break
         site = href.rsplit('/', 1)[-1]
         if site in have or not fmt_of(site): continue
         mdate = re.search(r'(\d{4})-(\d{2})-(\d{2})', site)
