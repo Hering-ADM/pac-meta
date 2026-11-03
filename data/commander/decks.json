@@ -1,4 +1,26 @@
-{"decks": [
- {"slug": "vivi-ornitier-hideo", "categoria": "bhell", "nome": "Vivi Ornitier", "comandante": ["Vivi Ornitier"],
-  "jogador": "Hideo Fujino", "data": "2026-11-03", "fonte": "https://archidekt.com/decks/26775671/vivi_b3"}
-]}
+{
+ "decks": [
+  {
+   "slug": "vivi-ornitier-hideo",
+   "categoria": "bhell",
+   "nome": "Vivi Ornitier",
+   "comandante": [
+    "Vivi Ornitier"
+   ],
+   "jogador": "Hideo Fujino",
+   "data": "2026-11-03",
+   "fonte": "https://archidekt.com/decks/26775671/vivi_b3"
+  },
+  {
+   "slug": "winota-yago",
+   "categoria": "bhell",
+   "nome": "Winota, Joiner of Forces",
+   "comandante": [
+    "Winota, Joiner of Forces"
+   ],
+   "jogador": "Yago Leles",
+   "data": "2026-11-03",
+   "fonte": "https://archidekt.com/decks/14315751/winota_pcd_for_the_win"
+  }
+ ]
+}
