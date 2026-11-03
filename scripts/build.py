@@ -106,7 +106,7 @@ def art_for(name, typ, rules_by_name, C):
     elif name.endswith(')') and '(' in name:
         cands = [name[name.rindex('(') + 1:-1]]
     cands += [n for n in names if not C.is_land(n)]
-    for n in cands:
+    for n in [c for c in cands if not C.is_land(c)] + cands:
         a = C.info(n).get('art')
         if a: return a
     return None
