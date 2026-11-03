@@ -42,6 +42,14 @@ let CARDS = null;
 async function cards() { if (!CARDS) { try { CARDS = await get('data/cards.json'); } catch (e) { CARDS = {}; } } return CARDS; }
 const TYPES = [['Creature', 'Criaturas'], ['Planeswalker', 'Planeswalkers'], ['Battle', 'Batalhas'], ['Instant', 'Instantâneas'], ['Sorcery', 'Feitiços'], ['Artifact', 'Artefatos'], ['Enchantment', 'Encantamentos'], ['Land', 'Terrenos']];
 function typeOf(n) { const t = ((CARDS || {})[n] || {}).type || ''; const f = t.split('//')[0]; for (const [k, v] of TYPES) if (f.includes(k)) return v; return 'Outras'; }
+/* Loja parceira: busca a carta pelo nome em inglês na Pac Deck (loja na plataforma LigaMagic). */
+const LOJA = 'Pac Deck';
+const lojaUrl = (n) => 'https://www.pacdeck.com.br/?view=ecom/itens&busca=' + enc(String(n).split(' // ')[0]) + '&searchExactMatch=1';
+const CART = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2.5 3.5h2.6l2.4 11.2a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2l1.6-6.8H6.2"/></svg>';
+function lojaLink(n, txt) {
+  const a = h('a', { class: txt ? 'btn loja' : 'loja-ic', href: lojaUrl(n), target: '_blank', rel: 'noopener', title: 'Procurar ' + n + ' na ' + LOJA, 'aria-label': 'Procurar ' + n + ' na loja ' + LOJA });
+  a.innerHTML = CART; if (txt) a.append(h('span', null, txt)); return a;
+}
 function cardLink(n) { const a = h('a', { href: '#/c/' + enc(n), 'data-card': n }, n); return a; }
 
 
@@ -192,9 +200,9 @@ function deckBlock(main, side, opts = {}) {
     if (view === 'visual') {
       box.replaceChildren(h('div', { class: 'visual' }, secs.map(([t, l]) => [h('h3', null, t + ' (' + l.reduce((s, x) => s + x[0], 0) + ')'), l.map(([q, n]) => h('a', { href: '#/c/' + enc(n), 'data-card': n, 'aria-label': q + ' ' + n }, C[n] && C[n].img ? h('img', { src: C[n].img, alt: n, loading: 'lazy' }) : h('div', { class: 'ph' }, n), h('span', { class: 'qb' }, q + 'x')))])));
     } else {
-      box.replaceChildren(h('table', { class: 'dt' }, h('thead', null, h('tr', null, h('th', null, 'Qtd'), h('th', null, 'Carta'), h('th', { class: 'hide-sm' }, 'Custo'), h('th', { class: 'n' }, 'Papel'), h('th', { class: 'n hide-sm' }, 'MTGO'))),
-        h('tbody', null, secs.map(([t, l], k) => [k ? h('tr', { class: 'sp' }, h('td', { colspan: 5 })) : null, h('tr', null, h('th', { colspan: 5 }, t + ' (' + l.reduce((s, x) => s + x[0], 0) + ')')),
-          l.map(([q, n]) => h('tr', null, h('td', { class: 'q' }, q), h('td', null, cardLink(n)), h('td', { class: 'c hide-sm' }, mana((C[n] || {}).cost)), h('td', { class: 'n' }, C[n] && C[n].usd != null ? usd(q * C[n].usd) : '—'), h('td', { class: 'n hide-sm' }, C[n] && C[n].tix != null ? tix(q * C[n].tix) : '—')))]))));
+      box.replaceChildren(h('table', { class: 'dt' }, h('thead', null, h('tr', null, h('th', null, 'Qtd'), h('th', null, 'Carta'), h('th', { class: 'hide-sm' }, 'Custo'), h('th', { class: 'n' }, 'Papel'), h('th', { class: 'n hide-sm' }, 'MTGO'), h('th', { class: 'lj' }, h('span', { class: 'sr-only' }, 'Loja')))),
+        h('tbody', null, secs.map(([t, l], k) => [k ? h('tr', { class: 'sp' }, h('td', { colspan: 6 })) : null, h('tr', null, h('th', { colspan: 6 }, t + ' (' + l.reduce((s, x) => s + x[0], 0) + ')')),
+          l.map(([q, n]) => h('tr', null, h('td', { class: 'q' }, q), h('td', null, cardLink(n)), h('td', { class: 'c hide-sm' }, mana((C[n] || {}).cost)), h('td', { class: 'n' }, C[n] && C[n].usd != null ? usd(q * C[n].usd) : '—'), h('td', { class: 'n hide-sm' }, C[n] && C[n].tix != null ? tix(q * C[n].tix) : '—'), h('td', { class: 'lj' }, lojaLink(n))))]))));
     }
   }
   const sg = h('div', { class: 'seg', role: 'group', 'aria-label': 'Modo de ver a lista' }, [['lista', 'Lista'], ['visual', 'Visual']].map(([k, t]) => h('button', { 'aria-pressed': String(k === view), onclick: (e) => { view = k; store.set('vistadeck', k); sg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); draw(); } }, t)));
@@ -205,6 +213,7 @@ function deckBlock(main, side, opts = {}) {
     h('div', { style: 'display:grid;gap:.8rem;min-width:0' }, h('div', { class: 'row between' }, sg, opts.export || null), box),
     h('aside', { class: 'side-box' },
       card(h('h3', null, 'Preço do deck'), h('div', { class: 'pricebox' }, h('div', null, h('small', null, 'Papel'), h('b', null, usd(tot(all, 'usd')))), h('div', null, h('small', null, 'MTGO'), h('b', null, tix(tot(all, 'tix'))))), h('p', { class: 'crumb', style: 'margin:.5rem 0 0' }, 'Versão mais barata de cada carta, pelo Scryfall.')),
+      card(h('h3', null, 'Comprar as cartas'), h('p', { class: 'crumb', style: 'margin:0' }, 'Na lista, o carrinho ao lado de cada carta abre a busca dela na loja ', h('a', { href: 'https://www.pacdeck.com.br/?view=ecom/home', target: '_blank', rel: 'noopener' }, LOJA), '. Preço e estoque são os da loja.')),
       card(h('h3', null, 'Curva de mana'), curveOf(main)),
       card(h('h3', null, 'Tipos'), h('div', { class: 'deck' }, h('section', null, typeRows)))));
 }
@@ -281,6 +290,7 @@ async function cardPage(n) {
       h('div', { style: 'display:grid;gap:1.2rem' },
         card(h('h2', null, 'Preços'), h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, ''), h('th', { class: 'n' }, 'Agora'), h('th', { class: 'n' }, '7 dias'))),
           h('tbody', null, h('tr', null, h('td', null, 'Papel, mais barata (US$)'), h('td', { class: 'n price' }, usd(c.usd)), h('td', { class: 'n' }, ch(c.usd, c.usd7))), h('tr', null, h('td', null, 'Papel, mais barata (EUR)'), h('td', { class: 'n' }, eur(c.eur)), h('td', { class: 'n' }, '')), h('tr', null, h('td', null, 'MTGO'), h('td', { class: 'n' }, tix(c.tix)), h('td', { class: 'n' }, ch(c.tix, c.tix7)))))),
+          h('div', { class: 'row', style: 'margin:.9rem 0 .5rem' }, lojaLink(n, 'Procurar na ' + LOJA)),
           h('p', { class: 'crumb' }, 'Preços de referência do Scryfall, atualizados uma vez por dia. ', c.uri ? h('a', { href: c.uri, target: '_blank', rel: 'noopener' }, 'Ver no Scryfall') : '')),
         card(h('h2', null, 'Onde é jogada (30 dias)'), h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Formato'), h('th', { class: 'n' }, '% das listas'), h('th', { class: 'n' }, 'Cópias'), h('th', null, 'Arquétipos'))),
           h('tbody', null, uses.map(([f, u]) => h('tr', null, h('td', { class: 'nm' }, h('a', { href: '#/f/' + f }, FNAME[f])), h('td', { class: 'n' }, pct(u[0])), h('td', { class: 'n' }, u[1].toLocaleString('pt-BR')), h('td', null, u[2].map((s, k) => [k ? ', ' : '', h('a', { href: `#/f/${f}/a/${s}` }, s.replace(/-/g, ' '))]))))))))),
@@ -294,7 +304,7 @@ async function precos() {
   function drawTop() {
     const list = Object.entries(C).filter(([, c]) => c.f[f] && c.usd != null).map(([n, c]) => ({ n, c, use: c.f[f][0] })).sort((a, b) => b.use - a.use).slice(0, 60);
     box.replaceChildren(h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Carta'), h('th', { class: 'n' }, '% das listas'), h('th', { class: 'n' }, 'Papel'), h('th', { class: 'n hide-sm' }, 'MTGO'))),
-      h('tbody', null, list.map(({ n, c, use }) => h('tr', null, h('td', { class: 'nm' }, cardLink(n)), h('td', { class: 'n' }, pct(use)), h('td', { class: 'n' }, usd(c.usd)), h('td', { class: 'n hide-sm' }, tix(c.tix))))))));
+      h('tbody', null, list.map(({ n, c, use }) => h('tr', null, h('td', { class: 'nm' }, cardLink(n), ' ', lojaLink(n)), h('td', { class: 'n' }, pct(use)), h('td', { class: 'n' }, usd(c.usd)), h('td', { class: 'n hide-sm' }, tix(c.tix))))))));
   }
   const sel = h('select', { 'aria-label': 'Formato', onchange: (e) => { f = e.target.value; store.set('fmtprecos', f); drawTop(); } }, FORMATS.map(([k, n]) => h('option', { value: k, selected: k === f }, n)));
   drawTop();
