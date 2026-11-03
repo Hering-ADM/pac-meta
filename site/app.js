@@ -249,7 +249,7 @@ async function archetype(f, s) {
   const seg = h('div', { class: 'seg', role: 'group' }, [['tipica', 'Lista típica'], ['stats', 'Cartas e frequência']].map(([k, t]) => h('button', { 'aria-pressed': String(k === view), onclick: (e) => { view = k; seg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); draw(); } }, t)));
   draw();
   $main.replaceChildren(
-    h('div', { class: 'banner', style: `--grad:${grad(row.colors, a.art)}` }, fan(a.key || row.key, 5), h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/f/' + f }, FNAME[f]), ' › ', a.name), h('h1', null, pips(row.colors), a.name),
+    h('div', { class: 'banner', style: `--grad:${grad(row.colors, a.art)}` }, fan(a.key || row.key, 5), h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/f/' + f }, FNAME[f]), ' › ', a.name), h('div', { class: 'row' }, h('h1', null, pips(row.colors), a.name), saveButton('deck', f + '/' + s, a.name + ' (' + FNAME[f] + ')')),
       h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, pct(a.share)), h('small', null, 'do meta em 30 dias')), h('div', { class: 'stat' }, h('b', null, a.decks), h('small', null, 'listas')), h('div', { class: 'stat' }, h('b', null, usd(a.usd)), h('small', null, 'papel')), h('div', { class: 'stat' }, h('b', null, tix(a.tix)), h('small', null, 'MTGO'))))),
     guide ? h('div', { class: 'notice row between' }, h('span', null, 'Este deck tem guia: o que ele faz, como ganha, cartas-chave e turnos decisivos.'), h('a', { class: 'btn pri', href: '#/guias/modern/' + s }, 'Abrir o guia')) : null,
     card(h('div', { class: 'row between' }, seg, h('small', { class: 'crumb' }, 'Lista típica: junta as ' + a.decks + ' listas dos últimos 30 dias, cada carta com o número médio de cópias.')), h('div', { style: 'height:1rem' }), box),
@@ -287,7 +287,7 @@ async function eventPage(id, i) {
 function deckPage(e, i) {
   const d = e.decks[i]; title(d.arch + ' de ' + d.player);
   $main.replaceChildren(
-    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/e/' + e.id }, e.name), ' › ', d.player), h('h1', null, d.arch), h('p', { class: 'lead' }, 'por ' + d.player + ' · ' + rankTxt(d.rank, e.kind) + (d.wins != null && e.kind !== 'league' ? ' (' + record(d.wins, d.losses) + ')' : '') + ' · ' + dat(e.date) + ' · ', h('a', { href: `#/f/${e.format}/a/${d.aslug}` }, 'ver o arquétipo'))),
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/e/' + e.id }, e.name), ' › ', d.player), h('div', { class: 'row' }, h('h1', null, d.arch), saveButton('lista', e.id + '/' + i, d.arch + ' de ' + d.player)), h('p', { class: 'lead' }, 'por ' + d.player + ' · ' + rankTxt(d.rank, e.kind) + (d.wins != null && e.kind !== 'league' ? ' (' + record(d.wins, d.losses) + ')' : '') + ' · ' + dat(e.date) + ' · ', h('a', { href: `#/f/${e.format}/a/${d.aslug}` }, 'ver o arquétipo'))),
     card(deckBlock(d.main, d.side, { export: exportRow(d.main, d.side, d.arch + '-' + d.player) })));
 }
 
@@ -297,7 +297,7 @@ async function cardPage(n) {
   const ch = (a, b) => a != null && b != null && b > 0 ? h('span', { class: a >= b ? 'up' : 'down' }, (a >= b ? '+' : '') + pct(100 * (a - b) / b)) : '—';
   const uses = Object.entries(c.f).sort((a, b) => b[1][0] - a[1][0]);
   $main.replaceChildren(
-    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Cartas'), h('h1', null, c.full || n), h('p', { class: 'lead' }, [c.cost, c.type].filter(Boolean).join(' · '))),
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Cartas'), h('div', { class: 'row' }, h('h1', null, c.full || n), saveButton('carta', n, c.full || n)), h('p', { class: 'lead' }, [c.cost, c.type].filter(Boolean).join(' · '))),
     h('div', { class: 'split' },
       h('div', { style: 'display:grid;gap:1.2rem' },
         card(h('h2', null, 'Preços'), h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, ''), h('th', { class: 'n' }, 'Agora'), h('th', { class: 'n' }, '7 dias'))),
@@ -517,15 +517,15 @@ function md(src) {
   return out;
 }
 async function artigosIndex() {
-  title('Artigos'); const [ix] = await Promise.all([get('static/artigos/index.json'), cards()]);
-  const as = ix.artigos.slice().sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+  title('Artigos'); const [ix, com] = await Promise.all([get('static/artigos/index.json'), CONTAS ? communityArticles().catch(() => []) : [], cards()]);
+  const as = ix.artigos.concat(com).sort((a, b) => (b.data || '').localeCompare(a.data || ''));
   $main.replaceChildren(
     h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Artigos'), h('h1', null, 'Artigos'),
       h('p', { class: 'lead' }, 'Textos sobre metagame, decks e o jogo competitivo. Qualquer pessoa pode enviar um artigo; os textos são lidos e aprovados antes de entrar no site.')),
     h('div', { class: 'arts' }, as.map((a) => h('a', { class: 'card art-card', href: '#/artigos/' + a.slug },
       h('div', { class: 'tags' }, (a.tags || []).map((t) => h('span', { class: 'tag' }, t))),
       h('h2', null, a.titulo), h('p', null, a.resumo), h('small', { class: 'crumb' }, (a.autor || 'Equipe Pac-Meta') + ' · ' + dat(a.data))))),
-    card(h('h2', null, 'Escreva para o Pac-Meta'), h('p', { class: 'lead', style: 'margin:0 0 .7rem' }, 'Tem um guia, uma análise de metagame ou um relato de torneio? Mande seu texto. Ele é lido antes de ser publicado, e você recebe uma resposta por e-mail.'), h('a', { class: 'btn pri', href: '#/artigos/enviar' }, 'Enviar um artigo')));
+    card(h('h2', null, 'Escreva para o Pac-Meta'), h('p', { class: 'lead', style: 'margin:0 0 .7rem' }, CONTAS ? 'Tem um guia, uma análise de metagame ou um relato de torneio? Entre na sua conta e escreva. O texto é lido antes de ser publicado, e você acompanha a aprovação em Minha conta.' : 'Tem um guia, uma análise de metagame ou um relato de torneio? Mande seu texto. Ele é lido antes de ser publicado, e você recebe uma resposta por e-mail.'), h('a', { class: 'btn pri', href: CONTAS ? '#/artigos/novo' : '#/artigos/enviar' }, CONTAS ? 'Escrever um artigo' : 'Enviar um artigo')));
 }
 async function artigoPage(slug) {
   const [ix] = await Promise.all([get('static/artigos/index.json'), cards()]);
@@ -539,6 +539,7 @@ async function artigoPage(slug) {
       h('div', { class: 'tags' }, (a.tags || []).map((t) => h('span', { class: 'tag' }, t))),
       h('h1', null, a.titulo), h('p', { class: 'lead' }, a.resumo), h('p', { class: 'crumb' }, 'Por ' + (a.autor || 'Equipe Pac-Meta') + ' · ' + dat(a.data)),
       md(txt)),
+    await commentsBox(slug),
     outros.length ? card(h('h2', null, 'Leia também'), h('ul', { class: 'links' }, outros.map((x) => h('li', null, h('a', { href: '#/artigos/' + x.slug }, x.titulo))))) : null);
 }
 function enviarArtigo() {
@@ -623,7 +624,11 @@ async function route() {
     else if (p[0] === 'c' && p[1]) await cardPage(p[1]);
     else if (p[0] === 'precos') await precos();
     else if (p[0] === 'guias') { if (p[1] === 'chant') await guiaChant(p[2]); else if (p[1] && p[2]) await guiaDeck(p[1], p[2]); else await guiasIndex(); }
-    else if (p[0] === 'artigos') { if (p[1] === 'enviar') enviarArtigo(); else if (p[1]) await artigoPage(p[1]); else await artigosIndex(); }
+    else if (p[0] === 'artigos') { if (p[1] === 'enviar') CONTAS ? await editorArtigo() : enviarArtigo(); else if (p[1] === 'novo') await editorArtigo(); else if (p[1] === 'editar' && p[2]) await editorArtigo(+p[2]); else if (p[1] === 'u' && p[2]) await artigoComunidade(+p[2]); else if (p[1]) await artigoPage(p[1]); else await artigosIndex(); }
+    else if (p[0] === 'entrar') await entrarPage();
+    else if (p[0] === 'conta') { if (p[1] === 'nova-senha') await novaSenhaPage(); else await contaPage(); }
+    else if (p[0] === 'autor' && p[1]) await autorPage(p[1]);
+    else if (p[0] === 'admin') await adminPage();
     else if (p[0] === 'sugestoes') sugestoes(); else if (p[0] === 'trabalhe') trabalhe();
     else if (p[0] === 'sobre') sobre(); else if (p[0] === 'privacidade') privacidade(); else if (p[0] === 'termos') termos();
     else fail('Página não encontrada.');
