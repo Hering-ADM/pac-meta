@@ -13,7 +13,7 @@ FORMATS = {
 }
 
 
-def get(url, data=None, headers=None, tries=4, timeout=60):
+def get(url, data=None, headers=None, tries=3, timeout=40):
     h = {'User-Agent': UA, 'Accept': '*/*', 'Accept-Encoding': 'gzip'}
     if headers: h.update(headers)
     last = None

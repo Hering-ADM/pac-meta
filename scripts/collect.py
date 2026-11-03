@@ -7,6 +7,7 @@ from common import get, load, save, RAW, FORMATS
 
 BASE = 'https://www.mtgo.com'
 KEEP_DAYS = int(os.environ.get('KEEP_DAYS', '62'))
+MAX_NEW = int(os.environ.get('MAX_NEW', '180'))  # por execução; o resto vem nas próximas horas
 
 
 def month_links(y, m):
@@ -79,33 +80,41 @@ def compact(site_name, d):
 
 def main():
     today = dt.date.today()
-    months = [(today.year, today.month)]
-    p = today.replace(day=1) - dt.timedelta(days=1)
-    months.append((p.year, p.month))
-    cutoff = (today - dt.timedelta(days=KEEP_DAYS)).isoformat()
+    start = today - dt.timedelta(days=KEEP_DAYS)
+    cutoff = start.isoformat()
+    months, cur = [], today.replace(day=1)
+    while cur >= start.replace(day=1):
+        months.append((cur.year, cur.month)); cur = (cur - dt.timedelta(days=1)).replace(day=1)
     os.makedirs(RAW, exist_ok=True)
     have = {f[:-5] for f in os.listdir(RAW) if f.endswith('.json')}
     novos = 0
+    links = []
     for y, m in months:
         try:
-            links = month_links(y, m)
+            links += month_links(y, m)
         except Exception as e:
-            print('falha na lista', y, m, e, file=sys.stderr); continue
-        for href in links:
-            site = href.rsplit('/', 1)[-1]
-            if site in have or not fmt_of(site): continue
-            mdate = re.search(r'(\d{4})-(\d{2})-(\d{2})', site)
-            if mdate and '-'.join(mdate.groups()) < cutoff: continue
-            try:
-                html = get(BASE + href).decode('utf-8', 'replace')
-                d = extract(html)
-            except Exception as e:
-                print('falha', site, e, file=sys.stderr); continue
-            if not d or not d.get('decklists'):
-                continue  # evento ainda sem listas publicadas: tenta na próxima hora
-            save(os.path.join(RAW, site + '.json'), compact(site, d))
-            have.add(site); novos += 1
-            time.sleep(0.7)
+            print('falha na lista', y, m, e, file=sys.stderr, flush=True)
+    def dkey(hh):
+        mm = re.search(r'(\d{4}-\d{2}-\d{2})', hh); return mm.group(1) if mm else ''
+    links = sorted(set(links), key=dkey, reverse=True)  # mais recentes primeiro
+    t0 = time.time()
+    for href in links:
+        if novos >= MAX_NEW or time.time() - t0 > 20 * 60: break
+        site = href.rsplit('/', 1)[-1]
+        if site in have or not fmt_of(site): continue
+        mdate = re.search(r'(\d{4})-(\d{2})-(\d{2})', site)
+        if mdate and '-'.join(mdate.groups()) < cutoff: continue
+        try:
+            html = get(BASE + href).decode('utf-8', 'replace')
+            d = extract(html)
+        except Exception as e:
+            print('falha', site, e, file=sys.stderr, flush=True); continue
+        if not d or not d.get('decklists'):
+            continue  # evento ainda sem listas publicadas: tenta na próxima hora
+        save(os.path.join(RAW, site + '.json'), compact(site, d))
+        have.add(site); novos += 1
+        print('ok', site, len(d.get('decklists') or []), flush=True)
+        time.sleep(0.5)
     # remove eventos fora da janela
     for f in os.listdir(RAW):
         ev = load(os.path.join(RAW, f), {})
