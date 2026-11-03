@@ -6,7 +6,7 @@ import datetime as dt, json, os, re, sys, time
 from common import get, load, save, RAW, FORMATS
 
 BASE = 'https://www.mtgo.com'
-KEEP_DAYS = int(os.environ.get('KEEP_DAYS', '62'))
+KEEP_DAYS = int(os.environ.get('KEEP_DAYS', '30'))
 MAX_NEW = int(os.environ.get('MAX_NEW', '180'))  # por execução; o resto vem nas próximas horas
 
 
