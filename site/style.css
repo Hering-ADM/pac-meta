@@ -310,3 +310,7 @@ table.bh tr.prize td:first-child { box-shadow: inset 3px 0 0 var(--gold); }
 .recs h3 { margin: 0 0 .3rem; font-size: .95rem; }
 .recs h3 small { color: var(--mut); font-weight: 400; }
 .recs ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .2rem; font-size: .9rem; }
+.pname { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .15rem .45rem; }
+.pdeck { display: inline-flex; align-items: center; gap: .25rem; font-size: .78rem; font-weight: 600; padding: .08rem .5rem .08rem .3rem; border-radius: 999px; background: var(--acc-soft); color: var(--acc); white-space: nowrap; }
+.pdeck:hover { text-decoration: none; filter: brightness(1.1); }
+.pdeck .pips img { width: 13px; height: 13px; }

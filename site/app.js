@@ -475,12 +475,14 @@ function cmdTile(d) {
 /* Bhell: ranking lido da planilha da Pac Deck a cada hora (scripts/bhell.py) */
 const brl = (v) => v == null ? '—' : 'R$ ' + money(v);
 const bhKey = (n) => String(n || '').trim().toLowerCase();
-function bhellBlock(b, listas) {
+function bhellBlock(b, listas, decks) {
   const sheetUrl = 'https://docs.google.com/spreadsheets/d/' + b.sheet + '/edit';
   const et = b.etapas_jogadas || [];
   const atual = new Date(b.atualizado.replace('Z', ':00Z'));
   const champs = {}; (b.campeoes || []).forEach((c) => { champs[bhKey(c.campeao)] = (champs[bhKey(c.campeao)] || 0) + 1; });
-  const nome = (n) => h('span', null, n, champs[bhKey(n)] ? h('span', { class: 'crown', title: 'Campeão de ' + champs[bhKey(n)] + (champs[bhKey(n)] > 1 ? ' seasons' : ' season'), 'aria-label': 'campeão' }, ' ♛' + (champs[bhKey(n)] > 1 ? champs[bhKey(n)] : '')) : null);
+  const porJog = {}; (decks || []).forEach((d) => { if (d.jogador) (porJog[bhKey(d.jogador)] = porJog[bhKey(d.jogador)] || []).push(d); });
+  const deckLinks = (n) => (porJog[bhKey(n)] || []).map((d) => h('a', { class: 'pdeck', href: '#/commander/deck/' + d.slug, title: 'Ver o deck ' + d.nome + ' de ' + n }, pips(d.colors), d.nome));
+  const nome = (n) => h('span', { class: 'pname' }, n, champs[bhKey(n)] ? h('span', { class: 'crown', title: 'Campeão de ' + champs[bhKey(n)] + (champs[bhKey(n)] > 1 ? ' seasons' : ' season'), 'aria-label': 'campeão' }, ' ♛' + (champs[bhKey(n)] > 1 ? champs[bhKey(n)] : '')) : null, deckLinks(n));
   let q = ''; let showAllElo = false;
   const rankBox = h('div', { class: 'tbox' }); const eloBox = h('div');
   function drawRank() {
@@ -538,7 +540,7 @@ async function commanderIndex(tab) {
       h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Pos.'), h('th', null, 'Jogador'), h('th', null, 'Comandante'), h('th', { class: 'n' }, 'Preço'))),
         h('tbody', null, e.decks.map((d) => h('tr', null, h('td', null, d.colocacao ? d.colocacao + 'º' : '—'), h('td', { class: 'nm' }, d.jogador || '—'),
           h('td', null, h('a', { href: '#/commander/deck/' + d.slug }, pips(d.colors), d.nome)), h('td', { class: 'n' }, usd(d.usd)))))))));
-    body = bh ? bhellBlock(bh, listas) : (listas.length ? listas : vazio('Os resultados do Bhell entram em breve', 'Toda semana, os resultados do campeonato de quinta-feira da Pac Deck aparecem aqui.'));
+    body = bh ? bhellBlock(bh, listas, ds) : (listas.length ? listas : vazio('Os resultados do Bhell entram em breve', 'Toda semana, os resultados do campeonato de quinta-feira da Pac Deck aparecem aqui.'));
   } else if (tab === 'cedh') {
     body = ds.length ? h('div', { class: 'tiles' }, ds.map(cmdTile)) : vazio('As listas de cEDH entram em breve', 'Aqui ficam os decks de Commander competitivo (cEDH), com preço em reais e as cartas ligadas à Pac Deck e à LigaMagic.');
   } else {
