@@ -1,0 +1,7 @@
+{
+ "artigos": [
+  {"slug": "como-ler-o-metagame", "titulo": "Como ler o metagame do Pac-Meta", "resumo": "O que significam a porcentagem de cada deck, os períodos de 7, 14 e 30 dias e as listas 5-0, e os cuidados ao tirar conclusões.", "data": "2026-11-03", "autor": "Equipe Pac-Meta", "tags": ["Metagame", "Iniciante"]},
+  {"slug": "escolhendo-seu-proximo-deck", "titulo": "Escolhendo seu próximo deck com o Pac-Meta", "resumo": "Um roteiro para comparar arquétipos, entender o preço de cada lista e decidir o que montar.", "data": "2026-11-03", "autor": "Equipe Pac-Meta", "tags": ["Decks", "Preços"]},
+  {"slug": "economizar-montando-deck", "titulo": "Como gastar menos ao montar um deck competitivo", "resumo": "Cartas que servem em vários decks, formatos mais baratos e onde comparar preços antes de comprar.", "data": "2026-11-03", "autor": "Equipe Pac-Meta", "tags": ["Preços", "Dicas"]}
+ ]
+}

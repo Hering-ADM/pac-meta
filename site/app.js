@@ -460,6 +460,152 @@ function termos() {
     h('h2', null, 'Contato'), P(AUTOR + ': ', mail(), '.'));
 }
 
+
+/* ---------- formulários que viram e-mail ---------- */
+/* O site é estático: os formulários montam um e-mail para o responsável, que recebe e decide. */
+function field(f) {
+  const id = 'f-' + f.k; const req = f.req ? h('span', { class: 'req', 'aria-hidden': 'true' }, ' *') : null;
+  let el;
+  if (f.type === 'textarea') el = h('textarea', { id, name: f.k, rows: f.rows || 5, required: f.req, maxlength: f.max, placeholder: f.ph || '' });
+  else if (f.type === 'select') el = h('select', { id, name: f.k, required: f.req }, h('option', { value: '' }, 'Escolha…'), f.opts.map((o) => h('option', { value: o }, o)));
+  else if (f.type === 'checks') return h('fieldset', { class: 'fld' }, h('legend', null, f.label, req), h('div', { class: 'checks' }, f.opts.map((o, i) => h('label', null, h('input', { type: 'checkbox', name: f.k, value: o, id: id + i }), ' ', o))));
+  else if (f.type === 'scale') return h('fieldset', { class: 'fld' }, h('legend', null, f.label, req), h('div', { class: 'scale' }, Array.from({ length: 11 }, (_, i) => h('label', null, h('input', { type: 'radio', name: f.k, value: String(i), required: f.req && i === 0 }), h('span', null, i)))), h('div', { class: 'scale-ends' }, h('small', null, 'Nada provável'), h('small', null, 'Muito provável')));
+  else el = h('input', { id, name: f.k, type: f.type || 'text', required: f.req, maxlength: f.max, placeholder: f.ph || '', class: 'input' });
+  return h('div', { class: 'fld' }, h('label', { for: id }, f.label, req), f.help ? h('small', { class: 'help' }, f.help) : null, el);
+}
+function mailForm({ fields, subject, intro, sendLabel, done }) {
+  const st = h('p', { class: 'crumb', role: 'status' });
+  const form = h('form', { class: 'form', novalidate: true }, fields.map(field),
+    h('div', { class: 'row' }, h('button', { class: 'btn pri', type: 'submit' }, sendLabel || 'Enviar por e-mail'), h('button', { class: 'btn', type: 'button', onclick: () => copy(false) }, 'Copiar respostas')), st);
+  function text() {
+    const fd = new FormData(form);
+    return fields.map((f) => { const v = f.type === 'checks' ? fd.getAll(f.k).join(', ') : (fd.get(f.k) || '').toString().trim(); return v ? f.label + ':\n' + v : null; }).filter(Boolean).join('\n\n');
+  }
+  function copy(quiet) { const t = text(); return navigator.clipboard ? navigator.clipboard.writeText(t).then(() => { if (!quiet) st.textContent = 'Respostas copiadas. Cole num e-mail para ' + EMAIL + '.'; return true; }, () => false) : Promise.resolve(false); }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const bad = fields.find((f) => f.req && !(f.type === 'checks' ? new FormData(form).getAll(f.k).length : (new FormData(form).get(f.k) || '').toString().trim()));
+    if (bad) { st.textContent = 'Preencha o campo "' + bad.label + '".'; const el = form.querySelector('[name="' + bad.k + '"]'); if (el) el.focus(); return; }
+    const t = text(); const subj = typeof subject === 'function' ? subject(new FormData(form)) : subject;
+    let body = (intro ? intro + '\n\n' : '') + t;
+    if (body.length > 1800) { await copy(true); body = (intro ? intro + '\n\n' : '') + '(O texto completo foi copiado. Cole aqui embaixo antes de enviar.)\n\n'; st.textContent = 'O texto é longo, então copiei tudo: cole no e-mail que abriu antes de enviar.'; }
+    else st.textContent = done || 'Abrimos seu programa de e-mail com as respostas. Confira e envie. Se nada abriu, use "Copiar respostas" e mande para ' + EMAIL + '.';
+    location.href = 'mailto:' + EMAIL + '?subject=' + enc(subj) + '&body=' + enc(body);
+  });
+  return form;
+}
+
+/* ---------- artigos ---------- */
+/* Artigos ficam em static/artigos: index.json lista os publicados e cada um tem um .md.
+   Qualquer pessoa pode enviar um texto pelo formulário; só entra aqui o que o responsável aprovar. */
+function inline(t) {
+  const out = []; const re = /\*\*([^*]+)\*\*|\[\[([^\]]+)\]\]|\[([^\]]+)\]\((https?:\/\/[^)\s]+|#\/[^)\s]*)\)/g; let i = 0, m;
+  while ((m = re.exec(t))) { if (m.index > i) out.push(t.slice(i, m.index)); if (m[1]) out.push(h('b', null, m[1])); else if (m[2]) out.push(cardLink(m[2])); else out.push(h('a', m[4].startsWith('#') ? { href: m[4] } : { href: m[4], target: '_blank', rel: 'noopener' }, m[3])); i = re.lastIndex; }
+  if (i < t.length) out.push(t.slice(i)); return out;
+}
+function md(src) {
+  const out = []; let list = null;
+  for (const raw of src.replace(/\r/g, '').split(/\n{2,}/)) {
+    const b = raw.trim(); if (!b) continue;
+    const lines = b.split('\n');
+    if (/^#{2,3} /.test(b)) { out.push(h(b.startsWith('### ') ? 'h3' : 'h2', null, inline(b.replace(/^#+ /, '')))); continue; }
+    if (lines.every((l) => /^- /.test(l))) { out.push(h('ul', null, lines.map((l) => h('li', null, inline(l.slice(2)))))); continue; }
+    if (lines.every((l) => /^\d+\. /.test(l))) { out.push(h('ol', null, lines.map((l) => h('li', null, inline(l.replace(/^\d+\. /, '')))))); continue; }
+    if (b.startsWith('> ')) { out.push(h('blockquote', null, inline(lines.map((l) => l.replace(/^> ?/, '')).join(' ')))); continue; }
+    out.push(h('p', null, inline(lines.join(' '))));
+  }
+  return out;
+}
+async function artigosIndex() {
+  title('Artigos'); const [ix] = await Promise.all([get('static/artigos/index.json'), cards()]);
+  const as = ix.artigos.slice().sort((a, b) => (b.data || '').localeCompare(a.data || ''));
+  $main.replaceChildren(
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Artigos'), h('h1', null, 'Artigos'),
+      h('p', { class: 'lead' }, 'Textos sobre metagame, decks e o jogo competitivo. Qualquer pessoa pode enviar um artigo; os textos são lidos e aprovados antes de entrar no site.')),
+    h('div', { class: 'arts' }, as.map((a) => h('a', { class: 'card art-card', href: '#/artigos/' + a.slug },
+      h('div', { class: 'tags' }, (a.tags || []).map((t) => h('span', { class: 'tag' }, t))),
+      h('h2', null, a.titulo), h('p', null, a.resumo), h('small', { class: 'crumb' }, (a.autor || 'Equipe Pac-Meta') + ' · ' + dat(a.data))))),
+    card(h('h2', null, 'Escreva para o Pac-Meta'), h('p', { class: 'lead', style: 'margin:0 0 .7rem' }, 'Tem um guia, uma análise de metagame ou um relato de torneio? Mande seu texto. Ele é lido antes de ser publicado, e você recebe uma resposta por e-mail.'), h('a', { class: 'btn pri', href: '#/artigos/enviar' }, 'Enviar um artigo')));
+}
+async function artigoPage(slug) {
+  const [ix] = await Promise.all([get('static/artigos/index.json'), cards()]);
+  const a = ix.artigos.find((x) => x.slug === slug); if (!a) return fail('Artigo não encontrado.');
+  const r = await fetch('static/artigos/' + slug + '.md', { cache: 'no-cache' }); if (!r.ok) return fail();
+  const txt = await r.text(); title(a.titulo);
+  const outros = ix.artigos.filter((x) => x.slug !== slug).slice(0, 3);
+  $main.replaceChildren(
+    h('article', { class: 'card prose artigo' },
+      h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/artigos' }, 'Artigos')),
+      h('div', { class: 'tags' }, (a.tags || []).map((t) => h('span', { class: 'tag' }, t))),
+      h('h1', null, a.titulo), h('p', { class: 'lead' }, a.resumo), h('p', { class: 'crumb' }, 'Por ' + (a.autor || 'Equipe Pac-Meta') + ' · ' + dat(a.data)),
+      md(txt)),
+    outros.length ? card(h('h2', null, 'Leia também'), h('ul', { class: 'links' }, outros.map((x) => h('li', null, h('a', { href: '#/artigos/' + x.slug }, x.titulo))))) : null);
+}
+function enviarArtigo() {
+  title('Enviar um artigo');
+  $main.replaceChildren(h('div', { class: 'card prose' },
+    h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/artigos' }, 'Artigos'), ' › Enviar'),
+    h('h1', null, 'Enviar um artigo'),
+    P('Qualquer pessoa pode escrever para o Pac-Meta. Todo texto é lido por ' + AUTOR + ' antes de ser publicado: ele pode aprovar, pedir ajustes ou recusar, e responde pelo e-mail que você informar.'),
+    h('h2', null, 'Antes de enviar'),
+    h('ul', null, h('li', null, 'O texto precisa ser seu e inédito. Não copie artigos, listas comentadas ou imagens de outros sites.'), h('li', null, 'Escreva em português, de forma clara. Entre 400 e 2.000 palavras costuma funcionar bem.'), h('li', null, 'Use ## para os subtítulos e - no começo da linha para listas. Para citar uma carta, escreva o nome em inglês entre colchetes duplos, como [[Lightning Bolt]].'), h('li', null, 'Ao enviar, você autoriza o Pac-Meta a publicar o texto com o seu nome, com revisão de ortografia e formatação.')),
+    mailForm({ subject: (fd) => 'Artigo para o Pac-Meta: ' + (fd.get('titulo') || ''), intro: 'Olá! Segue um artigo para avaliação.', sendLabel: 'Enviar para aprovação',
+      fields: [
+        { k: 'nome', label: 'Seu nome (como deve aparecer no artigo)', req: true, max: 80 },
+        { k: 'email', label: 'Seu e-mail para resposta', type: 'email', req: true, max: 120 },
+        { k: 'titulo', label: 'Título', req: true, max: 120 },
+        { k: 'resumo', label: 'Resumo em uma ou duas frases', type: 'textarea', rows: 2, req: true, max: 300 },
+        { k: 'tema', label: 'Tema', type: 'select', req: true, opts: ['Metagame', 'Guia de deck', 'Relato de torneio', 'Preços e mercado', 'Iniciantes', 'Outro'] },
+        { k: 'texto', label: 'Texto do artigo', type: 'textarea', rows: 16, req: true, help: 'Se o texto for longo, ele é copiado e você cola no e-mail que abrir.' },
+      ] })));
+}
+
+/* ---------- sugestões ---------- */
+function sugestoes() {
+  title('Sugestões e ideias');
+  $main.replaceChildren(h('div', { class: 'card prose' },
+    h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Sugestões'),
+    h('h1', null, 'O que podemos melhorar?'),
+    P('Conte o que você usa no Pac-Meta, o que atrapalha e o que gostaria de ver aqui. Leva uns 2 minutos. As respostas vão por e-mail para ' + AUTOR + ' e ajudam a decidir o que fazer a seguir. Nenhum campo é guardado no site.'),
+    mailForm({ subject: 'Sugestões para o Pac-Meta', intro: 'Respostas da pesquisa de sugestões do Pac-Meta:',
+      fields: [
+        { k: 'formatos', label: 'Quais formatos você joga?', type: 'checks', opts: FORMATS.map((f) => f[1]).concat('Commander', 'Outro') },
+        { k: 'usa', label: 'O que você mais usa no site?', type: 'checks', opts: ['Metagame', 'Listas dos torneios', 'Listas 5-0', 'Preços', 'Guias', 'Artigos', 'Busca de cartas'] },
+        { k: 'nota', label: 'De 0 a 10, quanto você recomendaria o Pac-Meta a um amigo?', type: 'scale' },
+        { k: 'melhorar', label: 'O que está ruim, confuso ou faltando?', type: 'textarea', rows: 4, req: true },
+        { k: 'ideias', label: 'Que ideia nova você gostaria de ver?', type: 'textarea', rows: 4 },
+        { k: 'email', label: 'Seu e-mail (opcional, se quiser resposta)', type: 'email', max: 120 },
+      ] })));
+}
+
+/* ---------- trabalhe conosco ---------- */
+function trabalhe() {
+  title('Trabalhe conosco');
+  const areas = [
+    ['Artigos e guias', 'Escrever guias de decks, análises de metagame e textos para quem está começando.'],
+    ['Revisão de arquétipos', 'Ajudar a classificar as listas nos arquétipos certos e manter as regras em dia quando o formato muda.'],
+    ['Guias de confronto', 'Montar planos de jogo e sideboard para os decks mais jogados, como o guia do Azorius Chant.'],
+    ['Desenvolvimento', 'Melhorar o site: páginas novas, gráficos, desempenho e acessibilidade.'],
+    ['Redes sociais e vídeo', 'Levar os dados do metagame para Instagram, YouTube, TikTok e comunidades.'],
+    ['Parcerias', 'Lojas, organizadores de torneio e criadores de conteúdo que queiram trabalhar junto.'],
+  ];
+  $main.replaceChildren(
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Trabalhe conosco'), h('h1', null, 'Trabalhe conosco'),
+      h('p', { class: 'lead' }, 'O Pac-Meta é um projeto de fã que está crescendo. Se você gosta de Magic competitivo e quer participar, conte o que sabe fazer. As condições de cada colaboração são combinadas diretamente por e-mail.')),
+    h('div', { class: 'grid3' }, areas.map(([t, d]) => card(h('h3', null, t), h('p', { class: 'crumb', style: 'margin:0' }, d)))),
+    h('div', { class: 'card prose' }, h('h2', null, 'Candidate-se'), P('Preencha o formulário. Ele abre um e-mail para ' + AUTOR + ' com suas respostas, e o retorno vem pelo e-mail que você informar.'),
+      mailForm({ subject: (fd) => 'Trabalhe conosco: ' + (fd.get('area') || '') + ' · ' + (fd.get('nome') || ''), intro: 'Olá! Quero colaborar com o Pac-Meta.', sendLabel: 'Enviar candidatura',
+        fields: [
+          { k: 'nome', label: 'Nome', req: true, max: 80 },
+          { k: 'email', label: 'E-mail', type: 'email', req: true, max: 120 },
+          { k: 'cidade', label: 'Cidade e estado', max: 80 },
+          { k: 'area', label: 'Área de interesse', type: 'select', req: true, opts: areas.map((a) => a[0]).concat('Outra') },
+          { k: 'experiencia', label: 'Conte sua experiência com Magic e com a área escolhida', type: 'textarea', rows: 5, req: true },
+          { k: 'links', label: 'Links (portfólio, GitHub, redes, artigos)', type: 'textarea', rows: 2 },
+          { k: 'tempo', label: 'Quanto tempo por semana você teria?', type: 'select', opts: ['Até 2 horas', '2 a 5 horas', '5 a 10 horas', 'Mais de 10 horas'] },
+        ] })));
+}
+
 /* ---------- roteador ---------- */
 async function route() {
   const raw = location.hash.replace(/^#\/?/, ''); const [path, qs] = raw.split('?'); const p = path.split('/').map(decodeURIComponent); const params = new URLSearchParams(qs || '');
@@ -477,6 +623,8 @@ async function route() {
     else if (p[0] === 'c' && p[1]) await cardPage(p[1]);
     else if (p[0] === 'precos') await precos();
     else if (p[0] === 'guias') { if (p[1] === 'chant') await guiaChant(p[2]); else if (p[1] && p[2]) await guiaDeck(p[1], p[2]); else await guiasIndex(); }
+    else if (p[0] === 'artigos') { if (p[1] === 'enviar') enviarArtigo(); else if (p[1]) await artigoPage(p[1]); else await artigosIndex(); }
+    else if (p[0] === 'sugestoes') sugestoes(); else if (p[0] === 'trabalhe') trabalhe();
     else if (p[0] === 'sobre') sobre(); else if (p[0] === 'privacidade') privacidade(); else if (p[0] === 'termos') termos();
     else fail('Página não encontrada.');
   } catch (e) { console.error(e); fail(); }

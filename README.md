@@ -16,3 +16,12 @@ Edite `data/archetypes.json`. Cada regra tem um nome e grupos de cartas: a lista
 ## Aviso legal
 
 Pac-Meta é conteúdo de fã não oficial, permitido pela Política de Conteúdo de Fãs. Não é aprovado nem endossado pela Wizards. Partes dos materiais usados são propriedade da Wizards of the Coast. © Wizards of the Coast LLC. Dados e imagens das cartas: Scryfall.
+
+## Artigos
+
+Qualquer pessoa pode enviar um artigo pela página Artigos › Enviar. O envio chega por e-mail para o responsável e só é publicado depois de aprovado. Para publicar um artigo aprovado:
+
+1. Salve o texto em `site/static/artigos/<slug>.md` (subtítulos com `##`, listas com `-`, negrito com `**`, cartas entre colchetes duplos, como `[[Lightning Bolt]]`).
+2. Acrescente o artigo em `site/static/artigos/index.json` com `slug`, `titulo`, `resumo`, `data`, `autor` e `tags`.
+
+As páginas Sugestões e Trabalhe conosco também montam um e-mail para o responsável; nada é guardado no site.
