@@ -4,6 +4,8 @@ const FORMATS = [['standard', 'Standard'], ['pioneer', 'Pioneer'], ['modern', 'M
 const FNAME = Object.fromEntries(FORMATS);
 const KIND = { league: 'Liga', challenge: 'Challenge', showcase: 'Showcase', qualifier: 'Qualifier', champions: 'Champions', super: 'Super Qualifier', 'last-chance': 'Last Chance', preliminary: 'Preliminary', outro: 'Evento' };
 const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+/* não deixa o site ser aberto dentro de outra página (clickjacking) */
+if (window.top !== window.self) { try { window.top.location = window.self.location.href; } catch (e) { document.documentElement.style.display = 'none'; } }
 const $main = document.getElementById('main');
 const cache = {};
 const store = { get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
