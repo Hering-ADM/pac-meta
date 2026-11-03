@@ -1,0 +1,103 @@
+Commander
+1 Tiamat
+
+Deck
+1 Abrupt Decay
+1 Academy Rector
+1 An Offer You Can't Refuse
+1 Arcane Signet
+1 Archivist of Oghma
+1 Assassin's Trophy
+1 Avacyn's Pilgrim
+1 Beseech the Mirror
+1 Birds of Paradise
+1 Bladewing the Risen
+1 Blood Crypt
+1 Bloodstained Mire
+1 Bloom Tender
+1 Breeding Pool
+1 Burnt Offering
+1 Changeling Berserker
+1 Command Tower
+1 Copy Enchantment
+1 Culling Ritual
+1 Culling the Weak
+1 Dark Ritual
+1 Deathrite Shaman
+1 Defense of the Heart
+1 Delighted Halfling
+1 Demonic Tutor
+1 Desperate Ritual
+1 Diabolic Intent
+1 Dovin's Veto
+1 Dracogenesis
+1 Dragonstorm
+1 Eladamri's Call
+1 Eldritch Evolution
+1 Elves of Deep Shadow
+1 Elvish Mystic
+1 Elvish Spirit Guide
+1 Endurance
+1 Esper Sentinel
+1 Exotic Orchard
+1 Faerie Mastermind
+1 Fellwar Stone
+1 Flooded Strand
+1 Food Chain
+1 Formidable Speaker
+1 Godless Shrine
+1 Grand Abolisher
+1 Hallowed Fountain
+1 Hexing Squelcher
+1 High Market
+1 Ignoble Hierarch
+1 Imperial Recruiter
+1 Lazotep Quarry
+1 Lim-Dûl's Vault
+1 Llanowar Wastes
+1 Lotho, Corrupt Shirriff
+1 Lotus Petal
+1 Mandate of Peace
+1 Mental Misstep
+1 Misty Rainforest
+1 Multiversal Passage
+1 Mystic Remora
+1 Neoform
+1 Noble Hierarch
+1 Overgrown Tomb
+1 Pact of Negation
+1 Phyrexian Tower
+1 Pia, Aether Ascetic
+1 Polluted Delta
+1 Pyretic Ritual
+1 Redirect Lightning
+1 Rejuvenating Springs
+1 Rhystic Study
+1 Rite of Flame
+1 Sacred Foundry
+1 Sacrifice
+1 Scalding Tarn
+1 Scourge of Valkas
+1 Shifting Woodland
+1 Show and Tell
+1 Silence
+1 Simian Spirit Guide
+1 Smothering Tithe
+1 Sol Ring
+1 Spire Garden
+1 Steam Vents
+1 Stomping Ground
+1 Sylvan Library
+1 Tataru Taru
+1 Temple Garden
+1 Terror of the Peaks
+1 Tinder Wall
+1 Tooth and Nail
+1 Undergrowth Stadium
+1 Verdant Catacombs
+1 Viscera Seer
+1 Watery Grave
+1 Windswept Heath
+1 Wishclaw Talisman
+1 Wooded Foothills
+1 Yavimaya Coast
