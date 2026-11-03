@@ -291,3 +291,9 @@ table.dt td.n, table.t td.n { white-space: nowrap; }
 .scale input:checked + span { background: var(--acc); color: #fff; border-color: var(--acc); }
 .scale input:focus-visible + span { outline: 2px solid var(--acc); outline-offset: 2px; }
 .scale-ends { display: flex; justify-content: space-between; color: var(--mut); }
+
+/* Sub-abas de Commander */
+.cmdtabs { display: inline-flex; flex-wrap: wrap; }
+.cmdtabs a { padding: .5rem 1.1rem; font-weight: 600; color: var(--fg); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; }
+.cmdtabs a[aria-current="page"] { background: var(--acc); color: #fff; }
+.cmdtabs a small { font-size: .72rem; opacity: .75; }

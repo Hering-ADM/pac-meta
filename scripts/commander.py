@@ -12,6 +12,7 @@ DIR = os.path.join(DATA, 'commander')
 HEAD_CMD = re.compile(r'^(//\s*)?(commander|comandante|comandantes|commanders)\s*:?\s*$', re.I)
 HEAD_SKIP = re.compile(r'^(//\s*)?(sideboard|maybeboard|maybe|considering|tokens?)\s*:?\s*$', re.I)
 HEAD_ANY = re.compile(r'^(//\s*)?[A-Za-zÀ-ú ]+\s*(\(\d+\))?\s*:?\s*$')
+CATEGORIAS = ('bhell', 'cedh', 'comunidade')
 LINE = re.compile(r'^(\d+)\s*x?\s+(.+?)\s*$', re.I)
 
 
@@ -67,5 +68,7 @@ def decks():
             cmd = cmd or [[1, w] for w in want]
             main = [x for x in main if x[1].lower() not in low]
         out.append({'slug': s, 'nome': m.get('nome') or (cmd[0][1] if cmd else s.replace('-', ' ').title()), 'autor': m.get('autor', ''),
-                    'descricao': m.get('descricao', ''), 'data': m.get('data', ''), 'tags': m.get('tags', []), 'cmd': cmd, 'main': main})
+                    'descricao': m.get('descricao', ''), 'data': m.get('data', ''), 'tags': m.get('tags', []), 'cmd': cmd, 'main': main,
+                    'categoria': m.get('categoria') if m.get('categoria') in CATEGORIAS else 'comunidade',
+                    'evento': m.get('evento', ''), 'colocacao': m.get('colocacao'), 'jogador': m.get('jogador', '')})
     return out

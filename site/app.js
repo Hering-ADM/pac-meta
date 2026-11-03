@@ -465,27 +465,47 @@ function termos() {
 
 
 /* ---------- Commander (listas enviadas à mão, em data/commander) ---------- */
-async function commanderIndex() {
-  title('Commander');
+const CMD_TABS = [['bhell', 'Bhell'], ['cedh', 'cEDH'], ['comunidade', 'Comunidade']];
+function cmdTile(d) {
+  return h('a', { class: 'tile', href: '#/commander/deck/' + d.slug, style: `--grad:${grad(d.colors, d.art)}` },
+    h('div', { class: 'art' }, fan(d.cmd, 2), h('span', { class: 'pp' }, pips(d.colors)), d.categoria === 'bhell' && d.colocacao ? h('span', { class: 'rk' }, d.colocacao + 'º') : null),
+    h('div', { class: 'bd' }, h('b', { class: 'ellip' }, d.nome), h('small', { class: 'ellip crumb' }, d.jogador || d.autor || d.cmd.join(' + ')), h('div', { class: 'pr' }, h('span', null, usd(d.usd)), h('span', null, d.cards + ' cartas'))));
+}
+async function commanderIndex(tab) {
+  tab = CMD_TABS.some(([k]) => k === tab) ? tab : 'bhell';
+  const tname = CMD_TABS.find(([k]) => k === tab)[1]; title(tname + ' · Commander');
   const [ix] = await Promise.all([get('data/commander/index.json').catch(() => ({ decks: [] })), cards()]);
-  const ds = ix.decks.slice().sort((a, b) => (b.data || '').localeCompare(a.data || '') || a.nome.localeCompare(b.nome));
-  const C = CARDS || {};
+  const ds = ix.decks.filter((d) => (d.categoria || 'comunidade') === tab).sort((a, b) => (b.data || '').localeCompare(a.data || '') || (a.colocacao || 99) - (b.colocacao || 99) || a.nome.localeCompare(b.nome));
+  const n = (k) => ix.decks.filter((d) => (d.categoria || 'comunidade') === k).length;
+  const tabs = h('nav', { class: 'seg cmdtabs', 'aria-label': 'Seções de Commander' }, CMD_TABS.map(([k, t]) => h('a', { href: '#/commander/' + k, 'aria-current': k === tab ? 'page' : null }, t, n(k) ? h('small', null, n(k)) : null)));
+  const vazio = (titulo, texto) => card(h('h2', null, titulo), h('p', { class: 'lead', style: 'margin:0' }, texto));
+  let body;
+  if (tab === 'bhell') {
+    const evs = []; const by = {};
+    ds.forEach((d) => { const k = (d.data || '') + '|' + (d.evento || 'Bhell'); if (!by[k]) { by[k] = { data: d.data, nome: d.evento || 'Bhell', decks: [] }; evs.push(by[k]); } by[k].decks.push(d); });
+    body = evs.length ? evs.map((e) => card(h('h2', null, e.nome + (e.data ? ' · ' + dat(e.data) : ''), h('span', { class: 'crumb' }, e.decks.length + (e.decks.length > 1 ? ' decks' : ' deck'))),
+      h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Pos.'), h('th', null, 'Jogador'), h('th', null, 'Comandante'), h('th', { class: 'n' }, 'Preço'))),
+        h('tbody', null, e.decks.map((d) => h('tr', null, h('td', null, d.colocacao ? d.colocacao + 'º' : '—'), h('td', { class: 'nm' }, d.jogador || '—'),
+          h('td', null, h('a', { href: '#/commander/deck/' + d.slug }, pips(d.colors), d.nome)), h('td', { class: 'n' }, usd(d.usd)))))))))
+      : vazio('Os resultados do Bhell entram em breve', 'Toda semana, os decks do campeonato de quinta-feira da Pac Deck aparecem aqui, com a colocação de cada jogador.');
+  } else if (tab === 'cedh') {
+    body = ds.length ? h('div', { class: 'tiles' }, ds.map(cmdTile)) : vazio('As listas de cEDH entram em breve', 'Aqui ficam os decks de Commander competitivo (cEDH), com preço em reais e as cartas ligadas à Pac Deck e à LigaMagic.');
+  } else {
+    body = ds.length ? h('div', { class: 'tiles' }, ds.map(cmdTile)) : vazio('Os decks da comunidade entram em breve', h('span', null, 'Em breve, qualquer pessoa vai poder subir o próprio deck de Commander aqui. Enquanto isso, mande sua lista pela página de ', h('a', { href: '#/sugestoes' }, 'Sugestões'), '.'));
+  }
+  const intro = { bhell: 'O Bhell é o campeonato semanal de Commander da Pac Deck, toda quinta-feira. Aqui ficam os decks de cada rodada, com a colocação dos jogadores.', cedh: 'Decks de Commander competitivo (cEDH), escolhidos a dedo.', comunidade: 'Decks de Commander montados pela comunidade.' }[tab];
   $main.replaceChildren(
-    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Commander'), h('h1', null, 'Commander'),
-      h('p', { class: 'lead' }, 'Listas de Commander selecionadas, com o preço de cada deck em reais e as cartas ligadas à Pac Deck e à LigaMagic. O MTGO não publica resultados de Commander, então estas listas são escolhidas a dedo.')),
-    ds.length ? h('div', { class: 'tiles' }, ds.map((d) => h('a', { class: 'tile', href: '#/commander/' + d.slug, style: `--grad:${grad(d.colors, d.art)}` },
-      h('div', { class: 'art' }, fan(d.cmd, 2), h('span', { class: 'pp' }, pips(d.colors))),
-      h('div', { class: 'bd' }, h('b', { class: 'ellip' }, d.nome), h('small', { class: 'ellip crumb' }, d.cmd.join(' + ')), h('div', { class: 'pr' }, h('span', null, usd(d.usd)), h('span', null, d.cards + ' cartas'))))))
-      : card(h('h2', null, 'As primeiras listas entram em breve'), h('p', { class: 'lead', style: 'margin:0' }, 'Estamos selecionando os decks. Enquanto isso, mande sua sugestão de lista pela página de ', h('a', { href: '#/sugestoes' }, 'Sugestões'), '.')));
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/commander' }, 'Commander'), ' › ', tname), h('h1', null, 'Commander'), h('p', { class: 'lead' }, intro)),
+    tabs, ...[].concat(body));
 }
 async function commanderDeck(s) {
   const [d] = await Promise.all([get('data/commander/' + s + '.json'), cards()]); title(d.nome + ' · Commander');
   $main.replaceChildren(
     h('div', { class: 'banner', style: `--grad:${grad(d.colors, d.art)}` }, fan(d.cmd, 2), h('div', null,
-      h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/commander' }, 'Commander'), ' › ', d.nome),
+      h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/commander' }, 'Commander'), ' › ', h('a', { href: '#/commander/' + (d.categoria || 'comunidade') }, (CMD_TABS.find(([k]) => k === (d.categoria || 'comunidade')) || [, ''])[1]), ' › ', d.nome),
       h('h1', null, pips(d.colors), d.nome),
       h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, d.cmd.join(' + ')), h('small', null, d.cmd.length > 1 ? 'comandantes' : 'comandante')), h('div', { class: 'stat' }, h('b', null, d.cards), h('small', null, 'cartas')), h('div', { class: 'stat' }, h('b', null, usd(d.usd)), h('small', null, 'papel'))))),
-    (d.descricao || d.autor) ? card(d.descricao ? h('p', { class: 'prose', style: 'margin:0' }, d.descricao) : null, d.autor ? h('p', { class: 'crumb', style: 'margin:.5rem 0 0' }, 'Lista de ' + d.autor + (d.data ? ' · ' + dat(d.data) : '')) : null) : '',
+    (d.descricao || d.autor || d.jogador) ? card(d.descricao ? h('p', { class: 'prose', style: 'margin:0' }, d.descricao) : null, (d.autor || d.jogador) ? h('p', { class: 'crumb', style: 'margin:.5rem 0 0' }, d.categoria === 'bhell' ? (d.jogador || d.autor) + (d.colocacao ? ' · ' + d.colocacao + 'º lugar' : '') + ' no ' + (d.evento || 'Bhell') + (d.data ? ' de ' + dat(d.data) : '') : 'Lista de ' + (d.autor || d.jogador) + (d.data ? ' · ' + dat(d.data) : '')) : null) : '',
     card(deckBlock(d.main, [], { first: [d.cmdlist.length > 1 ? 'Comandantes' : 'Comandante', d.cmdlist], export: exportRow(d.main, [], d.nome, d.cmdlist) })));
 }
 
@@ -645,7 +665,7 @@ async function route() {
     await loadFx();
     if (!p[0]) await home();
     else if (p[0] === 'f' && FNAME[p[1]]) { if (p[2] === 'a' && p[3]) await archetype(p[1], p[3]); else if (p[2] === 'torneios') await eventsPage(p[1]); else if (p[2] === '5-0') await ligas(p[1], params); else await metagame(p[1], params); }
-    else if (p[0] === 'commander') { if (p[1]) await commanderDeck(p[1]); else await commanderIndex(); }
+    else if (p[0] === 'commander') { if (p[1] === 'deck' && p[2]) await commanderDeck(p[2]); else if (!p[1] || CMD_TABS.some(([k]) => k === p[1])) await commanderIndex(p[1]); else await commanderDeck(p[1]); }
     else if (p[0] === 'torneios') await eventsPage(null);
     else if (p[0] === '5-0') await ligas(null, params);
     else if (p[0] === 'e' && p[1]) await eventPage(p[1], p[2]);

@@ -264,6 +264,7 @@ def main():
         col = ''.join(c for c in ORDER if c in ci)
         usd, miss = price(allc, C, C.usd)
         row = {'slug': d['slug'], 'nome': d['nome'], 'autor': d['autor'], 'descricao': d['descricao'], 'data': d['data'], 'tags': d['tags'],
+               'categoria': d['categoria'], 'evento': d['evento'], 'colocacao': d['colocacao'], 'jogador': d['jogador'],
                'colors': col, 'cmd': [n for _, n in d['cmd']], 'cards': sum(q for q, _ in allc), 'usd': usd, 'tix': price(allc, C, C.tix)[0],
                'art': (C.info(d['cmd'][0][1]).get('art') if d['cmd'] else None)}
         cmd_index.append(row)
