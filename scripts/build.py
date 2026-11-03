@@ -45,6 +45,42 @@ def deck_colors(d, C):
     return ''.join(cs)
 
 
+NAMECOL = {v.lower(): k for k, v in GUILDS.items()}
+NAMECOL.update({'mono red': 'R', 'mono black': 'B', 'mono blue': 'U', 'mono green': 'G', 'mono white': 'W', 'white': 'W', 'blue': 'U', 'red': 'R', 'black': 'B', 'green': 'G'})
+
+
+def load_ref():
+    out = {}
+    try:
+        lines = open(os.path.join(DATA, 'archetypes_ref.txt'), encoding='utf-8').read().splitlines()
+    except FileNotFoundError:
+        return out
+    for ln in lines:
+        if not ln.strip() or ln.startswith('#'): continue
+        fmt, name, cards = [x.strip() for x in ln.split('|')]
+        cs = [c.strip() for c in cards.split(';') if c.strip()]
+        req = [c[1:] for c in cs if c.startswith('!')]
+        cs = [c.lstrip('!') for c in cs]
+        low = name.lower(); col = None
+        for k in sorted(NAMECOL, key=len, reverse=True):
+            if low.startswith(k + ' ') or low == k: col = NAMECOL[k]; break
+        out.setdefault(fmt, []).append({'name': name, 'cards': cs, 'req': req, 'col': col})
+    return out
+
+
+def ref_match(refs, names, col):
+    best = None
+    for i, r in enumerate(refs):
+        if sum(1 for c in r['cards'] if c in names) < 2 or any(c not in names for c in r['req']): continue
+        if r['col'] is None: sc = 1
+        elif r['col'] == col: sc = 2
+        elif set(r['col']) <= set(col): sc = 1
+        else: sc = 0
+        if best is None or sc > best[0]: best = (sc, i, r['name'])
+        if sc == 2: break
+    return best[2] if best else None
+
+
 def match(rule, names):
     if any(n in names for n in rule.get('none', [])): return False
     return all(sum(1 for c in g['cards'] if c in names) >= g['min'] for g in rule['groups'])
@@ -110,6 +146,9 @@ def main():
     C = Cards(raw_colors)
     rules = load(os.path.join(DATA, 'archetypes.json'), {})
     rules_by_name = {r['name']: r for v in rules.values() for r in v}
+    refs = load_ref()
+    for v in refs.values():
+        for r in v: rules_by_name.setdefault(r['name'], {'groups': [{'cards': r['cards'], 'min': 2}]})
     today = max([e['date'] for e in events] or [dt.date.today().isoformat()])
     td = dt.date.fromisoformat(today)
     since = lambda days: (td - dt.timedelta(days=days - 1)).isoformat()
@@ -131,9 +170,9 @@ def main():
             arch = next((r['name'] for r in rules.get(fmt, []) if match(r, names)), None)
             col = deck_colors(d, C)
             if not arch:
-                cands = [(freq[n] / N, -q, n) for q, n in d['main'] if q >= 3 and not C.is_land(n) and freq[n] >= 2]
-                kc = min(cands)[2] if cands else (d['main'][0][1] if d['main'] else '?')
-                arch = f"{GUILDS.get(col, col)} ({kc})"
+                arch = ref_match(refs.get(fmt, []), names, col)
+            if not arch:
+                arch = GUILDS.get(col, col or 'Incolor')
             d['arch'] = arch; d['aslug'] = slug(arch); d['col'] = col
             d['usd'], d['usd_miss'] = price(d['main'] + d['side'], C, C.usd)
             d['tix'], _ = price(d['main'] + d['side'], C, C.tix)

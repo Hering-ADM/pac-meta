@@ -1,0 +1,195 @@
+# Nomes de arquétipos usados pela comunidade, com 3 cartas-chave (formato | nome | carta; carta; carta).
+# Uma lista entra no arquétipo quando tem pelo menos 2 das 3 cartas; carta com ! é obrigatória. As cores do nome desempatam.
+standard | Mono-Green Landfall | Icetill Explorer; Mossborn Hydra; Earthbender Ascension
+standard | Dimir Midrange | Kaito, Bane of Nightmares; Enduring Curiosity; Floodpits Drowner
+standard | Dimir Reanimator | Seasoned Cryomancer; Deceit; Superior Spider-Man
+standard | Lifegain | Enlightened Confidant; Haliya, Guided by Light; Moseo, Vein's New Dean
+standard | Izzet Spellementals | Sunderflock; Flow State; Eddymurk Crab
+standard | Azorius Control | The Theorist, Jace Beleren; Consult the Star Charts; Get Lost
+standard | 4c Control | Inevitable Defeat; Jeskai Revelation; Tablet of Discovery
+standard | Jeskai Artifacts | Simulacrum Synthesizer; United Battlefront; Candy Trail
+standard | Izzet Prowess | Astrologian's Planisphere; Slickshot Show-Off; Flow State
+standard | Boros Dragons | Smaug the Magnificent; Clarion Conqueror; Nova Hellkite
+standard | Boros Dwarves | Leyline Axe; Thorin, Mountain-king; Lavaspur Boots
+standard | Azorius Momo | Quantum Riddler; Momo, Friendly Flier; Sage of the Skies
+standard | Rakdos Lizards | Iridescent Vinelasher; Hired Claw; Master of Barbs
+standard | Mono-Black Aggro | Forsaken Miner; Iridescent Vinelasher; Corpses of the Lost
+standard | Dimir Excruciator | Deceit; Superior Spider-Man; Seasoned Cryomancer
+standard | 4c Reanimator | Seasoned Cryomancer; Formidable Speaker; Dark Matter Manipulator
+standard | Jeskai Control | Jeskai Revelation; Tablet of Discovery; Geist of Saint Thalia
+standard | Dimir Control | The Theorist, Jace Beleren; Consult the Star Charts; Requiting Hex
+standard | Selesnya Landfall | Mightform Harmonizer; Icetill Explorer; Erode
+standard | Jund Sacrifice | Lively Dirge; The Sackville-Bagginses; Obsessive Pursuit
+standard | Mardu Discard | Moonshadow; Practiced Offense; Bloodghast
+standard | Mono-Red Aggro | Smaug the Magnificent; Magda, the Hoardmaster; Hired Claw
+standard | Simic Landfall | Icetill Explorer; Avatar of Burgeoning Echoes; Earthbender Ascension
+standard | Boros Tokens | Voice of Victory; Warleader's Call; Song of Totentanz
+standard | Izzet Maestro | Stock Up; Tablet of Discovery; Molten-Core Maestro
+standard | Golgari Midrange | Deceit; Deadly Cover-Up; Firdoch Core
+standard | Sultai Control | Deadly Cover-Up; Ancient Cornucopia; Stock Up
+standard | 4c Kona | Formidable Speaker; !Omniscience; Stock Up
+standard | Gruul Delirium | Fear of Missing Out; Tarmogoyf; Patchwork Beastie
+standard | Temur Prowess | Slickshot Show-Off; Pompous Battlemage; Elusive Otter
+standard | Selesnya Ouroboroid | Brightglass Gearhulk; Practiced Offense; Leatherhead, Swamp Stalker
+standard | Mono-Red Prowess | Slickshot Show-Off; Gandalf, Goblins' Bane; Stingcaster Mage
+standard | Azorius Tempo | Voice of Victory; Enduring Curiosity; Aven Interrupter
+pioneer | Izzet Phoenix | !Arclight Phoenix; Consider; Picklock Prankster
+pioneer | Abzan Greasefang | !Greasefang, Okiba Boss; Formidable Speaker; Thoughtseize
+pioneer | Hidden Strings | !Lotus Field; Into the Flood Maw; Flow State
+pioneer | Golgari Midrange | Badgermole Cub; Thoughtseize; Fatal Push
+pioneer | Izzet Prowess | Soul-Scar Mage; Monastery Swiftspear; Reckless Rage
+pioneer | Nykthos Ramp | !Nykthos, Shrine to Nyx; Badgermole Cub; Kiora, Behemoth Beckoner
+pioneer | Mono-Red Prowess | Slickshot Show-Off; Emberheart Challenger; Pompous Battlemage
+pioneer | Jund Sacrifice | !Mayhem Devil; Cauldron Familiar; The Sackville-Bagginses
+pioneer | Izzet Aggro | Monastery Swiftspear; Sleight of Hand; Academic Dispute
+pioneer | Selesnya Company | Badgermole Cub; Enduring Innocence; Aven Interrupter
+pioneer | Jund Artifact Sacrifice | The Sackville-Bagginses; Greedy Freebooter; Biotech Specialist
+pioneer | Dimir Aggro | Kaito, Bane of Nightmares; Thoughtseize; Mockingbird
+pioneer | Azorius Control | Teferi, Hero of Dominaria; The Wandering Emperor; Get Lost
+pioneer | Temur Indomitable Creativity | !Indomitable Creativity; Make Disappear; Deduce
+pioneer | Dimir Self-Bounce | Thoughtseize; Narset, Parter of Veils; Boomerang Basics
+pioneer | Mono-White Humans | Mox Amber; Adeline, Resplendent Cathar; Thalia's Lieutenant
+pioneer | Orzhov Midrange | Thoughtseize; Fatal Push; The Ooze
+pioneer | Gruul Prowess | Slickshot Show-Off; Emberheart Challenger; Leyline of Resonance
+pioneer | Boros Prowess | Screaming Nemesis; Emberheart Challenger; Soul-Scar Mage
+pioneer | Boros Convoke | Knight-Errant of Eos; Ornithopter; Gleeful Demolition
+pioneer | Jeskai Lessons | Jeskai Revelation; Tablet of Discovery; Gran-Gran
+pioneer | Sultai Scapeshift | Spelunking; Fatal Push; Growth Spiral
+pioneer | Dimir Control | Thoughtseize; Consult the Star Charts; Fatal Push
+pioneer | Izzet Ensoul Artifact | !Ensoul Artifact; Cryogen Relic; Ornithopter
+pioneer | 4c Scapeshift | !Scapeshift; Lumra, Bellow of the Woods; Spelunking
+pioneer | Izzet Lessons | Tablet of Discovery; Abandon Attachments; Divide by Zero
+pioneer | Mono-Red Aggro | Monastery Swiftspear; Eidolon of the Great Revel; Sunspine Lynx
+pioneer | Selesnya Counters | Badgermole Cub; Ouroboroid; Practiced Offense
+pioneer | Boros Heroic | Pompous Battlemage; Monastery Swiftspear; Monstrous Rage
+pioneer | Jund Food | Lively Dirge; Cauldron Familiar; Witch's Oven
+pioneer | 5c Enigmatic Fires | Enigmatic Incarnation; Leyline Binding; Fires of Invention
+pioneer | Rakdos Transmogrify | !Transmogrify; Thoughtseize; Fatal Push
+pioneer | Mono-Black Midrange | Thoughtseize; Dark Confidant; Starscape Cleric
+pioneer | Rakdos Midrange | Bloodtithe Harvester; Thoughtseize; Fatal Push
+pioneer | Selesnya Angels | Righteous Valkyrie; Resplendent Angel; Bishop of Wings
+pioneer | Azorius Spirits | Rattlechains; Supreme Phantom; Mausoleum Wanderer
+legacy | Doomsday | !Doomsday; Lotus Petal; Dark Ritual
+legacy | Painter | !Painter's Servant; Grim Monolith; The One Ring
+legacy | Oops! All Spells | !Balustrade Spy; Lotus Petal; Agadeem's Awakening
+legacy | Aluren | !Aluren; Lotus Petal; Atraxa, Grand Unifier
+legacy | Sneak and Show | !Sneak Attack; Show and Tell; Atraxa, Grand Unifier
+legacy | Omni-Tell | !Omniscience; Show and Tell; Ponder
+legacy | Dimir Tempo | Moonshadow; Dark Matter Manipulator; Orcish Bowmasters
+legacy | Izzet Delver | !Delver of Secrets; Ponder; Mishra's Bauble
+legacy | Boros Energy | Ocelot Pride; Voice of Victory; Ajani, Nacatl Pariah
+legacy | Beanstalk Control | Ponder; Up the Beanstalk; Swords to Plowshares
+legacy | Lands | !Exploration; Mox Diamond; Crop Rotation
+legacy | Eldrazi | Lotus Petal; Chalice of the Void; Kozilek's Command
+legacy | Mystic Forge Combo | Grim Monolith; The One Ring; Lotus Petal
+legacy | Death and Taxes | Solitude; Stoneforge Mystic; Recruiter of the Guard
+legacy | Death and Taxes | Solitude; Stoneforge Mystic; Overlord of the Balemurk
+legacy | Sewer-Cam Combo | Mox Opal; Lotus Petal; !Goblin Welder
+legacy | The EPIC Storm | !Burning Wish; !Lion's Eye Diamond; Mox Opal
+legacy | Rakdos Reanimator | !Shallow Grave; Lotus Petal; Atraxa, Grand Unifier
+legacy | Reanimator | Reanimate; Atraxa, Grand Unifier; Dark Matter Manipulator
+legacy | Tron | Grim Monolith; Ugin, Eye of the Storms; Kozilek's Command
+legacy | Elves | Allosaurus Shepherd; Badgermole Cub; Green Sun's Zenith
+legacy | Azorius Tempo | Quantum Riddler; !Stifle; Phelia, Exuberant Shepherd
+legacy | Jeskai Control | Jace, the Mind Sculptor; Tamiyo, Inquisitive Student; Ponder
+legacy | Mardu Energy | Ocelot Pride; Orcish Bowmasters; Voice of Victory
+legacy | Red Stompy | Chrome Mox; Shatterskull Smashing; Blood Moon
+legacy | Jeskai Tempo | Quantum Riddler; Phelia, Exuberant Shepherd; Ponder
+legacy | LED Dredge | !Lion's Eye Diamond; Cabal Therapy; Stinkweed Imp
+legacy | Selesnya Depths | !Dark Depths; Green Sun's Zenith; Elvish Reclaimer
+legacy | Cephalid Breakfast | !Cephalid Illusionist; Tamiyo, Inquisitive Student; Ponder
+legacy | Stiflenought | !Phyrexian Dreadnought; Tamiyo, Inquisitive Student; Ponder
+legacy | Maverick | Knight of the Reliquary; Green Sun's Zenith; Noble Hierarch
+legacy | Goblins | Goblin Lackey; Aether Vial; Conspicuous Snoop
+legacy | Burn | Price of Progress; Boltwave; Eidolon of the Great Revel
+legacy | Merfolk | Lord of Atlantis; Aether Vial; Master of the Pearl Trident
+legacy | Mono-Black Midrange | Orcish Bowmasters; Moonshadow; Nethergoyf
+legacy | Esper Control | Quantum Riddler; Tamiyo, Inquisitive Student; Ponder
+vintage | Dredge | !Bazaar of Baghdad; Noxious Revival; Grief
+vintage | Oath of Druids | !Oath of Druids; Chrome Mox; Lotus Petal
+vintage | Paradoxical Outcome | !Paradoxical Outcome; Tezzeret, Cruel Captain; Stock Up
+vintage | Doomsday | !Doomsday; Psychic Frog; Dark Ritual
+vintage | Jewel Shops | !Coveted Jewel; The One Ring; Misdirection
+vintage | Raker Shops | Grim Monolith; The One Ring; Sensei's Divining Top
+vintage | Sphere Shops | Sphere of Resistance; Patchwork Automaton; Null Rod
+vintage | Mono-White Initiative | White Plume Adventurer; Witch Enchanter; Seasoned Dungeoneer
+vintage | Esper Lurrus Control | Force of Negation; Bilbo, Thief in the Night; Psychic Frog
+vintage | Dimir Lurrus Control | Force of Negation; Psychic Frog; Bilbo, Thief in the Night
+vintage | Blue Tempo | Force of Negation; Ragavan, Nimble Pilferer; Mental Misstep
+vintage | Lurrus PO | Stock Up; Thundertrap Trainer; Dark Confidant
+vintage | Red Prison | Time Walk; Chrome Mox; Lotus Petal
+vintage | Lurrus Breach | !Lion's Eye Diamond; Intuition; Lotus Petal
+vintage | Scam | Spitting Dilophosaurus; Moonshadow; Overlord of the Balemurk
+vintage | Fastbond Lands | Mox Diamond; Badgermole Cub; Ouroboroid
+vintage | Counter Vine | Squee, Goblin Nabob; Force of Negation; Subtlety
+vintage | Blue Tinker | !Tinker; Stock Up; Thundertrap Trainer
+vintage | Jeskai Lurrus | Thundertrap Trainer; Force of Negation; Lorien Revealed
+vintage | Beseech Storm | Dark Ritual; Ponder; Stock Up
+vintage | Stiflenought | !Phyrexian Dreadnought; Null Rod; Scrawling Crawler
+vintage | Eldrazi | Mana Vault; Ugin, Eye of the Storms; Trinisphere
+vintage | Hammer Time | !Colossus Hammer; Ocelot Pride; Solitude
+pauper | Bogles | !Slippery Bogle; Ancestral Mask; Utopia Sprawl
+pauper | Walls Combo | !Axebane Guardian; Generous Ent; Quirion Ranger
+pauper | Mono Red Madness | !Kessig Flamebreather; Lava Dart; Fireblast
+pauper | Blue Terror | Mental Note; Lorien Revealed; Counterspell
+pauper | Dimir Faeries | !Spellstutter Sprite; Snuff Out; Baleful Strix
+pauper | Mono-Blue Faeries | !Spellstutter Sprite; Counterspell; Ninja of the Deep Hours
+pauper | Tron | Expedition Map; Malevolent Rumble; Nyxborn Hydra
+pauper | Elves | Llanowar Elves; Timberwatch Elf; Masked Vandal
+pauper | Grixis Affinity | Pyroblast; Galvanic Blast; Thoughtcast
+pauper | Spy Combo | !Land Grant; Masked Vandal; Generous Ent
+pauper | Ruby Storm | !Seething Song; Desperate Ritual; Manamorphose
+pauper | Mono Red Rally | Galvanic Blast; Goblin Bushwhacker; Lightning Bolt
+pauper | Grixis Control | Snuff Out; Baleful Strix; Lorien Revealed
+pauper | Esper Affinity | Thoughtcast; Glint Hawk; Reckoner's Bargain
+pauper | Jund Wildfire | Fanatical Offering; Ichor Wellspring; !Cleansing Wildfire
+pauper | Golgari Gardens | Avenging Hunter; Defile; Fanatical Offering
+pauper | Turbo Fog | !Moment's Peace; Lorien Revealed; Arcane Denial
+pauper | Dimir Control | Tolarian Terror; Snuff Out; Baleful Strix
+pauper | Dimir Affinity | Baleful Strix; Lorien Revealed; Counterspell
+pauper | Boros Moxite | Galvanic Blast; Glint Hawk; Dispatch
+pauper | Familiars | Lorien Revealed; Snap; Sunscape Familiar
+pauper | Rakdos Madness | Lightning Bolt; Grab the Prize; Faithless Looting
+pauper | Gruul Ponza | Mwonvuli Acid-Moss; Thermokarst; Avenging Hunter
+pauper | Esper Ephemerate | Baleful Strix; Ephemerate; Lorien Revealed
+pauper | White Aggro | Kor Skyfisher; Thraben Charm; Lunarch Veteran
+pauper | Mono-White Aggro | Lunarch Veteran; Ramosian Rally; Novice Inspector
+pauper | Snacker Gates | Prismatic Strands; Malevolent Rumble; Sacred Cat
+pauper | Black Sacrifice | Carrion Feeder; Mortician Beetle; Unearth
+pauper | Devotion | Gray Merchant of Asphodel; Defile; Troll of Khazad-dum
+pauper | Infect | Mutagenic Growth; Rancor; Ichorclaw Myr
+pauper | Dredge | Generous Ent; Stinkweed Imp; Dread Return
+premodern | Mono-Blue Stiflenought | !Phyrexian Dreadnought; Vision Charm; !Stifle
+premodern | Azorius Stiflenought | !Phyrexian Dreadnought; Counterspell; Swords to Plowshares
+premodern | Selesnya Enchantress | !Argothian Enchantress; Enchantress's Presence; Mirri's Guile
+premodern | Mono-Black Midrange | Hypnotic Specter; Duress; Withered Wretch
+premodern | Mono-Red Sligh | Lightning Bolt; Grim Lavamancer; Jackal Pup
+premodern | Naya Terragedon | Swords to Plowshares; !Terravore; Mox Diamond
+premodern | Psychatog | !Psychatog; !Gush; Counterspell
+premodern | Mono-White | Swords to Plowshares; Meddling Mage; Exalted Angel
+premodern | The Rock | Cabal Therapy; Wall of Blossoms; Duress
+premodern | Gruul Goblins | Goblin Piledriver; Goblin Warchief; Goblin Lackey
+premodern | Mono-Red Goblins | Goblin Warchief; Goblin Matron; Goblin Lackey
+premodern | Mono-Blue | Counterspell; Stasis; !Gush
+premodern | Azorius Replenish | Parallax Wave; Opalescence; !Replenish
+premodern | 5c Hermit Druid | !Survival of the Fittest; Cabal Therapy; Birds of Paradise
+premodern | Elves | Birds of Paradise; !Survival of the Fittest; Wall of Roots
+premodern | Orzhov Control | !Gerrard's Verdict; Vindicate; Swords to Plowshares
+premodern | Reanimator | Lotus Petal; Phantom Nishoba; Exhume
+premodern | Gro-A-Tog | Counterspell; Portent; !Gush
+premodern | Gruul Sligh | Lightning Bolt; Call of the Herd; Mogg Fanatic
+premodern | Mono-Red Land Destruction | Powder Keg; Lightning Bolt; Pillage
+premodern | Tinkernought | Phyrexian Devourer; !Tinker; Altar of Dementia
+modern | Neobrand | !Griselbrand; Summoner's Pact; Consign to Memory
+modern | Hammer Time | !Colossus Hammer; Mox Opal; Stoneforge Mystic
+modern | Death's Shadow | !Death's Shadow; Moonshadow; Thoughtseize
+modern | Merfolk | Master of the Pearl Trident; Subtlety; Sink into Stupor
+modern | Mill | !Hedron Crab; Glimpse the Unthinkable; Fractured Sanity
+modern | Through the Breach | !Through the Breach; Emrakul, the Aeons Torn; Ulamog, the Defiler
+modern | Hollow One | Vengevine; Burning Inquiry; !Hollow One
+modern | Crashing Footfalls | !Crashing Footfalls; Force of Negation; Subtlety
+modern | Indomitable Creativity | !Indomitable Creativity; Wrenn and Six; Leyline Binding
+modern | Titan Shift | Primeval Titan; Green Sun's Zenith; Icetill Explorer
+modern | Mono-Black Midrange | Kozilek's Command; Nethergoyf; Thoughtseize
+modern | Grixis Control | Tamiyo, Inquisitive Student; Counterspell; Lightning Bolt
+modern | Boros Burn | Boros Charm; Boltwave; Eidolon of the Great Revel

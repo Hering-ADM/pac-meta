@@ -32,8 +32,7 @@ jobs:
       - name: Coletar resultados do MTGO
         working-directory: scripts
         run: python collect.py
-      - name: Preços do Scryfall (desligado por enquanto)
-        if: ${{ vars.PRECOS == 'sim' }}
+      - name: Imagens e preços do Scryfall (uma vez por dia)
         continue-on-error: true
         working-directory: scripts
         run: python prices.py
