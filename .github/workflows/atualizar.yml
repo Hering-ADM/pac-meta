@@ -40,8 +40,8 @@ jobs:
         run: python build.py
       - name: Guardar os dados coletados
         run: |
-          git config user.name "painel-mtg-bot"
-          git config user.email "painel-mtg-bot@users.noreply.github.com"
+          git config user.name "pac-meta-bot"
+          git config user.email "pac-meta-bot@users.noreply.github.com"
           git add data
           git diff --cached --quiet || git commit -m "Dados: atualização automática $(date -u +'%Y-%m-%d %H:%M') UTC"
           git push || (git pull --rebase && git push)

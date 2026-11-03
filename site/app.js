@@ -1,5 +1,5 @@
 'use strict';
-/* Painel MTG — site estático. Dados em data/ (gerados a cada hora) e static/guias/. */
+/* Pac-Meta — site estático. Dados em data/ (gerados a cada hora) e static/guias/. */
 const FORMATS = [['standard', 'Standard'], ['pioneer', 'Pioneer'], ['modern', 'Modern'], ['legacy', 'Legacy'], ['vintage', 'Vintage'], ['pauper', 'Pauper'], ['premodern', 'Premodern']];
 const FNAME = Object.fromEntries(FORMATS);
 const KIND = { league: 'Liga', challenge: 'Challenge', showcase: 'Showcase', qualifier: 'Qualifier', champions: 'Champions', super: 'Super Qualifier', 'last-chance': 'Last Chance', preliminary: 'Preliminary', outro: 'Evento' };
@@ -34,7 +34,7 @@ function pips(col) { const s = h('span', { class: 'pips', 'aria-label': col ? 'C
 function record(w, l) { return w == null ? '' : `${w}-${l}`; }
 function rankTxt(r, kind) { if (kind === 'league') return '5-0'; return r ? r + 'º' : '—'; }
 function card(...kids) { return h('div', { class: 'card' }, ...kids); }
-function title(t) { document.title = t + ' · Painel MTG'; }
+function title(t) { document.title = t + ' · Pac-Meta'; }
 function fail(msg) { $main.replaceChildren(h('p', { class: 'empty' }, msg || 'Não consegui carregar estes dados agora. Tente de novo em alguns minutos.')); }
 let CARDS = null;
 async function cards() { if (!CARDS) { try { CARDS = await get('data/cards.json'); } catch (e) { CARDS = {}; } } return CARDS; }
@@ -322,19 +322,19 @@ async function guias(slugSel) {
 function prose(t, ...kids) { title(t); $main.replaceChildren(h('div', { class: 'card prose' }, h('h1', null, t), ...kids)); }
 const P = (...k) => h('p', null, ...k);
 function sobre() {
-  prose('Sobre o Painel MTG',
-    P('O Painel MTG é um site gratuito, feito por fãs, com o metagame dos formatos competitivos de Magic: The Gathering, as listas dos torneios oficiais do MTGO e o preço das cartas.'),
+  prose('Sobre o Pac-Meta',
+    P('O Pac-Meta é um site gratuito, feito por fãs, com o metagame dos formatos competitivos de Magic: The Gathering, as listas dos torneios oficiais do MTGO e o preço das cartas.'),
     h('h2', null, 'De onde vêm os dados'),
     h('ul', null, h('li', null, 'Resultados e listas: páginas públicas de decklists do Magic: The Gathering Online (mtgo.com). O site verifica novos resultados a cada hora.'), h('li', null, 'Dados, imagens e preços das cartas: Scryfall, uma vez por dia. O preço mostrado é o da versão mais barata em inglês.'), h('li', null, 'Arquétipos: o site classifica cada lista por cartas-chave. Listas que não se encaixam em nenhuma regra recebem o nome das cores e de uma carta marcante.')),
     h('h2', null, 'Limitações'),
     h('ul', null, h('li', null, 'Nas ligas, o MTGO publica só parte das listas 5-0, então elas não representam todo o campo.'), h('li', null, 'Torneios presenciais e Commander ainda não estão incluídos.'), h('li', null, 'Preços são referência e não oferta de venda.')),
     h('h2', null, 'Contato'), P('Sugestões, correções e pedidos de remoção: ', h('span', { id: 'contato' }, 'contato a definir'), '.'),
-    h('p', { class: 'notice' }, 'Painel MTG é conteúdo de fã não oficial, permitido pela Política de Conteúdo de Fãs. Não é aprovado nem endossado pela Wizards. Partes dos materiais usados são propriedade da Wizards of the Coast. © Wizards of the Coast LLC.'));
+    h('p', { class: 'notice' }, 'Pac-Meta é conteúdo de fã não oficial, permitido pela Política de Conteúdo de Fãs. Não é aprovado nem endossado pela Wizards. Partes dos materiais usados são propriedade da Wizards of the Coast. © Wizards of the Coast LLC.'));
 }
 function privacidade() {
   prose('Política de Privacidade',
     P('Última atualização: 3 de novembro de 2026.'),
-    P('O Painel MTG não tem cadastro, não pede dados pessoais e não usa cookies de rastreamento, anúncios ou ferramentas de análise de terceiros.'),
+    P('O Pac-Meta não tem cadastro, não pede dados pessoais e não usa cookies de rastreamento, anúncios ou ferramentas de análise de terceiros.'),
     h('h2', null, 'O que fica no seu navegador'), P('Algumas preferências, como tema claro ou escuro, período do metagame e moeda, ficam salvas no armazenamento local do seu navegador. Elas não saem do seu aparelho, e você pode apagá-las limpando os dados do site no navegador.'),
     h('h2', null, 'Hospedagem e imagens'), P('O site é hospedado no GitHub Pages, que registra dados técnicos de acesso, como endereço IP, para segurança e funcionamento, conforme a política de privacidade do GitHub. As imagens das cartas são carregadas do Scryfall, que também recebe esses dados técnicos ao entregar a imagem.'),
     h('h2', null, 'Nomes de jogadores'), P('Os nomes de usuário exibidos nos resultados são os publicados pelo próprio MTGO nas listas oficiais. Quem quiser a remoção do seu nome de usuário pode pedir pelo contato da página Sobre.'),
@@ -342,7 +342,7 @@ function privacidade() {
 }
 function termos() {
   prose('Termos de Uso',
-    P('Última atualização: 3 de novembro de 2026. Ao usar o Painel MTG você concorda com estes termos.'),
+    P('Última atualização: 3 de novembro de 2026. Ao usar o Pac-Meta você concorda com estes termos.'),
     h('ul', null,
       h('li', null, 'O site é gratuito e informativo. Metagame, classificações de arquétipo, guias e preços são estimativas e podem conter erros ou atrasos.'),
       h('li', null, 'Preços são de referência, vindos do Scryfall, e não são oferta de venda. Confira sempre com a loja.'),

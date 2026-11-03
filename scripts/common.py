@@ -1,11 +1,11 @@
-"""Funções compartilhadas do coletor do Painel MTG (só biblioteca padrão)."""
+"""Funções compartilhadas do coletor do Pac-Meta (só biblioteca padrão)."""
 import json, os, re, time, urllib.request, urllib.error, gzip
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, 'data')
 RAW = os.path.join(DATA, 'raw')
 OUT = os.path.join(ROOT, 'site', 'data')
-UA = 'PainelMTG/1.0 (+site de fas, sem fins comerciais)'
+UA = 'PacMeta/1.0 (+site de fas, sem fins comerciais)'
 
 FORMATS = {
     'standard': 'Standard', 'pioneer': 'Pioneer', 'modern': 'Modern', 'legacy': 'Legacy',

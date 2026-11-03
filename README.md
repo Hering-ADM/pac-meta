@@ -1,4 +1,4 @@
-# Painel MTG
+# Pac-Meta
 
 Site gratuito, feito por fãs, com o metagame dos formatos competitivos de Magic, as listas dos torneios do MTGO, preços das cartas e guias de confronto.
 
@@ -15,4 +15,4 @@ Edite `data/archetypes.json`. Cada regra tem um nome e grupos de cartas: a lista
 
 ## Aviso legal
 
-Painel MTG é conteúdo de fã não oficial, permitido pela Política de Conteúdo de Fãs. Não é aprovado nem endossado pela Wizards. Partes dos materiais usados são propriedade da Wizards of the Coast. © Wizards of the Coast LLC. Dados e imagens das cartas: Scryfall.
+Pac-Meta é conteúdo de fã não oficial, permitido pela Política de Conteúdo de Fãs. Não é aprovado nem endossado pela Wizards. Partes dos materiais usados são propriedade da Wizards of the Coast. © Wizards of the Coast LLC. Dados e imagens das cartas: Scryfall.
