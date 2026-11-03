@@ -238,3 +238,7 @@ table.dt tr.sp td { height: .5rem; border: 0; }
 .banner .fan img { width: 34%; top: 1.4rem; transform: translateX(calc(-50% + var(--i) * 30%)) rotate(calc(var(--i) * 6deg)); }
 .banner > div:not(.fan) { z-index: 2; }
 @media (max-width: 40rem) { .tile { grid-template-rows: 9rem auto; } .banner .fan { display: none; } }
+
+.thumbs { display: inline-flex; gap: 3px; }
+.thumbs img { width: 2.1rem; aspect-ratio: 63 / 88; border-radius: 3px; object-fit: cover; object-position: top; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+.btn[disabled] { opacity: .45; cursor: default; }

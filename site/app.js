@@ -158,7 +158,7 @@ async function metagame(f, params) {
   $main.replaceChildren(
     h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', m.name), h('h1', null, 'Metagame de ' + m.name),
       h('p', { class: 'lead' }, 'Participação de cada arquétipo nas listas publicadas dos torneios do MTGO. A tendência compara com o período anterior de mesmo tamanho. O preço é o da lista típica, com a versão mais barata de cada carta.')),
-    h('div', { class: 'row between' }, h('div', { class: 'row' }, mkseg('Período', [['7', '7 dias'], ['14', '14 dias'], ['30', '30 dias']], days, (k) => { days = k; store.set('dias', k); }), mkseg('Visualização', [['blocos', 'Blocos'], ['tabela', 'Tabela']], view, (k) => { view = k; store.set('vista', k); })), h('a', { href: `#/f/${f}/torneios` }, 'Torneios de ' + m.name + ' →')),
+    h('div', { class: 'row between' }, h('div', { class: 'row' }, mkseg('Período', [['7', '7 dias'], ['14', '14 dias'], ['30', '30 dias']], days, (k) => { days = k; store.set('dias', k); }), mkseg('Visualização', [['blocos', 'Blocos'], ['tabela', 'Tabela']], view, (k) => { view = k; store.set('vista', k); })), h('span', { class: 'row' }, h('a', { href: `#/f/${f}/5-0` }, 'Listas 5-0 →'), h('a', { href: `#/f/${f}/torneios` }, 'Torneios →'))),
     body);
 }
 
@@ -220,6 +220,7 @@ async function archetype(f, s) {
   const [a] = await Promise.all([get(`data/${f}/arch/${s}.json`), cards()]); title(a.name + ' · ' + FNAME[f]);
   const col = (await get(`data/${f}/meta.json`).catch(() => ({ windows: {} })));
   const row = Object.values(col.windows).flatMap((w) => w.rows).find((r) => r.slug === s) || {};
+  let guide = null; if (f === 'modern') { try { guide = (await get('static/guias/decks_modern.json')).decks.find((x) => x.slug === s); } catch (e) {} }
   let view = 'tipica';
   const box = h('div');
   const statsT = (list, label) => h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, label), h('th', { class: 'n' }, 'Em % das listas'), h('th', { class: 'n' }, 'Cópias (média)'))), h('tbody', null, list.map((x) => h('tr', null, h('td', null, cardLink(x.card)), h('td', { class: 'n' }, pct(x.pct, 0)), h('td', { class: 'n' }, x.avg.toLocaleString('pt-BR')))))));
@@ -229,6 +230,7 @@ async function archetype(f, s) {
   $main.replaceChildren(
     h('div', { class: 'banner', style: `--grad:${grad(row.colors, a.art)}` }, fan(a.key || row.key, 5), h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/f/' + f }, FNAME[f]), ' › ', a.name), h('h1', null, pips(row.colors), a.name),
       h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, pct(a.share)), h('small', null, 'do meta em 30 dias')), h('div', { class: 'stat' }, h('b', null, a.decks), h('small', null, 'listas')), h('div', { class: 'stat' }, h('b', null, usd(a.usd)), h('small', null, 'papel')), h('div', { class: 'stat' }, h('b', null, tix(a.tix)), h('small', null, 'MTGO'))))),
+    guide ? h('div', { class: 'notice row between' }, h('span', null, 'Este deck tem guia: o que ele faz, como ganha, cartas-chave e turnos decisivos.'), h('a', { class: 'btn pri', href: '#/guias/modern/' + s }, 'Abrir o guia')) : null,
     card(h('div', { class: 'row between' }, seg, h('small', { class: 'crumb' }, 'Lista típica: junta as ' + a.decks + ' listas dos últimos 30 dias, cada carta com o número médio de cópias.')), h('div', { style: 'height:1rem' }), box),
     card(h('h2', null, 'Listas recentes'), h('div', { class: 'tbox' }, h('table', { class: 't' },
       h('thead', null, h('tr', null, h('th', null, 'Data'), h('th', null, 'Jogador'), h('th', null, 'Torneio'), h('th', { class: 'n' }, 'Resultado'), h('th', { class: 'n hide-sm' }, 'Preço'))),
@@ -300,9 +302,79 @@ async function precos() {
     card(h('h2', null, 'Cartas mais jogadas', sel), box));
 }
 
+
+async function ligas(f) {
+  f = f || store.get('fmt50', 'modern'); store.set('fmt50', f);
+  title('Listas 5-0 de ' + FNAME[f]);
+  const [list] = await Promise.all([get(`data/${f}/league.json`).catch(() => []), cards()]);
+  let arch = '', q = '', page = 0; const PER = 60;
+  const box = h('div'); const info = h('p', { class: 'crumb', role: 'status' });
+  const archs = [...new Map(list.map((x) => [x.aslug, x.arch])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
+  const cnt = {}; list.forEach((x) => { cnt[x.aslug] = (cnt[x.aslug] || 0) + 1; });
+  function draw() {
+    const t = q.trim().toLowerCase();
+    const rows = list.filter((x) => (!arch || x.aslug === arch) && (!t || (x.player + ' ' + x.arch).toLowerCase().includes(t)));
+    const view = rows.slice(page * PER, (page + 1) * PER);
+    info.textContent = rows.length + ' listas 5-0' + (arch ? ' de ' + (archs.find((a) => a[0] === arch) || [])[1] : '') + ' nos últimos 30 dias.';
+    const C = CARDS || {};
+    box.replaceChildren(
+      h('div', { class: 'tbox' }, h('table', { class: 't' },
+        h('thead', null, h('tr', null, h('th', null, 'Data'), h('th', null, 'Deck'), h('th', { class: 'hide-sm' }, 'Cartas-chave'), h('th', null, 'Jogador'), h('th', { class: 'n' }, 'Papel'), h('th', { class: 'n hide-sm' }, 'MTGO'))),
+        h('tbody', null, view.map((x) => h('tr', null,
+          h('td', null, dat(x.date)),
+          h('td', { class: 'nm' }, h('a', { href: `#/e/${x.ev}/${x.i}` }, pips(x.col), x.arch)),
+          h('td', { class: 'hide-sm' }, h('span', { class: 'thumbs' }, x.key.map((n) => C[n] && C[n].img ? h('img', { src: C[n].img, alt: n, title: n, 'data-card': n, loading: 'lazy' }) : null))),
+          h('td', null, x.player), h('td', { class: 'n' }, usd(x.usd)), h('td', { class: 'n hide-sm' }, tix(x.tix))))))),
+      rows.length > PER ? h('div', { class: 'row', style: 'margin-top:.8rem' },
+        h('button', { class: 'btn', disabled: page === 0, onclick: () => { page--; draw(); scrollTo(0, 0); } }, '← Anteriores'),
+        h('span', { class: 'crumb' }, 'Página ' + (page + 1) + ' de ' + Math.ceil(rows.length / PER)),
+        h('button', { class: 'btn', disabled: (page + 1) * PER >= rows.length, onclick: () => { page++; draw(); scrollTo(0, 0); } }, 'Próximas →')) : null);
+  }
+  const fsel = h('select', { 'aria-label': 'Formato', onchange: (e) => { location.hash = '#/f/' + e.target.value + '/5-0'; } }, FORMATS.map(([k, n]) => h('option', { value: k, selected: k === f }, n)));
+  const asel = h('select', { 'aria-label': 'Arquétipo', onchange: (e) => { arch = e.target.value; page = 0; draw(); } }, h('option', { value: '' }, 'Todos os arquétipos'), archs.map(([k, n]) => h('option', { value: k }, n + ' (' + cnt[k] + ')')));
+  const qi = h('input', { class: 'input', type: 'search', placeholder: 'Jogador ou deck', 'aria-label': 'Buscar jogador ou deck', oninput: (e) => { q = e.target.value; page = 0; draw(); } });
+  draw();
+  $main.replaceChildren(
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/f/' + f }, FNAME[f]), ' › Listas 5-0'), h('h1', null, 'Listas 5-0 de ' + FNAME[f]),
+      h('p', { class: 'lead' }, 'Listas que fizeram 5 vitórias e 0 derrotas nas ligas do MTGO e foram publicadas pela Wizards. O MTGO divulga só parte das listas 5-0 de cada dia.')),
+    card(h('div', { class: 'row' }, fsel, asel, qi), info, box));
+}
+
 /* ---------- guias ---------- */
-async function guias(slugSel) {
-  title('Guias de confronto');
+async function guiasIndex() {
+  title('Guias de decks');
+  const [g] = await Promise.all([get('static/guias/decks_modern.json'), cards()]);
+  const ds = g.decks.slice().sort((a, b) => b.meta - a.meta);
+  $main.replaceChildren(
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Guias'), h('h1', null, 'Guias de decks'),
+      h('p', { class: 'lead' }, 'Um guia para cada deck: o que ele faz, como ganha, as cartas-chave, a mão que procura, os turnos decisivos e uma lista de referência. Por enquanto, os decks do Modern; os outros formatos entram aos poucos.')),
+    h('section', { class: 'fsec' }, h('header', null, h('h2', null, 'Modern'), h('span', { class: 'crumb' }, ds.length + ' guias · pesquisa de outubro de 2026')),
+      h('div', { class: 'tiles' }, ds.map((d) => h('a', { class: 'tile', href: '#/guias/modern/' + d.slug, style: `--grad:${grad('')}` },
+        h('div', { class: 'art' }, fan(d.cartas_chave.split(',').map((x) => x.trim()), 3), h('span', { class: 'sh' }, pct(d.meta))),
+        h('div', { class: 'bd' }, h('b', { class: 'ellip' }, d.name), h('div', { class: 'pr' }, h('span', null, 'Guia do deck'), h('span', null, '→'))))))),
+    card(h('h2', null, 'Guia de confronto do Azorius Chant'), h('p', { class: 'lead', style: 'margin:0 0 .6rem' }, 'Plano de jogo, sideboard e contingências do Azorius Chant contra cada um desses decks.'), h('a', { class: 'btn pri', href: '#/guias/chant' }, 'Abrir o guia do Chant')));
+}
+
+async function guiaDeck(f, s) {
+  const [g] = await Promise.all([get('static/guias/decks_modern.json'), cards()]);
+  const d = g.decks.find((x) => x.slug === s); if (!d) return fail('Ainda não há guia para esse deck.');
+  title('Guia: ' + d.name);
+  const keys = d.cartas_chave.split(',').map((x) => x.trim());
+  const kv = (pairs) => h('div', { class: 'kv' }, pairs.filter(([, v]) => v).map(([k, v]) => h('div', null, h('h4', null, k), h('p', null, v))));
+  const l = d.lista;
+  $main.replaceChildren(
+    h('div', { class: 'banner', style: `--grad:${grad('')}` }, fan(keys, 5), h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/guias' }, 'Guias'), ' › Modern'), h('h1', null, d.name),
+      h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, pct(d.meta)), h('small', null, 'do campo nos Regionais de outubro')), h('div', { class: 'stat' }, h('b', null, 'Confiança ' + (d.confianca || '—')), h('small', null, 'da pesquisa'))))),
+    card(h('h2', null, 'O deck'), h('p', { class: 'prose', style: 'margin:0' }, d.resumo)),
+    card(h('h2', null, 'Como joga'), kv([['Como ganha', d.como_ganham], ['A mão que procura', d.mulligan], ['Turnos-chave', d.turnos]])),
+    card(h('h2', null, 'Cartas-chave'), h('div', { class: 'opps' }, keys.map((n) => h('a', { class: 'btn', href: '#/c/' + enc(n), 'data-card': n }, n)))),
+    card(h('h2', null, 'Contra decks de controle'), h('p', { class: 'crumb', style: 'margin:0 0 .6rem' }, 'Estudo feito contra o Azorius Chant, que é o controle mais jogado do formato.'), kv([['Plano', d.vs_controle], ['O que entra do sideboard', d.side_vs_controle]])),
+    card(h('h2', null, 'Lista de referência', h('small', null, [l.jogador, l.colocacao, l.evento, l.data ? dat(l.data) : ''].filter(Boolean).join(' · '))), deckBlock(l.main, l.side, { export: exportRow(l.main, l.side, d.name) }), l.fonte && /^https?:/.test(l.fonte) ? h('p', { class: 'crumb' }, h('a', { href: l.fonte, target: '_blank', rel: 'noopener' }, 'Fonte da lista')) : null),
+    h('div', { class: 'row' }, h('a', { class: 'btn', href: `#/f/modern/a/${d.slug}` }, 'Metagame e listas recentes deste deck'), h('a', { class: 'btn', href: '#/guias/chant/' + d.study }, 'Como o Azorius Chant enfrenta este deck')));
+}
+
+async function guiaChant(slugSel) {
+  title('Guia do Azorius Chant');
   const base = 'static/guias/';
   const [g, side, contra, cont, ed, cons] = await Promise.all(['chant_guia', 'chant_side', 'estudo_contra', 'estudo_contingencias', 'estudo_decks', 'chant_consenso'].map((x) => get(base + x + '.json')));
   await cards();
@@ -314,9 +386,9 @@ async function guias(slugSel) {
   const kv = (pairs) => h('div', { class: 'kv' }, pairs.filter(([, v]) => v).map(([k, v]) => h('div', null, h('h4', null, k), h('p', null, v))));
   const sw = (acao) => sd.filter((x) => x.acao === acao).map((x) => h('div', { class: 'ln' }, h('b', null, (acao === 'Entra' ? '+' : '−') + x.copias), cardLink(x.carta), h('small')));
   $main.replaceChildren(
-    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Guias'), h('h1', null, 'Guia de confrontos: Azorius Chant (Modern)'),
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/guias' }, 'Guias'), ' › Azorius Chant contra cada deck'), h('h1', null, 'Azorius Chant: plano contra cada deck do Modern'),
       h('p', { class: 'lead' }, 'Plano de jogo, sideboard e contingências do Azorius Chant contra os decks mais jogados do Modern. Escrito em outubro de 2026 para o Regional da América do Sul e conferido por revisores de regras. O meta citado é o dos Regionais de outono.')),
-    card(h('h2', null, 'Escolha o oponente'), h('div', { class: 'opps' }, decks.map((d) => h('button', { 'aria-pressed': String(d === cur), onclick: () => { location.hash = '#/guias/' + slugOf(d.deck); } }, d.deck)))),
+    card(h('h2', null, 'Escolha o oponente'), h('div', { class: 'opps' }, decks.map((d) => h('button', { 'aria-pressed': String(d === cur), onclick: () => { location.hash = '#/guias/chant/' + slugOf(d.deck); } }, d.deck)))),
     card(h('h2', null, cur.deck, h('span', { class: 'tag gold' }, cur.avaliacao)), h('p', { class: 'crumb' }, pct(cur.meta) + (cur.fonte_meta === 'Regionais' ? ' do campo nos Regionais' : ' do meta online') + (cur.observacao ? '. ' + cur.observacao.replace(/\.+$/, '') + '.' : '')),
       h('div', { class: 'inout' }, h('div', { class: 'i' }, h('h4', null, 'Entra'), h('div', { class: 'deck' }, h('section', null, sw('Entra')))), h('div', { class: 'o' }, h('h4', null, 'Sai'), h('div', { class: 'deck' }, h('section', null, sw('Sai'))))),
       h('div', { style: 'height:.8rem' }), kv([['Seu objetivo', cur.objetivo], ['Erros que custam o jogo', cur.erros]])),
@@ -369,12 +441,13 @@ async function route() {
   $main.replaceChildren(h('p', { class: 'loading' }, 'Carregando…'));
   try {
     if (!p[0]) await home();
-    else if (p[0] === 'f' && FNAME[p[1]]) { if (p[2] === 'a' && p[3]) await archetype(p[1], p[3]); else if (p[2] === 'torneios') await eventsPage(p[1]); else await metagame(p[1], params); }
+    else if (p[0] === 'f' && FNAME[p[1]]) { if (p[2] === 'a' && p[3]) await archetype(p[1], p[3]); else if (p[2] === 'torneios') await eventsPage(p[1]); else if (p[2] === '5-0') await ligas(p[1]); else await metagame(p[1], params); }
     else if (p[0] === 'torneios') await eventsPage(null);
+    else if (p[0] === '5-0') await ligas(null);
     else if (p[0] === 'e' && p[1]) await eventPage(p[1], p[2]);
     else if (p[0] === 'c' && p[1]) await cardPage(p[1]);
     else if (p[0] === 'precos') await precos();
-    else if (p[0] === 'guias') await guias(p[1]);
+    else if (p[0] === 'guias') { if (p[1] === 'chant') await guiaChant(p[2]); else if (p[1] && p[2]) await guiaDeck(p[1], p[2]); else await guiasIndex(); }
     else if (p[0] === 'sobre') sobre(); else if (p[0] === 'privacidade') privacidade(); else if (p[0] === 'termos') termos();
     else fail('Página não encontrada.');
   } catch (e) { console.error(e); fail(); }

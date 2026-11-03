@@ -223,6 +223,15 @@ def main():
                 'id': e['id'], 'name': e['name'], 'date': e['date'], 'kind': e['kind'], 'players': e['players'], 'format': fmt,
                 'url': e['url'], 'decks': [{k: d[k] for k in ('player', 'rank', 'wins', 'losses', 'main', 'side', 'arch', 'aslug', 'usd', 'tix')} for d in e['decks']]})
         save(os.path.join(OUT, fmt, 'events.json'), lst)
+        # listas 5-0 das ligas (30 dias), mais recentes primeiro
+        l50 = []
+        for e in evs:
+            if e['kind'] != 'league' or e['date'] < since(30): continue
+            for i, d in enumerate(e['decks']):
+                l50.append({'ev': e['id'], 'date': e['date'], 'i': i, 'player': d['player'], 'arch': d['arch'], 'aslug': d['aslug'],
+                            'col': d['col'], 'usd': d['usd'], 'tix': d['tix'],
+                            'key': [n for q, n in sorted(d['main'], key=lambda x: -x[0]) if not C.is_land(n)][:3]})
+        save(os.path.join(OUT, fmt, 'league.json'), l50)
         # uso de cartas no formato (30 dias)
         use = collections.Counter(); arches = collections.defaultdict(collections.Counter); copies = collections.Counter()
         for _, _, d in cur30:
