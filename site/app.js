@@ -424,14 +424,16 @@ async function guiaChant(slugSel) {
 /* ---------- páginas institucionais ---------- */
 function prose(t, ...kids) { title(t); $main.replaceChildren(h('div', { class: 'card prose' }, h('h1', null, t), ...kids)); }
 const P = (...k) => h('p', null, ...k);
+const AUTOR = 'João Hering', EMAIL = 'joaohhp2003@gmail.com';
+const mail = () => h('a', { href: 'mailto:' + EMAIL }, EMAIL);
 function sobre() {
   prose('Sobre o Pac-Meta',
-    P('O Pac-Meta é um site gratuito, feito por fãs, com o metagame dos formatos competitivos de Magic: The Gathering, as listas dos torneios oficiais do MTGO e o preço das cartas.'),
+    P('O Pac-Meta é um site gratuito, feito por fã e criado por ' + AUTOR + ', com o metagame dos formatos competitivos de Magic: The Gathering, as listas dos torneios oficiais do MTGO e o preço das cartas.'),
     h('h2', null, 'De onde vêm os dados'),
     h('ul', null, h('li', null, 'Resultados e listas: páginas públicas de decklists do Magic: The Gathering Online (mtgo.com). O site verifica novos resultados a cada hora.'), h('li', null, 'Dados, imagens e preços das cartas: Scryfall, uma vez por dia. O preço mostrado é o da versão mais barata em inglês, em dólar, convertido para real pela cotação do dia.'), h('li', null, 'Arquétipos: o site classifica cada lista por cartas-chave. Listas que não se encaixam em nenhuma regra recebem o nome das cores e de uma carta marcante.')),
     h('h2', null, 'Limitações'),
     h('ul', null, h('li', null, 'Nas ligas, o MTGO publica só parte das listas 5-0, então elas não representam todo o campo.'), h('li', null, 'Torneios presenciais e Commander ainda não estão incluídos.'), h('li', null, 'Preços são referência e não oferta de venda.')),
-    h('h2', null, 'Contato'), P('Sugestões, correções e pedidos de remoção: ', h('span', { id: 'contato' }, 'contato a definir'), '.'),
+    h('h2', null, 'Contato'), P('Sugestões, correções e pedidos de remoção: fale com ' + AUTOR + ' pelo e-mail ', mail(), '.'),
     h('p', { class: 'notice' }, 'Pac-Meta é conteúdo de fã não oficial, permitido pela Política de Conteúdo de Fãs. Não é aprovado nem endossado pela Wizards. Partes dos materiais usados são propriedade da Wizards of the Coast. © Wizards of the Coast LLC.'));
 }
 function privacidade() {
@@ -440,19 +442,22 @@ function privacidade() {
     P('O Pac-Meta não tem cadastro, não pede dados pessoais e não usa cookies de rastreamento, anúncios ou ferramentas de análise de terceiros.'),
     h('h2', null, 'O que fica no seu navegador'), P('Algumas preferências, como tema claro ou escuro, período do metagame e moeda, ficam salvas no armazenamento local do seu navegador. Elas não saem do seu aparelho, e você pode apagá-las limpando os dados do site no navegador.'),
     h('h2', null, 'Hospedagem e imagens'), P('O site é hospedado no GitHub Pages, que registra dados técnicos de acesso, como endereço IP, para segurança e funcionamento, conforme a política de privacidade do GitHub. As imagens das cartas são carregadas do Scryfall, que também recebe esses dados técnicos ao entregar a imagem.'),
-    h('h2', null, 'Nomes de jogadores'), P('Os nomes de usuário exibidos nos resultados são os publicados pelo próprio MTGO nas listas oficiais. Quem quiser a remoção do seu nome de usuário pode pedir pelo contato da página Sobre.'),
-    h('h2', null, 'Seus direitos (LGPD)'), P('Como o site não coleta dados pessoais diretamente, não há dados seus guardados por nós. Para qualquer pedido relacionado à LGPD, use o contato da página Sobre.'));
+    h('h2', null, 'Nomes de jogadores'), P('Os nomes de usuário exibidos nos resultados são os publicados pelo próprio MTGO nas listas oficiais. Quem quiser a remoção do seu nome de usuário pode pedir pelo e-mail ', mail(), '.'),
+    h('h2', null, 'Seus direitos (LGPD)'), P('Como o site não coleta dados pessoais diretamente, não há dados seus guardados por nós. Para qualquer pedido relacionado à LGPD, escreva para ', mail(), '.'),
+    h('h2', null, 'Responsável'), P('O Pac-Meta foi criado e é mantido por ' + AUTOR + '. Contato: ', mail(), '.'));
 }
 function termos() {
   prose('Termos de Uso',
     P('Última atualização: 3 de novembro de 2026. Ao usar o Pac-Meta você concorda com estes termos.'),
+    P('O Pac-Meta foi criado e é mantido por ' + AUTOR + '. Dúvidas, correções e pedidos sobre estes termos: ', mail(), '.'),
     h('ul', null,
       h('li', null, 'O site é gratuito e informativo. Metagame, classificações de arquétipo, guias e preços são estimativas e podem conter erros ou atrasos.'),
       h('li', null, 'Preços são de referência: valores do Scryfall em dólar convertidos para real pela cotação do dia. Não são oferta de venda. Confira sempre com a loja.'),
       h('li', null, 'Magic: The Gathering, nomes de cartas, símbolos e imagens são propriedade da Wizards of the Coast. O site segue a Política de Conteúdo de Fãs da Wizards e não é afiliado a ela.'),
       h('li', null, 'Os dados de cartas e imagens são fornecidos pelo Scryfall, sem vínculo com este site.'),
       h('li', null, 'Os guias de confronto refletem a opinião de quem escreveu, na data indicada.'),
-      h('li', null, 'Podemos mudar o site e estes termos a qualquer momento. A data da última atualização fica no topo desta página.')));
+      h('li', null, 'Podemos mudar o site e estes termos a qualquer momento. A data da última atualização fica no topo desta página.')),
+    h('h2', null, 'Contato'), P(AUTOR + ': ', mail(), '.'));
 }
 
 /* ---------- roteador ---------- */
