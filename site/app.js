@@ -444,7 +444,7 @@ function privacidade() {
     P('O Pac-Meta não tem cadastro, não pede dados pessoais e não usa cookies de rastreamento, anúncios ou ferramentas de análise de terceiros.'),
     h('h2', null, 'O que fica no seu navegador'), P('Algumas preferências, como tema claro ou escuro, período do metagame e moeda, ficam salvas no armazenamento local do seu navegador. Elas não saem do seu aparelho, e você pode apagá-las limpando os dados do site no navegador.'),
     h('h2', null, 'Hospedagem e imagens'), P('O site é hospedado no GitHub Pages, que registra dados técnicos de acesso, como endereço IP, para segurança e funcionamento, conforme a política de privacidade do GitHub. As imagens das cartas são carregadas do Scryfall, que também recebe esses dados técnicos ao entregar a imagem.'),
-    h('h2', null, 'Nomes de jogadores'), P('Os nomes de usuário exibidos nos resultados são os publicados pelo próprio MTGO nas listas oficiais. Quem quiser a remoção do seu nome de usuário pode pedir pelo e-mail ', mail(), '.'),
+    h('h2', null, 'Nomes de jogadores'), P('Os nomes de usuário exibidos nos resultados são os publicados pelo próprio MTGO nas listas oficiais. Na aba Bhell, os nomes e resultados vêm da planilha pública do campeonato da Pac Deck. Quem quiser a remoção do seu nome de usuário pode pedir pelo e-mail ', mail(), '.'),
     h('h2', null, 'Seus direitos (LGPD)'), P('Como o site não coleta dados pessoais diretamente, não há dados seus guardados por nós. Para qualquer pedido relacionado à LGPD, escreva para ', mail(), '.'),
     h('h2', null, 'Responsável'), P('O Pac-Meta foi criado e é mantido por ' + AUTOR + '. Contato: ', mail(), '.'));
 }
@@ -471,10 +471,61 @@ function cmdTile(d) {
     h('div', { class: 'art' }, fan(d.cmd, 2), h('span', { class: 'pp' }, pips(d.colors)), d.categoria === 'bhell' && d.colocacao ? h('span', { class: 'rk' }, d.colocacao + 'º') : null),
     h('div', { class: 'bd' }, h('b', { class: 'ellip' }, d.nome), h('small', { class: 'ellip crumb' }, d.jogador || d.autor || d.cmd.join(' + ')), h('div', { class: 'pr' }, h('span', null, usd(d.usd)), h('span', null, d.cards + ' cartas'))));
 }
+
+/* Bhell: ranking lido da planilha da Pac Deck a cada hora (scripts/bhell.py) */
+const brl = (v) => v == null ? '—' : 'R$ ' + money(v);
+const bhKey = (n) => String(n || '').trim().toLowerCase();
+function bhellBlock(b, listas) {
+  const sheetUrl = 'https://docs.google.com/spreadsheets/d/' + b.sheet + '/edit';
+  const et = b.etapas_jogadas || [];
+  const atual = new Date(b.atualizado.replace('Z', ':00Z'));
+  const champs = {}; (b.campeoes || []).forEach((c) => { champs[bhKey(c.campeao)] = (champs[bhKey(c.campeao)] || 0) + 1; });
+  const nome = (n) => h('span', null, n, champs[bhKey(n)] ? h('span', { class: 'crown', title: 'Campeão de ' + champs[bhKey(n)] + (champs[bhKey(n)] > 1 ? ' seasons' : ' season'), 'aria-label': 'campeão' }, ' ♛' + (champs[bhKey(n)] > 1 ? champs[bhKey(n)] : '')) : null);
+  let q = ''; let showAllElo = false;
+  const rankBox = h('div', { class: 'tbox' }); const eloBox = h('div');
+  function drawRank() {
+    const rs = b.ranking.filter((p) => !q || bhKey(p.jogador).includes(q));
+    rankBox.replaceChildren(h('table', { class: 't bh' }, h('thead', null, h('tr', null, h('th', null, 'Pos.'), h('th', null, 'Jogador'), h('th', { class: 'n' }, 'Pts'), et.map((n) => h('th', { class: 'n hide-sm' }, 'E' + n)), h('th', { class: 'n hide-sm' }, 'V-E-D'), h('th', { class: 'n hide-sm' }, '% V/J'), h('th', { class: 'n' }, 'Prêmio'))),
+      h('tbody', null, rs.map((p) => { const ep = Object.fromEntries((p.etapas || []).map(([n, pts]) => [n, pts]));
+        return h('tr', { class: p.premio ? 'prize' : null }, h('td', null, p.pos ? p.pos + 'º' : '—'), h('td', { class: 'nm' }, nome(p.jogador)), h('td', { class: 'n' }, h('b', null, p.pts)),
+          et.map((n) => h('td', { class: 'n hide-sm' }, ep[n] != null ? ep[n] : '·')), h('td', { class: 'n hide-sm' }, p.v + '-' + (p.e || 0) + '-' + (p.d || 0)), h('td', { class: 'n hide-sm' }, p.pv != null ? pct(p.pv, 0) : '—'), h('td', { class: 'n' }, p.premio ? brl(p.premio) : ''));
+      }))));
+  }
+  function drawElo() {
+    const es = (b.elo || []).filter((p) => !q || bhKey(p.jogador).includes(q)); const lim = showAllElo || q ? es : es.slice(0, 20);
+    eloBox.replaceChildren(h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Pos.'), h('th', null, 'Jogador'), h('th', { class: 'n' }, 'Rating'), h('th', { class: 'n' }, 'Última etapa'))),
+      h('tbody', null, lim.map((p) => h('tr', null, h('td', null, p.pos + 'º', p.mov ? h('small', { class: p.mov > 0 ? 'up' : 'down' }, ' ' + (p.mov > 0 ? '▲' : '▼') + Math.abs(p.mov)) : null), h('td', { class: 'nm' }, nome(p.jogador)),
+        h('td', { class: 'n' }, p.rating != null ? p.rating.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : '—'),
+        h('td', { class: 'n ' + (p.dif > 0 ? 'up' : p.dif < 0 ? 'down' : '') }, p.dif ? (p.dif > 0 ? '+' : '') + p.dif.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : '0')))))),
+      !q && es.length > 20 ? h('button', { class: 'btn', style: 'margin-top:.7rem', onclick: () => { showAllElo = !showAllElo; drawElo(); } }, showAllElo ? 'Mostrar só os 20 primeiros' : 'Ver todos os ' + es.length + ' jogadores') : '');
+  }
+  const busca = h('input', { class: 'input', type: 'search', placeholder: 'Buscar jogador…', 'aria-label': 'Buscar jogador no ranking', oninput: (e) => { q = bhKey(e.target.value); drawRank(); drawElo(); } });
+  drawRank(); drawElo();
+  const lider = b.ranking[0];
+  return [
+    h('div', { class: 'statrow' },
+      h('div', { class: 'card stat-c' }, h('small', null, 'Season'), h('b', null, b.season || '—'), h('span', { class: 'crumb' }, b.nome)),
+      h('div', { class: 'card stat-c' }, h('small', null, 'Etapas jogadas'), h('b', null, et.length + (b.etapas_total ? ' de ' + b.etapas_total : '')), h('span', { class: 'crumb' }, 'toda quinta-feira')),
+      h('div', { class: 'card stat-c' }, h('small', null, 'Jogadores'), h('b', null, b.ranking.length), h('span', { class: 'crumb' }, 'pontuaram na season')),
+      b.inscricoes ? h('div', { class: 'card stat-c' }, h('small', null, 'Premiação'), h('b', null, brl(b.inscricoes)), h('span', { class: 'crumb' }, 'em inscrições')) : null,
+      lider ? h('div', { class: 'card stat-c' }, h('small', null, 'Líder'), h('b', { class: 'ellip' }, lider.jogador), h('span', { class: 'crumb' }, lider.pts + ' pontos')) : null),
+    card(h('div', { class: 'row between' }, h('h2', { style: 'margin:0' }, 'Ranking da season ' + (b.season || '')), busca),
+      h('p', { class: 'crumb' }, 'Pontos: 3 por vitória e 1 por empate. E1, E2… mostram os pontos em cada etapa. ' + (b.ranking.some((p) => p.premio) ? 'Em destaque, quem está na zona de premiação.' : '')),
+      rankBox,
+      h('p', { class: 'crumb', style: 'margin:.7rem 0 0' }, 'Dados da planilha oficial da Pac Deck, atualizados em ' + atual.toLocaleString('pt-BR') + '. ', h('a', { href: sheetUrl, target: '_blank', rel: 'noopener' }, 'Abrir a planilha completa'), ' (com o confronto direto entre os jogadores).')),
+    h('div', { class: 'grid2' },
+      card(h('h2', null, 'Ranking ELO geral'), h('p', { class: 'crumb' }, 'Rating de todas as seasons. A seta mostra quantas posições o jogador subiu ou caiu na última etapa.'), eloBox),
+      h('div', { style: 'display:grid;gap:1.2rem;align-content:start' },
+        (b.campeoes || []).length ? card(h('h2', null, 'Campeões'), h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Season'), h('th', null, 'Campeão'), h('th', null, 'Deck'))),
+          h('tbody', null, b.campeoes.slice().sort((x, y) => y.season - x.season).map((c) => h('tr', null, h('td', null, c.season), h('td', { class: 'nm' }, c.campeao), h('td', null, c.deck))))))) : null,
+        (b.recordes || []).length ? card(h('h2', null, 'Recordes'), h('div', { class: 'recs' }, b.recordes.map((r) => h('div', null, h('h3', null, r.titulo, r.nota ? h('small', null, ' · ' + r.nota) : null),
+          h('ul', null, r.linhas.map((l) => h('li', null, h('b', null, l[0][1]), l.slice(1).map(([k, v]) => [' · ', k ? h('span', { class: 'crumb' }, k + ': ') : null, v])))))))) : null)),
+    listas.length ? h('h2', null, 'Listas do Bhell') : null, ...listas];
+}
 async function commanderIndex(tab) {
   tab = CMD_TABS.some(([k]) => k === tab) ? tab : 'bhell';
   const tname = CMD_TABS.find(([k]) => k === tab)[1]; title(tname + ' · Commander');
-  const [ix] = await Promise.all([get('data/commander/index.json').catch(() => ({ decks: [] })), cards()]);
+  const [ix, bh] = await Promise.all([get('data/commander/index.json').catch(() => ({ decks: [] })), tab === 'bhell' ? get('data/commander/bhell.json').catch(() => null) : null, cards()]);
   const ds = ix.decks.filter((d) => (d.categoria || 'comunidade') === tab).sort((a, b) => (b.data || '').localeCompare(a.data || '') || (a.colocacao || 99) - (b.colocacao || 99) || a.nome.localeCompare(b.nome));
   const n = (k) => ix.decks.filter((d) => (d.categoria || 'comunidade') === k).length;
   const tabs = h('nav', { class: 'seg cmdtabs', 'aria-label': 'Seções de Commander' }, CMD_TABS.map(([k, t]) => h('a', { href: '#/commander/' + k, 'aria-current': k === tab ? 'page' : null }, t, n(k) ? h('small', null, n(k)) : null)));
@@ -483,20 +534,20 @@ async function commanderIndex(tab) {
   if (tab === 'bhell') {
     const evs = []; const by = {};
     ds.forEach((d) => { const k = (d.data || '') + '|' + (d.evento || 'Bhell'); if (!by[k]) { by[k] = { data: d.data, nome: d.evento || 'Bhell', decks: [] }; evs.push(by[k]); } by[k].decks.push(d); });
-    body = evs.length ? evs.map((e) => card(h('h2', null, e.nome + (e.data ? ' · ' + dat(e.data) : ''), h('span', { class: 'crumb' }, e.decks.length + (e.decks.length > 1 ? ' decks' : ' deck'))),
+    const listas = evs.map((e) => card(h('h2', null, e.nome + (e.data ? ' · ' + dat(e.data) : ''), h('span', { class: 'crumb' }, e.decks.length + (e.decks.length > 1 ? ' decks' : ' deck'))),
       h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Pos.'), h('th', null, 'Jogador'), h('th', null, 'Comandante'), h('th', { class: 'n' }, 'Preço'))),
         h('tbody', null, e.decks.map((d) => h('tr', null, h('td', null, d.colocacao ? d.colocacao + 'º' : '—'), h('td', { class: 'nm' }, d.jogador || '—'),
-          h('td', null, h('a', { href: '#/commander/deck/' + d.slug }, pips(d.colors), d.nome)), h('td', { class: 'n' }, usd(d.usd)))))))))
-      : vazio('Os resultados do Bhell entram em breve', 'Toda semana, os decks do campeonato de quinta-feira da Pac Deck aparecem aqui, com a colocação de cada jogador.');
+          h('td', null, h('a', { href: '#/commander/deck/' + d.slug }, pips(d.colors), d.nome)), h('td', { class: 'n' }, usd(d.usd)))))))));
+    body = bh ? bhellBlock(bh, listas) : (listas.length ? listas : vazio('Os resultados do Bhell entram em breve', 'Toda semana, os resultados do campeonato de quinta-feira da Pac Deck aparecem aqui.'));
   } else if (tab === 'cedh') {
     body = ds.length ? h('div', { class: 'tiles' }, ds.map(cmdTile)) : vazio('As listas de cEDH entram em breve', 'Aqui ficam os decks de Commander competitivo (cEDH), com preço em reais e as cartas ligadas à Pac Deck e à LigaMagic.');
   } else {
     body = ds.length ? h('div', { class: 'tiles' }, ds.map(cmdTile)) : vazio('Os decks da comunidade entram em breve', h('span', null, 'Em breve, qualquer pessoa vai poder subir o próprio deck de Commander aqui. Enquanto isso, mande sua lista pela página de ', h('a', { href: '#/sugestoes' }, 'Sugestões'), '.'));
   }
-  const intro = { bhell: 'O Bhell é o campeonato semanal de Commander da Pac Deck, toda quinta-feira. Aqui ficam os decks de cada rodada, com a colocação dos jogadores.', cedh: 'Decks de Commander competitivo (cEDH), escolhidos a dedo.', comunidade: 'Decks de Commander montados pela comunidade.' }[tab];
+  const intro = { bhell: 'O Bhell é o campeonato semanal de Commander da Pac Deck, toda quinta-feira. Aqui ficam o ranking da season, o ELO geral, os campeões e os recordes, atualizados a cada hora pela planilha oficial.', cedh: 'Decks de Commander competitivo (cEDH), escolhidos a dedo.', comunidade: 'Decks de Commander montados pela comunidade.' }[tab];
   $main.replaceChildren(
     h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/commander' }, 'Commander'), ' › ', tname), h('h1', null, 'Commander'), h('p', { class: 'lead' }, intro)),
-    tabs, ...[].concat(body));
+    tabs, ...[].concat(body).filter(Boolean));
 }
 async function commanderDeck(s) {
   const [d] = await Promise.all([get('data/commander/' + s + '.json'), cards()]); title(d.nome + ' · Commander');

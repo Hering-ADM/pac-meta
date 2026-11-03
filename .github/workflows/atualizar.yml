@@ -40,6 +40,10 @@ jobs:
         continue-on-error: true
         working-directory: scripts
         run: python fx.py
+      - name: Bhell (planilha da Pac Deck)
+        continue-on-error: true
+        working-directory: scripts
+        run: python bhell.py
       - name: Montar os dados do site
         working-directory: scripts
         run: python build.py

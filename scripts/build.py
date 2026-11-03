@@ -271,6 +271,8 @@ def main():
         save(os.path.join(OUT, 'commander', d['slug'] + '.json'), {**row, 'cmdlist': d['cmd'], 'main': d['main'], 'usd_miss': miss})
         for _, n in allc: card_index.setdefault(n, {'f': {}})
     save(os.path.join(OUT, 'commander', 'index.json'), {'decks': cmd_index})
+    bh = load(os.path.join(DATA, 'commander', 'bhell.json'), None)
+    if bh: save(os.path.join(OUT, 'commander', 'bhell.json'), bh)
     # cache: index.html aponta para app.js/style.css com a versão do conteúdo, para o navegador sempre pegar o novo
     import hashlib, re as _re
     site = os.path.dirname(OUT); idx = os.path.join(site, 'index.html')

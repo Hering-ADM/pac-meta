@@ -297,3 +297,16 @@ table.dt td.n, table.t td.n { white-space: nowrap; }
 .cmdtabs a { padding: .5rem 1.1rem; font-weight: 600; color: var(--fg); text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; }
 .cmdtabs a[aria-current="page"] { background: var(--acc); color: #fff; }
 .cmdtabs a small { font-size: .72rem; opacity: .75; }
+
+/* Bhell */
+.statrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: .8rem; }
+.stat-c { display: grid; gap: .1rem; padding: .85rem 1rem; }
+.stat-c small { color: var(--mut); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; }
+.stat-c b { font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+table.bh tr.prize td { background: var(--gold-bg); }
+table.bh tr.prize td:first-child { box-shadow: inset 3px 0 0 var(--gold); }
+.crown { color: var(--gold); font-size: .85em; }
+.recs { display: grid; gap: 1rem; }
+.recs h3 { margin: 0 0 .3rem; font-size: .95rem; }
+.recs h3 small { color: var(--mut); font-weight: 400; }
+.recs ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .2rem; font-size: .9rem; }
