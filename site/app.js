@@ -557,7 +557,7 @@ async function commanderDeck(s) {
       h('h1', null, pips(d.colors), d.nome),
       h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, d.cmd.join(' + ')), h('small', null, d.cmd.length > 1 ? 'comandantes' : 'comandante')), h('div', { class: 'stat' }, h('b', null, d.cards), h('small', null, 'cartas')), h('div', { class: 'stat' }, h('b', null, usd(d.usd)), h('small', null, 'papel'))))),
     (d.descricao || d.autor || d.jogador) ? card(d.descricao ? h('p', { class: 'prose', style: 'margin:0' }, d.descricao) : null, (d.autor || d.jogador) ? h('p', { class: 'crumb', style: 'margin:.5rem 0 0' }, d.categoria === 'bhell' ? (d.jogador || d.autor) + (d.colocacao ? ' · ' + d.colocacao + 'º lugar' : '') + ' no ' + (d.evento || 'Bhell') + (d.data ? ' de ' + dat(d.data) : '') : 'Lista de ' + (d.autor || d.jogador) + (d.data ? ' · ' + dat(d.data) : '')) : null) : '',
-    card(deckBlock(d.main, [], { first: [d.cmdlist.length > 1 ? 'Comandantes' : 'Comandante', d.cmdlist], export: exportRow(d.main, [], d.nome, d.cmdlist) })));
+    card(deckBlock(d.main, [], { first: [d.cmdlist.length > 1 ? 'Comandantes' : 'Comandante', d.cmdlist], export: h('div', { class: 'row' }, exportRow(d.main, [], d.nome, d.cmdlist), d.fonte ? h('a', { class: 'btn', href: d.fonte, target: '_blank', rel: 'noopener' }, 'Ver a lista original') : null) })));
 }
 
 /* ---------- formulários que viram e-mail ---------- */

@@ -70,5 +70,6 @@ def decks():
         out.append({'slug': s, 'nome': m.get('nome') or (cmd[0][1] if cmd else s.replace('-', ' ').title()), 'autor': m.get('autor', ''),
                     'descricao': m.get('descricao', ''), 'data': m.get('data', ''), 'tags': m.get('tags', []), 'cmd': cmd, 'main': main,
                     'categoria': m.get('categoria') if m.get('categoria') in CATEGORIAS else 'comunidade',
-                    'evento': m.get('evento', ''), 'colocacao': m.get('colocacao'), 'jogador': m.get('jogador', '')})
+                    'evento': m.get('evento', ''), 'colocacao': m.get('colocacao'), 'jogador': m.get('jogador', ''),
+                    'fonte': m.get('fonte', '') if str(m.get('fonte', '')).startswith('https://') else ''})
     return out

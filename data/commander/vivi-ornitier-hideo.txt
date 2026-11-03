@@ -1,0 +1,89 @@
+Commander
+1 Vivi Ornitier
+
+Deck
+1 An Offer You Can't Refuse
+1 Arcane Signet
+1 Arid Mesa
+1 Borne Upon a Wind
+1 Brain Freeze
+1 Cascade Bluffs
+1 City of Brass
+1 Command Tower
+1 Consider
+1 Crimson Wisps
+1 Curiosity
+1 Deflecting Swat
+1 Desperate Ritual
+1 Dispel
+1 Emergence Zone
+1 Everflowing Chalice
+1 Expedite
+1 Fellwar Stone
+1 Flashback
+1 Flow State
+1 Flusterstorm
+1 Force of Negation
+1 Frantic Search
+1 Gitaxian Probe
+1 Grapeshot
+1 Gush
+1 Gut Shot
+1 Jeska's Will
+1 Lotus Petal
+1 Merchant Scroll
+1 Mind's Desire
+1 Mishra's Bauble
+1 Mistrise Village
+1 Misty Rainforest
+1 Mox Amber
+1 Muddle the Mixture
+1 Mystic Remora
+1 Narset's Reversal
+1 Octopus Form
+1 Ophidian Eye
+1 Opt
+1 Overmaster
+1 Perfected Theory
+1 Polymorph
+1 Ponder
+1 Pongify
+1 Preordain
+1 Prismari, the Inspiration
+1 Pyretic Ritual
+1 Pyroblast
+1 Ral, Crackling Wit
+1 Reality Scramble
+1 Reckless Impulse
+1 Redirect Lightning
+1 Reliquary Tower
+1 Rhystic Study
+1 Rite of Flame
+1 Ruby Medallion
+1 Sapphire Medallion
+1 Scalding Tarn
+1 Secret Identity
+1 Seething Song
+1 Sensei's Divining Top
+1 Serum Visions
+1 Shivan Reef
+1 Shore Up
+1 Snap
+1 Sol Ring
+1 Solve the Equation
+1 Steam Vents
+1 Stormcarved Coast
+1 Strike It Rich
+1 Sulfur Falls
+1 Swan Song
+1 Temple of Epiphany
+1 Thought Vessel
+1 Tormod's Crypt
+1 Transmogrify
+1 Twisted Image
+1 Underworld Breach
+1 Urza's Bauble
+1 Wild Ride
+1 Wizard's Staff
+10 Island
+6 Mountain
