@@ -58,9 +58,9 @@ const tip = document.getElementById('tip'); const tipImg = tip.querySelector('im
 document.addEventListener('mouseover', (ev) => {
   const a = ev.target.closest('[data-card]'); if (!a || !CARDS) return;
   const c = CARDS[a.dataset.card]; if (!c || !c.img) return;
-  tipImg.src = c.img; tip.hidden = false;
+  if (a.closest('.visual')) return; tipImg.src = c.img; tip.hidden = false;
 });
-document.addEventListener('mousemove', (ev) => { if (tip.hidden) return; const x = ev.clientX + 18, y = ev.clientY - 40; tip.style.left = Math.min(x, innerWidth - 260) + 'px'; tip.style.top = Math.max(8, Math.min(y, innerHeight - 350)) + 'px'; });
+document.addEventListener('mousemove', (ev) => { if (tip.hidden) return; const W = 250, H = 350; let x = ev.clientX + 24; if (x + W > innerWidth - 8) x = ev.clientX - W - 24; if (x < 8) x = 8; const y = Math.max(8, Math.min(ev.clientY - H / 2, innerHeight - H - 8)); tip.style.left = x + 'px'; tip.style.top = y + 'px'; });
 document.addEventListener('mouseout', (ev) => { if (ev.target.closest('[data-card]')) tip.hidden = true; });
 
 /* ---------- tema ---------- */

@@ -32,7 +32,7 @@ def main():
     today = dt.date.today().isoformat()
     cur = load(CARDS, {})
     names = used_names()
-    if cur.get('_date') == today and all(key(n) in cur.get('cards', {}) for n in names):
+    if cur.get('_date') == today and cur.get('_v') == 2 and all(key(n) in cur.get('cards', {}) for n in names):
         print('preços de hoje já baixados'); return
     meta = json.loads(get('https://api.scryfall.com/bulk-data/default_cards', headers={'Accept': 'application/json'}))
     url = meta.get('jsonl_download_uri') or meta.get('download_uri')
@@ -70,17 +70,26 @@ def main():
         if tix is not None and (o['tix'] is None or tix < o['tix']): o['tix'] = tix
         face = (c.get('card_faces') or [{}])[0]
         iu = c.get('image_uris') or face.get('image_uris') or {}
-        better = o['img'] is None or (paper and not o.get('_paper'))
-        if iu.get('normal') and better:
-            o['img'] = iu.get('normal'); o['art'] = iu.get('art_crop'); o['_paper'] = paper; o['uri'] = c.get('scryfall_uri')
+        fx = set(c.get('frame_effects') or [])
+        score = (
+            1 if paper else 0,
+            0 if c.get('promo') or c.get('full_art') or c.get('textless') else 1,
+            0 if fx & {'showcase', 'extendedart', 'inverted', 'etched'} or c.get('border_color') != 'black' else 1,
+            1 if c.get('set_type') in ('expansion', 'core', 'masters', 'draft_innovation', 'commander') else 0,
+            0 if c.get('variation') else 1,
+            c.get('released_at') or '',
+        )
+        if iu.get('normal') and (o.get('_score') is None or score > o['_score']):
+            o['_score'] = score
+            o['img'] = iu.get('normal'); o['art'] = iu.get('art_crop'); o['uri'] = c.get('scryfall_uri')
             o['cost'] = c.get('mana_cost') or face.get('mana_cost') or ''
             o['cmc'] = c.get('cmc'); o['type'] = c.get('type_line') or face.get('type_line') or ''
             o['colors'] = c.get('colors') if c.get('colors') is not None else face.get('colors', [])
             o['ci'] = c.get('color_identity') or []
             o['rarity'] = c.get('rarity')
     os.remove(tmp)
-    for o in out.values(): o.pop('_paper', None)
-    save(CARDS, {'_date': today, 'cards': out})
+    for o in out.values(): o.pop('_score', None)
+    save(CARDS, {'_date': today, '_v': 2, 'cards': out})
     os.makedirs(HIST, exist_ok=True)
     save(os.path.join(HIST, today + '.json'), {k: [o['usd'], o['eur'], o['tix']] for k, o in out.items()})
     for f in sorted(os.listdir(HIST))[:-60]: os.remove(os.path.join(HIST, f))
