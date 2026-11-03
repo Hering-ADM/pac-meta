@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel MTG · Metagame, decks e preços de Magic</title>
+<meta name="description" content="Metagame atualizado a cada hora, listas de torneios do MTGO, preços de cartas e guias de confronto para Standard, Pioneer, Modern, Legacy, Vintage, Pauper e Premodern.">
+<meta name="theme-color" content="#16213a">
+<link rel="icon" href="static/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Pular para o conteúdo</a>
+<header class="top">
+  <div class="top-in">
+    <a class="logo" href="#/" aria-label="Painel MTG, início">
+      <img src="static/icon.svg" alt="" width="30" height="30"><span>Painel <b>MTG</b></span>
+    </a>
+    <nav class="fmts" aria-label="Formatos" id="fmt-nav"></nav>
+    <div class="search" role="search">
+      <label for="q" class="sr">Buscar carta</label>
+      <input id="q" type="search" placeholder="Buscar carta…" autocomplete="off" aria-autocomplete="list" aria-controls="q-list">
+      <ul id="q-list" role="listbox" hidden></ul>
+    </div>
+    <button class="theme" id="theme" type="button" aria-label="Alternar tema claro e escuro">◐</button>
+  </div>
+  <nav class="sub" aria-label="Seções">
+    <div class="top-in">
+      <a href="#/">Início</a><a href="#/torneios">Torneios</a><a href="#/precos">Preços</a><a href="#/guias">Guias</a><a href="#/sobre">Sobre</a>
+    </div>
+  </nav>
+</header>
+<main id="main" tabindex="-1"><p class="loading">Carregando…</p></main>
+<footer class="foot">
+  <div class="top-in">
+    <p><b>Painel MTG</b> é conteúdo de fã não oficial, permitido pela <a href="https://company.wizards.com/pt-br/legal/fancontentpolicy" rel="noopener" target="_blank">Política de Conteúdo de Fãs</a>. Não é aprovado nem endossado pela Wizards. Partes dos materiais usados são propriedade da Wizards of the Coast. © Wizards of the Coast LLC.</p>
+    <p>Resultados: listas públicas do <a href="https://www.mtgo.com/decklists" rel="noopener" target="_blank">Magic: The Gathering Online</a>. Dados, imagens e preços das cartas: <a href="https://scryfall.com" rel="noopener" target="_blank">Scryfall</a>. Preços são referência e podem variar entre lojas.</p>
+    <p><a href="#/privacidade">Privacidade</a> · <a href="#/termos">Termos de uso</a> · <a href="#/sobre">Sobre e contato</a> · <span id="upd"></span></p>
+  </div>
+</footer>
+<div id="tip" class="tip" hidden aria-hidden="true"><img alt=""></div>
+<script src="app.js"></script>
+</body>
+</html>
