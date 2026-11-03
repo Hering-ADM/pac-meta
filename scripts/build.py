@@ -209,6 +209,7 @@ def main():
                 'format': fmt, 'slug': s, 'name': ds[0]['arch'], 'decks': len(ds), 'share': round(100 * len(ds) / max(1, len(cur30)), 2),
                 'main': typ, 'side': typs, 'main_stats': st[:60], 'side_stats': sts[:40],
                 'usd': price(typ + typs, C, C.usd)[0], 'tix': price(typ + typs, C, C.tix)[0], 'art': art_for(ds[0]['arch'], typ, rules_by_name, C),
+                'key': [n for n, _ in collections.Counter(n for d in ds for _, n in d['main'] if not C.is_land(n)).most_common(5)],
                 'recent': [{'ev': e['id'], 'evname': e['name'], 'date': e['date'], 'kind': e['kind'], 'i': i, 'player': d['player'],
                             'rank': d['rank'], 'w': d['wins'], 'l': d['losses'], 'usd': d['usd']} for e, i, d in xs[:60]]})
         # eventos
@@ -232,7 +233,7 @@ def main():
             ci['f'][fmt] = [round(100 * k / max(1, len(cur30)), 1), round(copies[n] / k, 1), [a for a, _ in arches[n].most_common(5)]]
         w7 = meta['windows']['7']
         index['formats'].append({'id': fmt, 'name': fname, 'decks30': len(cur30), 'events30': len({x[0]['id'] for x in cur30}),
-                                 'top': [{'slug': r['slug'], 'name': r['name'], 'share': r['share'], 'colors': r['colors'], 'art': r['art'], 'usd': r['usd'], 'tix': r['tix']} for r in (w7['rows'] or meta['windows']['30']['rows'])[:6]]})
+                                 'top': [{'slug': r['slug'], 'name': r['name'], 'share': r['share'], 'colors': r['colors'], 'art': r['art'], 'usd': r['usd'], 'tix': r['tix'], 'key': r['key']} for r in (w7['rows'] or meta['windows']['30']['rows'])[:6]]})
         index['events'] += lst[:12]
     index['events'] = sorted(index['events'], key=lambda e: (e['date'], e['id']), reverse=True)[:30]
     for e in index['events']:

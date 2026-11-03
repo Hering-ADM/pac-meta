@@ -48,9 +48,15 @@ function cardLink(n) { const a = h('a', { href: '#/c/' + enc(n), 'data-card': n 
 const CC = { W: '#e9dfb8', U: '#3d86d6', B: '#5b4f63', R: '#d9553f', G: '#3e9b5c', C: '#9c968e' };
 function grad(col, art) { const cs = (col || 'C').split('').map((c) => CC[c] || CC.C); if (cs.length === 1) cs.push('#1d2638'); const g = `linear-gradient(135deg, ${cs.join(', ')})`; return art ? `url("${art}"), ${g}` : g; }
 function mana(cost) { const w = h('span', { class: 'mana', role: 'img', 'aria-label': 'Custo: ' + (cost || 'sem custo') }); (String(cost || '').match(/\{[^}]+\}/g) || []).forEach((t) => w.append(h('img', { src: SYM(t.slice(1, -1)), alt: '', width: 16, height: 16, loading: 'lazy' }))); return w; }
+function fan(names, max) {
+  const C = CARDS || {}; const imgs = (names || []).map((n) => C[n]).filter((c) => c && c.img).slice(0, max || 3);
+  const w = h('div', { class: 'fan fan' + imgs.length });
+  imgs.forEach((c, i) => w.append(h('img', { src: c.img, alt: c.full || '', loading: 'lazy', style: `--i:${i - (imgs.length - 1) / 2}` })));
+  return w;
+}
 function tile(f, a, rank) {
-  return h('a', { class: 'tile', href: `#/f/${f}/a/${a.slug}`, style: `--grad:${grad(a.colors, a.art)}` },
-    h('div', { class: 'art' }, rank ? h('span', { class: 'rk' }, '#' + rank) : null, h('span', { class: 'pp' }, pips(a.colors)), h('span', { class: 'sh' }, pct(a.share))),
+  return h('a', { class: 'tile', href: `#/f/${f}/a/${a.slug}`, style: `--grad:${grad(a.colors)}` },
+    h('div', { class: 'art' }, fan(a.key, 3), rank ? h('span', { class: 'rk' }, '#' + rank) : null, h('span', { class: 'pp' }, pips(a.colors)), h('span', { class: 'sh' }, pct(a.share))),
     h('div', { class: 'bd' }, h('b', { class: 'ellip' }, a.name), h('div', { class: 'meter' }, h('i', { style: `width:${Math.min(100, a.share * 4)}%` })),
       h('div', { class: 'pr' }, h('span', null, usd(a.usd)), h('span', null, tix(a.tix)))));
 }
@@ -127,7 +133,7 @@ function moversTable(list, C) {
 }
 
 async function metagame(f, params) {
-  const m = await get(`data/${f}/meta.json`); title('Metagame ' + m.name);
+  const [m] = await Promise.all([get(`data/${f}/meta.json`), cards()]); title('Metagame ' + m.name);
   let days = params.get('d') || store.get('dias', '14'); if (!m.windows[days]) days = '14';
   let money = store.get('moeda', 'usd'); let sortK = 'share', sortD = -1; let view = store.get('vista', 'blocos');
   Object.values(m.windows).forEach((w) => w.rows.forEach((r) => { r.trend = r.prev == null ? null : r.share - r.prev; }));
@@ -221,7 +227,7 @@ async function archetype(f, s) {
   const seg = h('div', { class: 'seg', role: 'group' }, [['tipica', 'Lista típica'], ['stats', 'Cartas e frequência']].map(([k, t]) => h('button', { 'aria-pressed': String(k === view), onclick: (e) => { view = k; seg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); draw(); } }, t)));
   draw();
   $main.replaceChildren(
-    h('div', { class: 'banner', style: `--grad:${grad(row.colors, a.art)}` }, h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/f/' + f }, FNAME[f]), ' › ', a.name), h('h1', null, pips(row.colors), a.name),
+    h('div', { class: 'banner', style: `--grad:${grad(row.colors, a.art)}` }, fan(a.key || row.key, 5), h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/f/' + f }, FNAME[f]), ' › ', a.name), h('h1', null, pips(row.colors), a.name),
       h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, pct(a.share)), h('small', null, 'do meta em 30 dias')), h('div', { class: 'stat' }, h('b', null, a.decks), h('small', null, 'listas')), h('div', { class: 'stat' }, h('b', null, usd(a.usd)), h('small', null, 'papel')), h('div', { class: 'stat' }, h('b', null, tix(a.tix)), h('small', null, 'MTGO'))))),
     card(h('div', { class: 'row between' }, seg, h('small', { class: 'crumb' }, 'Lista típica: junta as ' + a.decks + ' listas dos últimos 30 dias, cada carta com o número médio de cópias.')), h('div', { style: 'height:1rem' }), box),
     card(h('h2', null, 'Listas recentes'), h('div', { class: 'tbox' }, h('table', { class: 't' },
