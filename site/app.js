@@ -309,6 +309,7 @@ async function cardPage(n) {
         card(h('h2', null, 'Onde é jogada (30 dias)'), h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Formato'), h('th', { class: 'n' }, '% das listas'), h('th', { class: 'n' }, 'Cópias'), h('th', null, 'Arquétipos'))),
           h('tbody', null, uses.map(([f, u]) => h('tr', null, h('td', { class: 'nm' }, h('a', { href: '#/f/' + f }, FNAME[f])), h('td', { class: 'n' }, pct(u[0])), h('td', { class: 'n' }, u[1].toLocaleString('pt-BR')), h('td', null, u[2].map((s, k) => [k ? ', ' : '', h('a', { href: `#/f/${f}/a/${s}` }, s.replace(/-/g, ' '))]))))))))),
       c.img ? h('img', { class: 'cardimg', src: c.img, alt: 'Imagem da carta ' + n, loading: 'lazy' }) : h('div')));
+  if (CONTAS) anunciosDaCarta(n).then((b) => { const col = $main.querySelector('.split > div'); if (b && col) col.append(b); }).catch(() => {});
 }
 
 async function precos() {
@@ -441,24 +442,45 @@ function sobre() {
 function privacidade() {
   prose('Política de Privacidade',
     P('Última atualização: 3 de novembro de 2026.'),
-    P('O Pac-Meta não tem cadastro, não pede dados pessoais e não usa cookies de rastreamento, anúncios ou ferramentas de análise de terceiros.'),
-    h('h2', null, 'O que fica no seu navegador'), P('Algumas preferências, como tema claro ou escuro, período do metagame e moeda, ficam salvas no armazenamento local do seu navegador. Elas não saem do seu aparelho, e você pode apagá-las limpando os dados do site no navegador.'),
+    P('Para ver o metagame, os decks, os preços e os artigos, o Pac-Meta não pede cadastro nem dados pessoais, e não usa cookies de rastreamento, anúncios ou ferramentas de análise de terceiros. Uma conta só é necessária para usar o mercado entre jogadores.'),
+    h('h2', null, 'Dados da conta'), P('Quem cria uma conta (com e-mail e senha ou com o Google) tem guardados: e-mail, nome, foto do Google se houver, cidade e o texto "sobre você", se preenchidos. O nome e a cidade aparecem nos seus anúncios e pedidos de compra. O e-mail não é mostrado a ninguém.'),
+    h('h2', null, 'Dados do mercado'), P('Para cada compra guardamos o item, o valor, a comissão, a forma de entrega e o andamento do pedido. Quando a entrega é por envio, o endereço e o telefone informados pelo comprador são mostrados só ao vendedor daquele pedido, para ele poder enviar, e ao administrador do site. Quem pede para vender também informa uma apresentação, vista só pelo administrador.'),
+    h('h2', null, 'Pagamentos'), P('Os pagamentos são feitos no Mercado Pago, que recebe os seus dados de pagamento sob a política de privacidade dele. O Pac-Meta não recebe nem guarda número de cartão. Do vendedor, guardamos de forma protegida a autorização do Mercado Pago necessária para criar as cobranças em nome dele. Ela nunca é mostrada no site e é apagada quando a conta é excluída.'),
+    h('h2', null, 'Onde ficam e por quanto tempo'), P('Os dados de conta e do mercado ficam no Supabase (banco de dados), com servidores contratados pelo Pac-Meta. Ficam guardados enquanto a conta existir. Os registros de pedidos concluídos são mantidos pelo prazo exigido pela lei para transações, mesmo depois da exclusão da conta, mas sem endereço e com o perfil anonimizado.'),
+    h('h2', null, 'O que fica no seu navegador'), P('Preferências como tema claro ou escuro e período do metagame ficam no armazenamento local do seu navegador. Quem entra na conta também tem a sessão de login guardada ali. Nada disso é usado para rastrear você.'),
     h('h2', null, 'Hospedagem e imagens'), P('O site é hospedado no GitHub Pages, que registra dados técnicos de acesso, como endereço IP, para segurança e funcionamento, conforme a política de privacidade do GitHub. As imagens das cartas são carregadas do Scryfall, que também recebe esses dados técnicos ao entregar a imagem.'),
-    h('h2', null, 'Nomes de jogadores'), P('Os nomes de usuário exibidos nos resultados são os publicados pelo próprio MTGO nas listas oficiais. Na aba Bhell, os nomes e resultados vêm da planilha pública do campeonato da Pac Deck. Quem quiser a remoção do seu nome de usuário pode pedir pelo e-mail ', mail(), '.'),
-    h('h2', null, 'Seus direitos (LGPD)'), P('Como o site não coleta dados pessoais diretamente, não há dados seus guardados por nós. Para qualquer pedido relacionado à LGPD, escreva para ', mail(), '.'),
-    h('h2', null, 'Responsável'), P('O Pac-Meta foi criado e é mantido por ' + AUTOR + '. Contato: ', mail(), '.'));
+    h('h2', null, 'Nomes de jogadores'), P('Os nomes de usuário exibidos nos resultados são os publicados pelo próprio MTGO nas listas oficiais. Na aba Bhell, os nomes e resultados vêm da planilha pública do campeonato da Pac Deck. Quem quiser a remoção do seu nome pode pedir pelo e-mail ', mail(), '.'),
+    h('h2', null, 'Seus direitos (LGPD)'), P('Você pode ver e corrigir seus dados em Minha conta, e excluir a conta lá mesmo. Para acesso, correção, portabilidade, exclusão ou qualquer outro pedido relacionado à LGPD, escreva para ', mail(), '.'),
+    h('h2', null, 'Responsável'), P('O Pac-Meta foi criado e é mantido por ' + AUTOR + ', responsável pelo tratamento dos dados. Contato: ', mail(), '.'));
 }
 function termos() {
   prose('Termos de Uso',
     P('Última atualização: 3 de novembro de 2026. Ao usar o Pac-Meta você concorda com estes termos.'),
     P('O Pac-Meta foi criado e é mantido por ' + AUTOR + '. Dúvidas, correções e pedidos sobre estes termos: ', mail(), '.'),
+    h('h2', null, 'O site'),
     h('ul', null,
-      h('li', null, 'O site é gratuito e informativo. Metagame, classificações de arquétipo, guias e preços são estimativas e podem conter erros ou atrasos.'),
-      h('li', null, 'Preços são de referência: valores do Scryfall em dólar convertidos para real pela cotação do dia. Não são oferta de venda. Confira sempre com a loja.'),
+      h('li', null, 'O conteúdo do site é gratuito e informativo. Metagame, classificações de arquétipo, guias e preços são estimativas e podem conter erros ou atrasos.'),
+      h('li', null, 'Preços de referência são valores do Scryfall em dólar convertidos para real pela cotação do dia. Não são oferta de venda.'),
       h('li', null, 'Magic: The Gathering, nomes de cartas, símbolos e imagens são propriedade da Wizards of the Coast. O site segue a Política de Conteúdo de Fãs da Wizards e não é afiliado a ela.'),
       h('li', null, 'Os dados de cartas e imagens são fornecidos pelo Scryfall, sem vínculo com este site.'),
-      h('li', null, 'Os guias de confronto refletem a opinião de quem escreveu, na data indicada.'),
-      h('li', null, 'Podemos mudar o site e estes termos a qualquer momento. A data da última atualização fica no topo desta página.')),
+      h('li', null, 'Os guias de confronto refletem a opinião de quem escreveu, na data indicada.')),
+    h('h2', null, 'Mercado entre jogadores'),
+    h('ul', null,
+      h('li', null, 'O mercado aproxima jogadores que compram e vendem cartas e decks. O Pac-Meta não é o vendedor: cada anúncio é de responsabilidade de quem anuncia, que é o vendedor dos itens.'),
+      h('li', null, 'Só vendem contas aprovadas pela administração do Pac-Meta. A aprovação pode ser recusada ou retirada a qualquer momento, por exemplo em caso de reclamações, atraso nas entregas ou descumprimento destas regras.'),
+      h('li', null, 'Os pagamentos são processados pelo Mercado Pago e caem direto na conta Mercado Pago do vendedor. O Pac-Meta cobra do vendedor uma comissão de 3% sobre o valor total de cada venda, descontada automaticamente. A taxa do próprio Mercado Pago também é descontada do vendedor, conforme as condições dele.'),
+      h('li', null, 'É proibido anunciar cartas falsas, "proxy" ou que você não tenha em mãos, e descrever o estado ou a edição de forma enganosa. Anúncios assim são retirados e a conta pode ser bloqueada.'),
+      h('li', null, 'O vendedor deve enviar o pedido, ou deixá-lo na Pac Deck quando a entrega for por retirada, em até 3 dias úteis depois da confirmação do pagamento, e informar o código de rastreio quando houver envio.'),
+      h('li', null, 'O comprador confirma o recebimento em "Minhas compras e vendas". Se o item não chegar ou vier diferente do anunciado, a pessoa deve falar primeiro com o vendedor e, se não resolver, abrir uma reclamação no Mercado Pago, que cuida de disputas e estornos. Em caso de estorno, a comissão do Pac-Meta também é devolvida proporcionalmente.'),
+      h('li', null, 'Nas compras pela internet, o comprador tem direito de se arrepender em até 7 dias depois de receber o produto, conforme o Código de Defesa do Consumidor, quando a venda for feita por vendedor profissional. Vendedores devem respeitar os direitos do consumidor que se aplicam a eles.'),
+      h('li', null, 'O vendedor é responsável pelas obrigações fiscais das suas vendas. O Pac-Meta é responsável pelas obrigações relativas às comissões que recebe.'),
+      h('li', null, 'Pedidos de compra ("procuro esta carta") são só avisos. Eles não obrigam ninguém a vender ou comprar.'),
+      h('li', null, 'Não use o mercado para combinar pagamentos por fora do site para fugir da comissão. Contas que fizerem isso podem ser bloqueadas.')),
+    h('h2', null, 'Contas'),
+    h('ul', null,
+      h('li', null, 'Você é responsável pela sua conta e pelo que é feito com ela. Use informações verdadeiras.'),
+      h('li', null, 'Você pode excluir a sua conta a qualquer momento em Minha conta, desde que não tenha pedidos em andamento.')),
+    h('h2', null, 'Mudanças'), P('Podemos mudar o site e estes termos a qualquer momento. A data da última atualização fica no topo desta página.'),
     h('h2', null, 'Contato'), P(AUTOR + ': ', mail(), '.'));
 }
 
@@ -727,6 +749,10 @@ async function route() {
     else if (p[0] === 'guias') { if (p[1] === 'chant') await guiaChant(p[2]); else if (p[1] && p[2]) await guiaDeck(p[1], p[2]); else await guiasIndex(); }
     else if (p[0] === 'artigos') { if (p[1] === 'enviar') enviarArtigo(); else if (p[1]) await artigoPage(p[1]); else await artigosIndex(); }
     else if (p[0] === 'sugestoes') sugestoes(); else if (p[0] === 'trabalhe') trabalhe();
+    else if (p[0] === 'mercado') { const r = p[1]; if (!r) await mercadoIndex('carta', params); else if (r === 'decks') await mercadoIndex('deck', params); else if (r === 'a' && p[2]) await anuncioPage(+p[2]); else if (r === 'vender') await venderPage(params); else if (r === 'novo') await anuncioForm(null, params); else if (r === 'editar' && p[2]) await anuncioForm(+p[2], params); else if (r === 'pedidos') await pedidosPage(params); else if (r === 'procuras') await procurasPage(); else if (r === 'vendedor' && p[2]) await vendedorPage(p[2]); else fail('Página não encontrada.'); }
+    else if (p[0] === 'entrar') await entrarPage();
+    else if (p[0] === 'conta') { if (p[1] === 'nova-senha') await novaSenhaPage(); else await contaPage(); }
+    else if (p[0] === 'admin') await adminPage();
     else if (p[0] === 'sobre') sobre(); else if (p[0] === 'privacidade') privacidade(); else if (p[0] === 'termos') termos();
     else fail('Página não encontrada.');
   } catch (e) { console.error(e); fail(); }

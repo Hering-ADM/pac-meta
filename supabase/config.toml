@@ -1,0 +1,12 @@
+# Funções do mercado do Pac-Meta. As que recebem chamadas do Mercado Pago não exigem login.
+[functions.mp-retorno]
+verify_jwt = false
+
+[functions.mp-webhook]
+verify_jwt = false
+
+[functions.checkout]
+verify_jwt = true
+
+[functions.mp-conectar]
+verify_jwt = true
