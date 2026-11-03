@@ -54,7 +54,7 @@ def main():
         iu = c.get('image_uris') or face.get('image_uris') or {}
         better = o['img'] is None or (paper and not o.get('_paper'))
         if iu.get('normal') and better:
-            o['img'] = iu.get('normal'); o['_paper'] = paper; o['uri'] = c.get('scryfall_uri')
+            o['img'] = iu.get('normal'); o['art'] = iu.get('art_crop'); o['_paper'] = paper; o['uri'] = c.get('scryfall_uri')
             o['cost'] = c.get('mana_cost') or face.get('mana_cost') or ''
             o['cmc'] = c.get('cmc'); o['type'] = c.get('type_line') or face.get('type_line') or ''
             o['colors'] = c.get('colors') if c.get('colors') is not None else face.get('colors', [])

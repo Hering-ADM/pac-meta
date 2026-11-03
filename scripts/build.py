@@ -61,6 +61,21 @@ def price(lst, C, f):
     return round(tot, 2), miss
 
 
+def art_for(name, typ, rules_by_name, C):
+    r = rules_by_name.get(name)
+    names = [n for _, n in typ]
+    cands = []
+    if r:
+        cands = [c for g in r['groups'] for c in g['cards'] if c in names]
+    elif name.endswith(')') and '(' in name:
+        cands = [name[name.rindex('(') + 1:-1]]
+    cands += [n for n in names if not C.is_land(n)]
+    for n in cands:
+        a = C.info(n).get('art')
+        if a: return a
+    return None
+
+
 def avg_list(decks, part, total):
     n = len(decks)
     sums = collections.Counter(); incl = collections.Counter()
@@ -94,6 +109,7 @@ def main():
             events.append(ev); raw_colors.update(ev.get('colors') or {})
     C = Cards(raw_colors)
     rules = load(os.path.join(DATA, 'archetypes.json'), {})
+    rules_by_name = {r['name']: r for v in rules.values() for r in v}
     today = max([e['date'] for e in events] or [dt.date.today().isoformat()])
     td = dt.date.fromisoformat(today)
     since = lambda days: (td - dt.timedelta(days=days - 1)).isoformat()
@@ -140,7 +156,7 @@ def main():
                              'prev': round(100 * pa[s] / len(prev), 2) if prev else None, 'top8': top8[s],
                              'colors': collections.Counter(d['col'] for d in ds).most_common(1)[0][0],
                              'usd': price(typ + typs, C, C.usd)[0], 'tix': price(typ + typs, C, C.tix)[0],
-                             'key': [n for n, _ in inc.most_common(4)]})
+                             'key': [n for n, _ in inc.most_common(4)], 'art': art_for(names[s], typ, rules_by_name, C)})
             meta['windows'][str(days)] = {'decks': len(cur), 'events': len({x[0]['id'] for x in cur}), 'rows': rows}
         save(os.path.join(OUT, fmt, 'meta.json'), meta)
         # páginas de arquétipo (30 dias)
@@ -153,7 +169,7 @@ def main():
             save(os.path.join(OUT, fmt, 'arch', s + '.json'), {
                 'format': fmt, 'slug': s, 'name': ds[0]['arch'], 'decks': len(ds), 'share': round(100 * len(ds) / max(1, len(cur30)), 2),
                 'main': typ, 'side': typs, 'main_stats': st[:60], 'side_stats': sts[:40],
-                'usd': price(typ + typs, C, C.usd)[0], 'tix': price(typ + typs, C, C.tix)[0],
+                'usd': price(typ + typs, C, C.usd)[0], 'tix': price(typ + typs, C, C.tix)[0], 'art': art_for(ds[0]['arch'], typ, rules_by_name, C),
                 'recent': [{'ev': e['id'], 'evname': e['name'], 'date': e['date'], 'kind': e['kind'], 'i': i, 'player': d['player'],
                             'rank': d['rank'], 'w': d['wins'], 'l': d['losses'], 'usd': d['usd']} for e, i, d in xs[:60]]})
         # eventos
@@ -177,7 +193,7 @@ def main():
             ci['f'][fmt] = [round(100 * k / max(1, len(cur30)), 1), round(copies[n] / k, 1), [a for a, _ in arches[n].most_common(5)]]
         w7 = meta['windows']['7']
         index['formats'].append({'id': fmt, 'name': fname, 'decks30': len(cur30), 'events30': len({x[0]['id'] for x in cur30}),
-                                 'top': [{'slug': r['slug'], 'name': r['name'], 'share': r['share'], 'colors': r['colors']} for r in (w7['rows'] or meta['windows']['30']['rows'])[:6]]})
+                                 'top': [{'slug': r['slug'], 'name': r['name'], 'share': r['share'], 'colors': r['colors'], 'art': r['art'], 'usd': r['usd'], 'tix': r['tix']} for r in (w7['rows'] or meta['windows']['30']['rows'])[:6]]})
         index['events'] += lst[:12]
     index['events'] = sorted(index['events'], key=lambda e: (e['date'], e['id']), reverse=True)[:30]
     for e in index['events']:
@@ -188,7 +204,7 @@ def main():
     for n, ci in card_index.items():
         i = C.info(n)
         o = C.old.get(key(n)) or [None, None, None]
-        cards[n] = {'img': i.get('img'), 'usd': i.get('usd'), 'eur': i.get('eur'), 'tix': i.get('tix'), 'usd7': o[0], 'tix7': o[2],
+        cards[n] = {'img': i.get('img'), 'art': i.get('art'), 'usd': i.get('usd'), 'eur': i.get('eur'), 'tix': i.get('tix'), 'usd7': o[0], 'tix7': o[2],
                     'type': i.get('type'), 'cost': i.get('cost'), 'cmc': i.get('cmc'), 'colors': i.get('colors'), 'rarity': i.get('rarity'),
                     'uri': i.get('uri'), 'full': i.get('full'), 'f': ci['f']}
     save(os.path.join(OUT, 'cards.json'), cards)

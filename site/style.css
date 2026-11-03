@@ -153,3 +153,67 @@ details.acc > div { padding: 0 1rem 1rem; display: grid; gap: .6rem; }
   .fmts::-webkit-scrollbar { display: none; }
   .search { flex: 1; } .search input { width: 100%; max-width: none; }
 }
+
+/* ---------- blocos de arquétipo (estilo metagame) ---------- */
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr)); gap: .9rem; }
+.tile { display: grid; grid-template-rows: 7.2rem auto; border-radius: 12px; overflow: hidden; background: var(--panel); border: 1px solid var(--line); color: var(--fg); text-decoration: none !important; transition: transform .12s, box-shadow .12s; }
+.tile:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.14); }
+.tile .art { position: relative; background: var(--grad) center / cover no-repeat; }
+.tile .art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.55)); }
+.tile .art .rk { position: absolute; left: .5rem; top: .5rem; z-index: 1; background: rgba(0,0,0,.7); color: #fff; font-size: .72rem; font-weight: 700; padding: .12rem .45rem; border-radius: 6px; }
+.tile .art .sh { position: absolute; right: .55rem; bottom: .4rem; z-index: 1; color: #fff; font-weight: 800; font-size: 1.25rem; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+.tile .art .pp { position: absolute; left: .5rem; bottom: .55rem; z-index: 1; }
+.tile .bd { padding: .6rem .75rem .7rem; display: grid; gap: .3rem; }
+.tile .bd b { font-size: .95rem; line-height: 1.25; }
+.tile .bd .pr { display: flex; justify-content: space-between; font-size: .8rem; color: var(--mut); font-variant-numeric: tabular-nums; }
+.tile .bd .pr span:first-child { color: var(--fg); font-weight: 600; }
+.tile .meter { height: .3rem; border-radius: 3px; background: var(--panel2); overflow: hidden; }
+.tile .meter i { display: block; height: 100%; background: var(--acc); }
+.fsec { display: grid; gap: .7rem; }
+.fsec > header { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.fsec > header h2 { font-size: 1.25rem; }
+.tiles.row6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+@media (max-width: 70rem) { .tiles.row6 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .tiles.row6 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile { grid-template-rows: 5.6rem auto; } }
+
+/* banner de arquétipo */
+.banner { position: relative; border-radius: 14px; overflow: hidden; min-height: 11rem; display: flex; align-items: flex-end; background: var(--grad) center 30% / cover no-repeat; color: #fff; }
+.banner::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,14,22,.92) 0%, rgba(10,14,22,.65) 55%, rgba(10,14,22,.25)); }
+.banner > div { position: relative; padding: 1.2rem 1.4rem; width: 100%; }
+.banner .crumb, .banner .crumb a { color: #c9d1de; }
+.banner h1 { color: #fff; font-size: 2.1rem; }
+.banner .stat small { color: #c9d1de; }
+.banner .stat b { color: #fff; }
+
+/* mana */
+.mana { display: inline-flex; gap: 1px; vertical-align: -2px; }
+.mana i { width: 1rem; height: 1rem; border-radius: 50%; font-style: normal; font-size: .62rem; font-weight: 800; display: grid; place-items: center; color: #1a1a1a; box-shadow: 0 1px 0 rgba(0,0,0,.35); background: #cbc5bd; }
+.mana i.W { background: #f8f3d6; } .mana i.U { background: #aad3f5; } .mana i.B { background: #c4b8bb; } .mana i.R { background: #f5ad90; } .mana i.G { background: #a8d8ad; }
+
+/* tabela de lista */
+.dl { display: grid; grid-template-columns: minmax(0, 1fr) 19rem; gap: 1.2rem; align-items: start; }
+@media (max-width: 62rem) { .dl { grid-template-columns: 1fr; } }
+table.dt { width: 100%; border-collapse: collapse; font-size: .9rem; }
+table.dt th { text-align: left; background: var(--panel2); font-size: .76rem; text-transform: uppercase; letter-spacing: .05em; color: var(--mut); padding: .45rem .6rem; }
+table.dt th.n, table.dt td.n { text-align: right; }
+table.dt td { padding: .32rem .6rem; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+table.dt td.q { width: 2.4rem; font-weight: 700; color: var(--acc); }
+table.dt td.c { width: 5.5rem; }
+table.dt td a { color: var(--fg); }
+table.dt td a:hover { color: var(--acc); }
+table.dt tr.sp td { height: .5rem; border: 0; }
+.side-box { display: grid; gap: .9rem; position: sticky; top: 7.5rem; }
+.pricebox { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.pricebox div { background: var(--panel2); border-radius: 10px; padding: .7rem .8rem; }
+.pricebox small { display: block; color: var(--mut); font-size: .74rem; text-transform: uppercase; letter-spacing: .05em; }
+.pricebox b { font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+.curve { display: grid; grid-template-columns: repeat(7, 1fr); gap: .3rem; align-items: end; height: 6rem; }
+.curve div { display: grid; gap: .15rem; text-align: center; font-size: .7rem; color: var(--mut); align-content: end; height: 100%; }
+.curve i { display: block; background: var(--acc); border-radius: 3px 3px 0 0; min-height: 2px; }
+.visual { display: grid; grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr)); gap: .7rem; }
+.visual a { position: relative; display: block; }
+.visual img, .visual .ph { width: 100%; aspect-ratio: 63 / 88; border-radius: 6%; display: block; background: var(--panel2); object-fit: cover; }
+.visual .ph { display: grid; place-items: center; padding: .5rem; text-align: center; font-size: .78rem; color: var(--mut); border: 1px solid var(--line); }
+.visual .qb { position: absolute; left: .35rem; top: 2.1rem; background: rgba(0,0,0,.78); color: #fff; font-weight: 800; font-size: .8rem; padding: .1rem .45rem; border-radius: 6px; }
+.visual h3 { grid-column: 1 / -1; margin: .4rem 0 0; }
+@media (max-width: 40rem) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; } .tile .bd .pr { flex-direction: column; } .tile .art .sh { font-size: 1.05rem; } }

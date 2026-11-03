@@ -42,6 +42,17 @@ const TYPES = [['Creature', 'Criaturas'], ['Planeswalker', 'Planeswalkers'], ['B
 function typeOf(n) { const t = ((CARDS || {})[n] || {}).type || ''; const f = t.split('//')[0]; for (const [k, v] of TYPES) if (f.includes(k)) return v; return 'Outras'; }
 function cardLink(n) { const a = h('a', { href: '#/c/' + enc(n), 'data-card': n }, n); return a; }
 
+
+const CC = { W: '#e9dfb8', U: '#3d86d6', B: '#5b4f63', R: '#d9553f', G: '#3e9b5c', C: '#9c968e' };
+function grad(col, art) { const cs = (col || 'C').split('').map((c) => CC[c] || CC.C); if (cs.length === 1) cs.push('#1d2638'); const g = `linear-gradient(135deg, ${cs.join(', ')})`; return art ? `url("${art}"), ${g}` : g; }
+function mana(cost) { const MC = { W: '#f8f3d6', U: '#aad3f5', B: '#c4b8bb', R: '#f5ad90', G: '#a8d8ad' }; const w = h('span', { class: 'mana', 'aria-label': cost || '' }); (String(cost || '').match(/\{[^}]+\}/g) || []).forEach((t) => { const v = t.slice(1, -1); if (MC[v]) w.append(h('i', { class: v })); else if (v.includes('/')) { const [a, b] = v.split('/'); w.append(h('i', { style: b === 'P' ? `background:${MC[a] || '#cbc5bd'}` : `background:linear-gradient(135deg, ${MC[a] || '#cbc5bd'} 50%, ${MC[b] || '#cbc5bd'} 50%)` }, b === 'P' ? 'φ' : (MC[a] ? '' : a))); } else w.append(h('i', null, v)); }); return w; }
+function tile(f, a, rank) {
+  return h('a', { class: 'tile', href: `#/f/${f}/a/${a.slug}`, style: `--grad:${grad(a.colors, a.art)}` },
+    h('div', { class: 'art' }, rank ? h('span', { class: 'rk' }, '#' + rank) : null, h('span', { class: 'pp' }, pips(a.colors)), h('span', { class: 'sh' }, pct(a.share))),
+    h('div', { class: 'bd' }, h('b', { class: 'ellip' }, a.name), h('div', { class: 'meter' }, h('i', { style: `width:${Math.min(100, a.share * 4)}%` })),
+      h('div', { class: 'pr' }, h('span', null, usd(a.usd)), h('span', null, tix(a.tix)))));
+}
+
 /* ---------- prévia da imagem ao passar o mouse ---------- */
 const tip = document.getElementById('tip'); const tipImg = tip.querySelector('img');
 document.addEventListener('mouseover', (ev) => {
@@ -84,16 +95,12 @@ async function home() {
   title('Metagame, decks e preços de Magic');
   const idx = await get('data/index.json');
   const C = await cards();
-  const fcards = idx.formats.map((f) => card(
-    h('h2', null, h('a', { href: '#/f/' + f.id }, f.name), h('small', null, f.decks30 + ' decks em 30 dias')),
-    h('ol', { class: 'fcard-list' }, f.top.map((a) => h('li', null,
-      h('a', { class: 'ellip', href: `#/f/${f.id}/a/${a.slug}` }, pips(a.colors), a.name), h('em', null, pct(a.share)),
-      h('span', { class: 'b' }, h('i', { style: `width:${Math.min(100, a.share * 3)}%` })))))));
-  fcards.forEach((c) => c.classList.add('fcard'));
   let mv = { up: [], down: [] }; try { mv = await get('data/movers.json'); } catch (e) {}
   $main.replaceChildren(
-    h('div', null, h('h1', null, 'Metagame de Magic, atualizado a cada hora'), h('p', { class: 'lead' }, 'Arquétipos mais jogados, listas dos torneios do MTGO, preços das cartas e guias de confronto. Escolha um formato para começar.')),
-    h('div', { class: 'grid3' }, fcards),
+    h('div', null, h('h1', null, 'Metagame de Magic, atualizado a cada hora'), h('p', { class: 'lead' }, 'Os arquétipos mais jogados de cada formato, as listas dos torneios do MTGO e o preço de cada deck em papel e online.')),
+    ...idx.formats.map((f) => h('section', { class: 'fsec' },
+      h('header', null, h('h2', null, h('a', { href: '#/f/' + f.id }, 'Metagame ' + f.name)), h('span', { class: 'crumb' }, f.decks30 + ' listas e ' + f.events30 + ' torneios em 30 dias · ', h('a', { href: '#/f/' + f.id }, 'ver todos os decks →'))),
+      h('div', { class: 'tiles row6' }, f.top.map((a, i) => tile(f.id, a, i + 1))))),
     h('div', { class: 'grid2' },
       card(h('h2', null, 'Últimos torneios', h('a', { href: '#/torneios' }, 'ver todos')), eventsTable(idx.events.slice(0, 12), true)),
       card(h('h2', null, 'Preços que mais subiram na semana', h('a', { href: '#/precos' }, 'ver mais')), moversTable(mv.up.slice(0, 10), C))));
@@ -120,32 +127,31 @@ function moversTable(list, C) {
 async function metagame(f, params) {
   const m = await get(`data/${f}/meta.json`); title('Metagame ' + m.name);
   let days = params.get('d') || store.get('dias', '14'); if (!m.windows[days]) days = '14';
-  let money = store.get('moeda', 'usd'); let sortK = 'share', sortD = -1;
+  let money = store.get('moeda', 'usd'); let sortK = 'share', sortD = -1; let view = store.get('vista', 'blocos');
+  Object.values(m.windows).forEach((w) => w.rows.forEach((r) => { r.trend = r.prev == null ? null : r.share - r.prev; }));
   const body = h('div');
   function draw() {
     const w = m.windows[days]; const rows = w.rows.slice().sort((a, b) => ((a[sortK] ?? -1) > (b[sortK] ?? -1) ? 1 : (a[sortK] ?? -1) < (b[sortK] ?? -1) ? -1 : 0) * sortD);
     const mx = Math.max(1, ...w.rows.map((r) => r.share));
     const th = (k, t, cls) => h('th', { class: cls, 'aria-sort': sortK === k ? (sortD === 1 ? 'ascending' : 'descending') : null }, h('button', { class: 'sortb', onclick: () => { if (sortK === k) sortD = -sortD; else { sortK = k; sortD = k === 'name' ? 1 : -1; } draw(); } }, t + (sortK === k ? (sortD === 1 ? ' ↑' : ' ↓') : '')));
+    const table = h('div', { class: 'tbox' }, h('table', { class: 't' },
+      h('thead', null, h('tr', null, th('name', 'Arquétipo'), th('share', 'Meta', 'n'), th('trend', 'Tendência', 'n hide-sm'), th('decks', 'Listas', 'n hide-sm'), th('top8', 'Top 8', 'n hide-sm'), th('usd', 'Papel', 'n'), th('tix', 'MTGO', 'n hide-sm'))),
+      h('tbody', null, rows.map((r) => h('tr', null,
+        h('td', { class: 'nm' }, h('a', { href: `#/f/${f}/a/${r.slug}` }, pips(r.colors), r.name), h('br'), h('small', null, r.key.join(' · '))),
+        h('td', { class: 'n' }, h('span', { class: 'bar', style: `width:${Math.max(2, r.share / mx * 4.5)}rem` }), pct(r.share)),
+        h('td', { class: 'n hide-sm ' + (r.trend == null ? '' : r.trend >= 0 ? 'up' : 'down') }, r.trend == null ? '—' : (r.trend >= 0 ? '▲ +' : '▼ ') + pct(r.trend)),
+        h('td', { class: 'n hide-sm' }, r.decks), h('td', { class: 'n hide-sm' }, r.top8 || '—'), h('td', { class: 'n' }, usd(r.usd)), h('td', { class: 'n hide-sm' }, tix(r.tix)))))));
     body.replaceChildren(
-      h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, w.decks), h('small', null, 'listas')), h('div', { class: 'stat' }, h('b', null, w.events), h('small', null, 'torneios')), h('div', { class: 'stat' }, h('b', null, w.rows.length), h('small', null, 'arquétipos'))),
-      w.rows.length ? chart(w.rows.slice(0, 12)) : null,
-      h('div', { class: 'tbox' }, h('table', { class: 't' },
-        h('thead', null, h('tr', null, th('name', 'Arquétipo'), th('share', 'Meta', 'n'), th('trend', 'Tendência', 'n hide-sm'), th('decks', 'Listas', 'n hide-sm'), th('top8', 'Top 8', 'n hide-sm'), th(money, money === 'usd' ? 'Preço (papel)' : 'Preço (MTGO)', 'n'))),
-        h('tbody', null, rows.map((r) => { const tr = r.prev == null ? null : r.share - r.prev; return h('tr', null,
-          h('td', { class: 'nm' }, h('a', { href: `#/f/${f}/a/${r.slug}` }, pips(r.colors), r.name), h('br'), h('small', null, r.key.join(' · '))),
-          h('td', { class: 'n' }, h('span', { class: 'bar', style: `width:${Math.max(2, r.share / mx * 4.5)}rem` }), pct(r.share)),
-          h('td', { class: 'n hide-sm ' + (tr == null ? '' : tr >= 0 ? 'up' : 'down') }, tr == null ? '—' : (tr >= 0 ? '▲ +' : '▼ ') + pct(tr)),
-          h('td', { class: 'n hide-sm' }, r.decks), h('td', { class: 'n hide-sm' }, r.top8 || '—'), h('td', { class: 'n' }, money === 'usd' ? usd(r.usd) : tix(r.tix))); })))));
+      h('div', { class: 'stats', style: 'margin:0 0 1rem' }, h('div', { class: 'stat' }, h('b', null, w.decks), h('small', null, 'listas')), h('div', { class: 'stat' }, h('b', null, w.events), h('small', null, 'torneios')), h('div', { class: 'stat' }, h('b', null, w.rows.length), h('small', null, 'arquétipos'))),
+      view === 'blocos' ? h('div', null, h('div', { class: 'tiles' }, w.rows.slice(0, 24).map((r, i) => tile(f, r, i + 1))), w.rows.length > 24 ? h('h2', { style: 'margin:1.6rem 0 .6rem' }, 'Todos os arquétipos') : null, w.rows.length > 24 ? table : null) : table);
   }
-  m.windows[days].rows.forEach((r) => { r.trend = r.prev == null ? null : r.share - r.prev; });
-  Object.values(m.windows).forEach((w) => w.rows.forEach((r) => { r.trend = r.prev == null ? null : r.share - r.prev; }));
-  const seg = h('div', { class: 'seg', role: 'group', 'aria-label': 'Período' }, ['7', '14', '30'].map((d) => h('button', { 'aria-pressed': String(d === days), onclick: (e) => { days = d; store.set('dias', d); seg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); draw(); } }, d + ' dias')));
-  const seg2 = h('div', { class: 'seg', role: 'group', 'aria-label': 'Moeda' }, [['usd', 'Papel (US$)'], ['tix', 'MTGO (tix)']].map(([k, t]) => h('button', { 'aria-pressed': String(k === money), onclick: (e) => { money = k; store.set('moeda', k); seg2.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); draw(); } }, t)));
+  const mkseg = (label, opts, cur, cb) => { const sg = h('div', { class: 'seg', role: 'group', 'aria-label': label }, opts.map(([k, t]) => h('button', { 'aria-pressed': String(k === cur), onclick: (e) => { sg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); cb(k); draw(); } }, t))); return sg; };
   draw();
   $main.replaceChildren(
     h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', m.name), h('h1', null, 'Metagame de ' + m.name),
-      h('p', { class: 'lead' }, 'Participação de cada arquétipo nas listas publicadas dos torneios do MTGO. Tendência compara com o período anterior de mesmo tamanho. Preço é o da lista típica, com a versão mais barata de cada carta.')),
-    card(h('div', { class: 'row between' }, h('div', { class: 'row' }, seg, seg2), h('a', { href: `#/f/${f}/torneios` }, 'Torneios de ' + m.name + ' →')), body));
+      h('p', { class: 'lead' }, 'Participação de cada arquétipo nas listas publicadas dos torneios do MTGO. A tendência compara com o período anterior de mesmo tamanho. O preço é o da lista típica, com a versão mais barata de cada carta.')),
+    h('div', { class: 'row between' }, h('div', { class: 'row' }, mkseg('Período', [['7', '7 dias'], ['14', '14 dias'], ['30', '30 dias']], days, (k) => { days = k; store.set('dias', k); }), mkseg('Visualização', [['blocos', 'Blocos'], ['tabela', 'Tabela']], view, (k) => { view = k; store.set('vista', k); })), h('a', { href: `#/f/${f}/torneios` }, 'Torneios de ' + m.name + ' →')),
+    body);
 }
 
 function chart(rows) {
@@ -160,33 +166,62 @@ function chart(rows) {
   return h('div', { style: 'margin:.6rem 0 1rem' }, s);
 }
 
+function curveOf(main) {
+  const C = CARDS || {}; const b = [0, 0, 0, 0, 0, 0, 0];
+  main.forEach(([q, n]) => { const c = C[n]; if (!c || (c.type || '').split('//')[0].includes('Land') || c.cmc == null) return; b[Math.min(6, Math.round(c.cmc))] += q; });
+  const mx = Math.max(1, ...b);
+  return h('div', { class: 'curve', role: 'img', 'aria-label': 'Curva de mana: ' + b.map((v, i) => (i === 6 ? '6+' : i) + ': ' + v).join(', ') }, b.map((v, i) => h('div', null, h('span', null, v || ''), h('i', { style: `height:${v / mx * 4}rem` }), h('span', null, i === 6 ? '6+' : i))));
+}
 function deckBlock(main, side, opts = {}) {
   const C = CARDS || {}; const groups = {};
   main.forEach(([q, n]) => { (groups[typeOf(n)] = groups[typeOf(n)] || []).push([q, n]); });
   const order = TYPES.map((t) => t[1]).concat('Outras');
-  const sec = (t, l) => h('section', null, h('h3', null, h('span', null, t), h('span', null, l.reduce((s, x) => s + x[0], 0))), l.map(([q, n]) => h('div', { class: 'ln' }, h('b', null, q), cardLink(n), h('small', null, C[n] && C[n].usd != null ? usd(q * C[n].usd) : ''))));
-  return h('div', { class: 'deck' }, order.filter((t) => groups[t]).map((t) => sec(t, groups[t])), side && side.length ? sec('Sideboard', side) : null);
+  const secs = order.filter((t) => groups[t]).map((t) => [t, groups[t]]); if (side && side.length) secs.push(['Sideboard', side]);
+  let view = store.get('vistadeck', 'lista');
+  const box = h('div');
+  const tot = (l, f) => l.reduce((s, [q, n]) => s + (C[n] && C[n][f] != null ? q * C[n][f] : 0), 0);
+  function draw() {
+    if (view === 'visual') {
+      box.replaceChildren(h('div', { class: 'visual' }, secs.map(([t, l]) => [h('h3', null, t + ' (' + l.reduce((s, x) => s + x[0], 0) + ')'), l.map(([q, n]) => h('a', { href: '#/c/' + enc(n), 'data-card': n, 'aria-label': q + ' ' + n }, C[n] && C[n].img ? h('img', { src: C[n].img, alt: n, loading: 'lazy' }) : h('div', { class: 'ph' }, n), h('span', { class: 'qb' }, q + 'x')))])));
+    } else {
+      box.replaceChildren(h('table', { class: 'dt' }, h('thead', null, h('tr', null, h('th', null, 'Qtd'), h('th', null, 'Carta'), h('th', { class: 'hide-sm' }, 'Custo'), h('th', { class: 'n' }, 'Papel'), h('th', { class: 'n hide-sm' }, 'MTGO'))),
+        h('tbody', null, secs.map(([t, l], k) => [k ? h('tr', { class: 'sp' }, h('td', { colspan: 5 })) : null, h('tr', null, h('th', { colspan: 5 }, t + ' (' + l.reduce((s, x) => s + x[0], 0) + ')')),
+          l.map(([q, n]) => h('tr', null, h('td', { class: 'q' }, q), h('td', null, cardLink(n)), h('td', { class: 'c hide-sm' }, mana((C[n] || {}).cost)), h('td', { class: 'n' }, C[n] && C[n].usd != null ? usd(q * C[n].usd) : '—'), h('td', { class: 'n hide-sm' }, C[n] && C[n].tix != null ? tix(q * C[n].tix) : '—')))]))));
+    }
+  }
+  const sg = h('div', { class: 'seg', role: 'group', 'aria-label': 'Modo de ver a lista' }, [['lista', 'Lista'], ['visual', 'Visual']].map(([k, t]) => h('button', { 'aria-pressed': String(k === view), onclick: (e) => { view = k; store.set('vistadeck', k); sg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); draw(); } }, t)));
+  draw();
+  const all = main.concat(side || []);
+  const typeRows = secs.filter(([t]) => t !== 'Sideboard').map(([t, l]) => h('div', { class: 'ln' }, h('b', null, l.reduce((s, x) => s + x[0], 0)), h('span', null, t), h('small')));
+  return h('div', { class: 'dl' },
+    h('div', { style: 'display:grid;gap:.8rem;min-width:0' }, h('div', { class: 'row between' }, sg, opts.export || null), box),
+    h('aside', { class: 'side-box' },
+      card(h('h3', null, 'Preço do deck'), h('div', { class: 'pricebox' }, h('div', null, h('small', null, 'Papel'), h('b', null, usd(tot(all, 'usd')))), h('div', null, h('small', null, 'MTGO'), h('b', null, tix(tot(all, 'tix'))))), h('p', { class: 'crumb', style: 'margin:.5rem 0 0' }, 'Versão mais barata de cada carta, pelo Scryfall.')),
+      card(h('h3', null, 'Curva de mana'), curveOf(main)),
+      card(h('h3', null, 'Tipos'), h('div', { class: 'deck' }, h('section', null, typeRows)))));
 }
 function exportRow(main, side, name) {
   const txt = main.map(([q, n]) => q + ' ' + n).join('\n') + '\n\nSideboard\n' + side.map(([q, n]) => q + ' ' + n).join('\n');
   const st = h('span', { class: 'crumb', role: 'status' });
   return h('div', { class: 'row' },
     h('button', { class: 'btn pri', onclick: () => { navigator.clipboard.writeText(txt).then(() => { st.textContent = 'Lista copiada.'; }, () => { st.textContent = 'Não deu para copiar; use o botão de baixar.'; }); } }, 'Copiar lista'),
-    h('button', { class: 'btn', onclick: () => { const a = h('a', { href: URL.createObjectURL(new Blob([txt], { type: 'text/plain' })), download: (name || 'deck').replace(/[^\w-]+/g, '_') + '.txt' }); document.body.append(a); a.click(); a.remove(); } }, 'Baixar .txt (MTGO/Arena)'), st);
+    h('button', { class: 'btn', onclick: () => { const a = h('a', { href: URL.createObjectURL(new Blob([txt], { type: 'text/plain' })), download: (name || 'deck').replace(/[^\w-]+/g, '_') + '.txt' }); document.body.append(a); a.click(); a.remove(); } }, 'Baixar .txt'), st);
 }
 
 async function archetype(f, s) {
   const [a] = await Promise.all([get(`data/${f}/arch/${s}.json`), cards()]); title(a.name + ' · ' + FNAME[f]);
+  const col = (await get(`data/${f}/meta.json`).catch(() => ({ windows: {} })));
+  const row = Object.values(col.windows).flatMap((w) => w.rows).find((r) => r.slug === s) || {};
   let view = 'tipica';
   const box = h('div');
   const statsT = (list, label) => h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, label), h('th', { class: 'n' }, 'Em % das listas'), h('th', { class: 'n' }, 'Cópias (média)'))), h('tbody', null, list.map((x) => h('tr', null, h('td', null, cardLink(x.card)), h('td', { class: 'n' }, pct(x.pct, 0)), h('td', { class: 'n' }, x.avg.toLocaleString('pt-BR')))))));
-  function draw() { box.replaceChildren(view === 'tipica' ? h('div', null, exportRow(a.main, a.side, a.name), h('div', { style: 'height:.8rem' }), deckBlock(a.main, a.side)) : h('div', { class: 'grid2' }, statsT(a.main_stats, 'Principal'), statsT(a.side_stats, 'Sideboard'))); }
+  function draw() { box.replaceChildren(view === 'tipica' ? deckBlock(a.main, a.side, { export: exportRow(a.main, a.side, a.name) }) : h('div', { class: 'grid2' }, statsT(a.main_stats, 'Principal'), statsT(a.side_stats, 'Sideboard'))); }
   const seg = h('div', { class: 'seg', role: 'group' }, [['tipica', 'Lista típica'], ['stats', 'Cartas e frequência']].map(([k, t]) => h('button', { 'aria-pressed': String(k === view), onclick: (e) => { view = k; seg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); draw(); } }, t)));
   draw();
   $main.replaceChildren(
-    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/f/' + f }, FNAME[f]), ' › ', a.name), h('h1', null, a.name),
-      h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, pct(a.share)), h('small', null, 'do meta em 30 dias')), h('div', { class: 'stat' }, h('b', null, a.decks), h('small', null, 'listas')), h('div', { class: 'stat' }, h('b', null, usd(a.usd)), h('small', null, 'papel, lista típica')), h('div', { class: 'stat' }, h('b', null, tix(a.tix)), h('small', null, 'MTGO')))),
-    card(h('div', { class: 'row between' }, seg, h('small', { class: 'crumb' }, 'A lista típica junta as ' + a.decks + ' listas dos últimos 30 dias: cada carta entra com o número médio de cópias.')), h('div', { style: 'height:.8rem' }), box),
+    h('div', { class: 'banner', style: `--grad:${grad(row.colors, a.art)}` }, h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/f/' + f }, FNAME[f]), ' › ', a.name), h('h1', null, pips(row.colors), a.name),
+      h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, pct(a.share)), h('small', null, 'do meta em 30 dias')), h('div', { class: 'stat' }, h('b', null, a.decks), h('small', null, 'listas')), h('div', { class: 'stat' }, h('b', null, usd(a.usd)), h('small', null, 'papel')), h('div', { class: 'stat' }, h('b', null, tix(a.tix)), h('small', null, 'MTGO'))))),
+    card(h('div', { class: 'row between' }, seg, h('small', { class: 'crumb' }, 'Lista típica: junta as ' + a.decks + ' listas dos últimos 30 dias, cada carta com o número médio de cópias.')), h('div', { style: 'height:1rem' }), box),
     card(h('h2', null, 'Listas recentes'), h('div', { class: 'tbox' }, h('table', { class: 't' },
       h('thead', null, h('tr', null, h('th', null, 'Data'), h('th', null, 'Jogador'), h('th', null, 'Torneio'), h('th', { class: 'n' }, 'Resultado'), h('th', { class: 'n hide-sm' }, 'Preço'))),
       h('tbody', null, a.recent.map((r) => h('tr', null, h('td', null, dat(r.date)), h('td', { class: 'nm' }, h('a', { href: `#/e/${r.ev}/${r.i}` }, r.player)), h('td', null, h('a', { href: '#/e/' + r.ev }, r.evname)), h('td', { class: 'n' }, r.kind === 'league' ? '5-0' : (r.rank ? r.rank + 'º' : '') + (r.w != null ? ' (' + record(r.w, r.l) + ')' : '')), h('td', { class: 'n hide-sm' }, usd(r.usd)))))))));
@@ -220,9 +255,8 @@ async function eventPage(id, i) {
 function deckPage(e, i) {
   const d = e.decks[i]; title(d.arch + ' de ' + d.player);
   $main.replaceChildren(
-    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/e/' + e.id }, e.name), ' › ', d.player), h('h1', null, d.arch), h('p', { class: 'lead' }, 'por ' + d.player + ' · ' + rankTxt(d.rank, e.kind) + (d.wins != null && e.kind !== 'league' ? ' (' + record(d.wins, d.losses) + ')' : '') + ' · ' + dat(e.date) + ' · ', h('a', { href: `#/f/${e.format}/a/${d.aslug}` }, 'ver o arquétipo')),
-      h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, usd(d.usd)), h('small', null, 'papel')), h('div', { class: 'stat' }, h('b', null, tix(d.tix)), h('small', null, 'MTGO')))),
-    card(exportRow(d.main, d.side, d.arch + '-' + d.player), h('div', { style: 'height:.8rem' }), deckBlock(d.main, d.side)));
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/e/' + e.id }, e.name), ' › ', d.player), h('h1', null, d.arch), h('p', { class: 'lead' }, 'por ' + d.player + ' · ' + rankTxt(d.rank, e.kind) + (d.wins != null && e.kind !== 'league' ? ' (' + record(d.wins, d.losses) + ')' : '') + ' · ' + dat(e.date) + ' · ', h('a', { href: `#/f/${e.format}/a/${d.aslug}` }, 'ver o arquétipo'))),
+    card(deckBlock(d.main, d.side, { export: exportRow(d.main, d.side, d.arch + '-' + d.player) })));
 }
 
 async function cardPage(n) {
