@@ -142,6 +142,10 @@ def main():
     for f in sorted(os.listdir(RAW)):
         ev = load(os.path.join(RAW, f))
         if ev and ev.get('format') and ev.get('decks'):
+            if not ev.get('date'):
+                import re as _re
+                mm = _re.search(r'(\d{4})-(\d{2})-(\d{2})', ev['id'])
+                if mm: ev['date'] = '-'.join(mm.groups())
             events.append(ev); raw_colors.update(ev.get('colors') or {})
     C = Cards(raw_colors)
     rules = load(os.path.join(DATA, 'archetypes.json'), {})

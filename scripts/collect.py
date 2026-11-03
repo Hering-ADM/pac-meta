@@ -71,7 +71,7 @@ def compact(site_name, d):
     decks.sort(key=lambda x: (x['rank'] or 999, -(x['wins'] or 0), x['player'].lower()))
     pc = d.get('player_count') or {}
     return {
-        'id': site_name, 'name': d.get('description') or site_name, 'date': (d.get('starttime') or '')[:10],
+        'id': site_name, 'name': d.get('description') or site_name, 'date': (d.get('starttime') or '')[:10] or '-'.join((re.search(r'(\d{4})-(\d{2})-(\d{2})', site_name) or re.search('()()()', '')).groups()),
         'format': fmt_of(site_name), 'kind': kind,
         'players': int(pc.get('players')) if isinstance(pc, dict) and pc.get('players') else None,
         'url': f'{BASE}/decklist/{site_name}', 'colors': colors, 'decks': decks,
