@@ -30,7 +30,9 @@ const tix = (v) => v == null ? '—' : Number(v).toLocaleString('pt-BR', { minim
 const dat = (s) => { if (!s) return '—'; const [y, m, d] = s.split('-'); return `${+d} ${MESES[+m - 1]} ${y}`; };
 const enc = encodeURIComponent;
 const fmtOf = (id) => (FORMATS.find(([f]) => id.startsWith(f + '-')) || [''])[0];
-function pips(col) { const s = h('span', { class: 'pips', 'aria-label': col ? 'Cores: ' + col : 'Incolor' }); (col || 'C').split('').forEach((c) => s.append(h('i', { class: c }))); return s; }
+const SYM = (v) => 'https://svgs.scryfall.io/card-symbols/' + v.replace(/\//g, '').toUpperCase() + '.svg';
+const CNAME = { W: 'branco', U: 'azul', B: 'preto', R: 'vermelho', G: 'verde', C: 'incolor' };
+function pips(col) { const s = h('span', { class: 'pips', role: 'img', 'aria-label': 'Cores: ' + (col || 'C').split('').map((c) => CNAME[c] || c).join(', ') }); (col || 'C').split('').forEach((c) => s.append(h('img', { src: SYM(c), alt: '', width: 16, height: 16, loading: 'lazy' }))); return s; }
 function record(w, l) { return w == null ? '' : `${w}-${l}`; }
 function rankTxt(r, kind) { if (kind === 'league') return '5-0'; return r ? r + 'º' : '—'; }
 function card(...kids) { return h('div', { class: 'card' }, ...kids); }
@@ -45,7 +47,7 @@ function cardLink(n) { const a = h('a', { href: '#/c/' + enc(n), 'data-card': n 
 
 const CC = { W: '#e9dfb8', U: '#3d86d6', B: '#5b4f63', R: '#d9553f', G: '#3e9b5c', C: '#9c968e' };
 function grad(col, art) { const cs = (col || 'C').split('').map((c) => CC[c] || CC.C); if (cs.length === 1) cs.push('#1d2638'); const g = `linear-gradient(135deg, ${cs.join(', ')})`; return art ? `url("${art}"), ${g}` : g; }
-function mana(cost) { const MC = { W: '#f8f3d6', U: '#aad3f5', B: '#c4b8bb', R: '#f5ad90', G: '#a8d8ad' }; const w = h('span', { class: 'mana', 'aria-label': cost || '' }); (String(cost || '').match(/\{[^}]+\}/g) || []).forEach((t) => { const v = t.slice(1, -1); if (MC[v]) w.append(h('i', { class: v })); else if (v.includes('/')) { const [a, b] = v.split('/'); w.append(h('i', { style: b === 'P' ? `background:${MC[a] || '#cbc5bd'}` : `background:linear-gradient(135deg, ${MC[a] || '#cbc5bd'} 50%, ${MC[b] || '#cbc5bd'} 50%)` }, b === 'P' ? 'φ' : (MC[a] ? '' : a))); } else w.append(h('i', null, v)); }); return w; }
+function mana(cost) { const w = h('span', { class: 'mana', role: 'img', 'aria-label': 'Custo: ' + (cost || 'sem custo') }); (String(cost || '').match(/\{[^}]+\}/g) || []).forEach((t) => w.append(h('img', { src: SYM(t.slice(1, -1)), alt: '', width: 16, height: 16, loading: 'lazy' }))); return w; }
 function tile(f, a, rank) {
   return h('a', { class: 'tile', href: `#/f/${f}/a/${a.slug}`, style: `--grad:${grad(a.colors, a.art)}` },
     h('div', { class: 'art' }, rank ? h('span', { class: 'rk' }, '#' + rank) : null, h('span', { class: 'pp' }, pips(a.colors)), h('span', { class: 'sh' }, pct(a.share))),
