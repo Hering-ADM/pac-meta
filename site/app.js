@@ -98,6 +98,7 @@ document.getElementById('theme').addEventListener('click', () => { const dark = 
 /* ---------- navegação de formatos ---------- */
 const nav = document.getElementById('fmt-nav');
 FORMATS.forEach(([f, n]) => nav.append(h('a', { href: '#/f/' + f, 'data-f': f }, n)));
+nav.append(h('a', { href: '#/commander', 'data-f': 'commander' }, 'Commander'));
 
 /* ---------- busca de cartas ---------- */
 const q = document.getElementById('q'), ql = document.getElementById('q-list'); let qsel = -1, qitems = [];
@@ -204,7 +205,7 @@ function deckBlock(main, side, opts = {}) {
   const C = CARDS || {}; const groups = {};
   main.forEach(([q, n]) => { (groups[typeOf(n)] = groups[typeOf(n)] || []).push([q, n]); });
   const order = TYPES.map((t) => t[1]).concat('Outras');
-  const secs = order.filter((t) => groups[t]).map((t) => [t, groups[t]]); if (side && side.length) secs.push(['Sideboard', side]);
+  const secs = order.filter((t) => groups[t]).map((t) => [t, groups[t]]); if (opts.first) secs.unshift(opts.first); if (side && side.length) secs.push(['Sideboard', side]);
   let view = store.get('vistadeck', 'lista');
   const box = h('div');
   const tot = (l, f) => l.reduce((s, [q, n]) => s + (C[n] && C[n][f] != null ? q * C[n][f] : 0), 0);
@@ -219,7 +220,7 @@ function deckBlock(main, side, opts = {}) {
   }
   const sg = h('div', { class: 'seg', role: 'group', 'aria-label': 'Modo de ver a lista' }, [['lista', 'Lista'], ['visual', 'Visual']].map(([k, t]) => h('button', { 'aria-pressed': String(k === view), onclick: (e) => { view = k; store.set('vistadeck', k); sg.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b === e.currentTarget))); draw(); } }, t)));
   draw();
-  const all = main.concat(side || []);
+  const all = main.concat(side || [], opts.first ? opts.first[1] : []);
   const typeRows = secs.filter(([t]) => t !== 'Sideboard').map(([t, l]) => h('div', { class: 'ln' }, h('b', null, l.reduce((s, x) => s + x[0], 0)), h('span', null, t), h('small')));
   return h('div', { class: 'dl' },
     h('div', { style: 'display:grid;gap:.8rem;min-width:0' }, h('div', { class: 'row between' }, sg, opts.export || null), box),
@@ -229,8 +230,9 @@ function deckBlock(main, side, opts = {}) {
       card(h('h3', null, 'Curva de mana'), curveOf(main)),
       card(h('h3', null, 'Tipos'), h('div', { class: 'deck' }, h('section', null, typeRows)))));
 }
-function exportRow(main, side, name) {
-  const txt = main.map(([q, n]) => q + ' ' + n).join('\n') + '\n\nSideboard\n' + side.map(([q, n]) => q + ' ' + n).join('\n');
+function exportRow(main, side, name, cmd) {
+  const ln = (l) => l.map(([q, n]) => q + ' ' + n).join('\n');
+  const txt = (cmd && cmd.length ? 'Commander\n' + ln(cmd) + '\n\nDeck\n' : '') + ln(main) + (side && side.length ? '\n\nSideboard\n' + ln(side) : '');
   const st = h('span', { class: 'crumb', role: 'status' });
   return h('div', { class: 'row' },
     h('button', { class: 'btn pri', onclick: () => { navigator.clipboard.writeText(txt).then(() => { st.textContent = 'Lista copiada.'; }, () => { st.textContent = 'Não deu para copiar; use o botão de baixar.'; }); } }, 'Copiar lista'),
@@ -432,7 +434,7 @@ function sobre() {
     h('h2', null, 'De onde vêm os dados'),
     h('ul', null, h('li', null, 'Resultados e listas: páginas públicas de decklists do Magic: The Gathering Online (mtgo.com). O site verifica novos resultados a cada hora.'), h('li', null, 'Dados, imagens e preços das cartas: Scryfall, uma vez por dia. O preço mostrado é o da versão mais barata em inglês, em dólar, convertido para real pela cotação do dia.'), h('li', null, 'Arquétipos: o site classifica cada lista por cartas-chave. Listas que não se encaixam em nenhuma regra recebem o nome das cores e de uma carta marcante.')),
     h('h2', null, 'Limitações'),
-    h('ul', null, h('li', null, 'Nas ligas, o MTGO publica só parte das listas 5-0, então elas não representam todo o campo.'), h('li', null, 'Torneios presenciais e Commander ainda não estão incluídos.'), h('li', null, 'Preços são referência e não oferta de venda.')),
+    h('ul', null, h('li', null, 'Nas ligas, o MTGO publica só parte das listas 5-0, então elas não representam todo o campo.'), h('li', null, 'Torneios presenciais ainda não estão incluídos. As listas de Commander são escolhidas a dedo, porque o MTGO não publica resultados do formato.'), h('li', null, 'Preços são referência e não oferta de venda.')),
     h('h2', null, 'Contato'), P('Sugestões, correções e pedidos de remoção: fale com ' + AUTOR + ' pelo e-mail ', mail(), '.'),
     h('p', { class: 'notice' }, 'Pac-Meta é conteúdo de fã não oficial, permitido pela Política de Conteúdo de Fãs. Não é aprovado nem endossado pela Wizards. Partes dos materiais usados são propriedade da Wizards of the Coast. © Wizards of the Coast LLC.'));
 }
@@ -460,6 +462,32 @@ function termos() {
     h('h2', null, 'Contato'), P(AUTOR + ': ', mail(), '.'));
 }
 
+
+
+/* ---------- Commander (listas enviadas à mão, em data/commander) ---------- */
+async function commanderIndex() {
+  title('Commander');
+  const [ix] = await Promise.all([get('data/commander/index.json').catch(() => ({ decks: [] })), cards()]);
+  const ds = ix.decks.slice().sort((a, b) => (b.data || '').localeCompare(a.data || '') || a.nome.localeCompare(b.nome));
+  const C = CARDS || {};
+  $main.replaceChildren(
+    h('div', null, h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › Commander'), h('h1', null, 'Commander'),
+      h('p', { class: 'lead' }, 'Listas de Commander selecionadas, com o preço de cada deck em reais e as cartas ligadas à Pac Deck e à LigaMagic. O MTGO não publica resultados de Commander, então estas listas são escolhidas a dedo.')),
+    ds.length ? h('div', { class: 'tiles' }, ds.map((d) => h('a', { class: 'tile', href: '#/commander/' + d.slug, style: `--grad:${grad(d.colors, d.art)}` },
+      h('div', { class: 'art' }, fan(d.cmd, 2), h('span', { class: 'pp' }, pips(d.colors))),
+      h('div', { class: 'bd' }, h('b', { class: 'ellip' }, d.nome), h('small', { class: 'ellip crumb' }, d.cmd.join(' + ')), h('div', { class: 'pr' }, h('span', null, usd(d.usd)), h('span', null, d.cards + ' cartas'))))))
+      : card(h('h2', null, 'As primeiras listas entram em breve'), h('p', { class: 'lead', style: 'margin:0' }, 'Estamos selecionando os decks. Enquanto isso, mande sua sugestão de lista pela página de ', h('a', { href: '#/sugestoes' }, 'Sugestões'), '.')));
+}
+async function commanderDeck(s) {
+  const [d] = await Promise.all([get('data/commander/' + s + '.json'), cards()]); title(d.nome + ' · Commander');
+  $main.replaceChildren(
+    h('div', { class: 'banner', style: `--grad:${grad(d.colors, d.art)}` }, fan(d.cmd, 2), h('div', null,
+      h('div', { class: 'crumb' }, h('a', { href: '#/' }, 'Início'), ' › ', h('a', { href: '#/commander' }, 'Commander'), ' › ', d.nome),
+      h('h1', null, pips(d.colors), d.nome),
+      h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, d.cmd.join(' + ')), h('small', null, d.cmd.length > 1 ? 'comandantes' : 'comandante')), h('div', { class: 'stat' }, h('b', null, d.cards), h('small', null, 'cartas')), h('div', { class: 'stat' }, h('b', null, usd(d.usd)), h('small', null, 'papel'))))),
+    (d.descricao || d.autor) ? card(d.descricao ? h('p', { class: 'prose', style: 'margin:0' }, d.descricao) : null, d.autor ? h('p', { class: 'crumb', style: 'margin:.5rem 0 0' }, 'Lista de ' + d.autor + (d.data ? ' · ' + dat(d.data) : '')) : null) : '',
+    card(deckBlock(d.main, [], { first: [d.cmdlist.length > 1 ? 'Comandantes' : 'Comandante', d.cmdlist], export: exportRow(d.main, [], d.nome, d.cmdlist) })));
+}
 
 /* ---------- formulários que viram e-mail ---------- */
 /* O site é estático: os formulários montam um e-mail para o responsável, que recebe e decide. */
@@ -610,13 +638,14 @@ function trabalhe() {
 async function route() {
   const raw = location.hash.replace(/^#\/?/, ''); const [path, qs] = raw.split('?'); const p = path.split('/').map(decodeURIComponent); const params = new URLSearchParams(qs || '');
   tip.hidden = true;
-  nav.querySelectorAll('a').forEach((a) => a.toggleAttribute('aria-current', p[0] === 'f' && a.dataset.f === p[1]));
+  nav.querySelectorAll('a').forEach((a) => a.toggleAttribute('aria-current', (p[0] === 'f' && a.dataset.f === p[1]) || (p[0] === 'commander' && a.dataset.f === 'commander')));
   document.querySelectorAll('.sub a').forEach((a) => { const t = a.getAttribute('href').slice(2); a.toggleAttribute('aria-current', (t === '' && !p[0]) || (t && p[0] === t)); });
   $main.replaceChildren(h('p', { class: 'loading' }, 'Carregando…'));
   try {
     await loadFx();
     if (!p[0]) await home();
     else if (p[0] === 'f' && FNAME[p[1]]) { if (p[2] === 'a' && p[3]) await archetype(p[1], p[3]); else if (p[2] === 'torneios') await eventsPage(p[1]); else if (p[2] === '5-0') await ligas(p[1], params); else await metagame(p[1], params); }
+    else if (p[0] === 'commander') { if (p[1]) await commanderDeck(p[1]); else await commanderIndex(); }
     else if (p[0] === 'torneios') await eventsPage(null);
     else if (p[0] === '5-0') await ligas(null, params);
     else if (p[0] === 'e' && p[1]) await eventPage(p[1], p[2]);

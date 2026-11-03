@@ -254,6 +254,22 @@ def main():
     for e in index['events']:
         e['format'] = next(f for f in FORMATS if e['id'].startswith(f))
     save(os.path.join(OUT, 'index.json'), index)
+    # Commander: listas enviadas à mão (data/commander)
+    import commander
+    cmd_index = []
+    os.makedirs(os.path.join(OUT, 'commander'), exist_ok=True)
+    for d in commander.decks():
+        allc = d['cmd'] + d['main']
+        ci = sorted({c for _, n in d['cmd'] for c in (C.info(n).get('ci') or C.colors(n))}, key=ORDER.find)
+        col = ''.join(c for c in ORDER if c in ci)
+        usd, miss = price(allc, C, C.usd)
+        row = {'slug': d['slug'], 'nome': d['nome'], 'autor': d['autor'], 'descricao': d['descricao'], 'data': d['data'], 'tags': d['tags'],
+               'colors': col, 'cmd': [n for _, n in d['cmd']], 'cards': sum(q for q, _ in allc), 'usd': usd, 'tix': price(allc, C, C.tix)[0],
+               'art': (C.info(d['cmd'][0][1]).get('art') if d['cmd'] else None)}
+        cmd_index.append(row)
+        save(os.path.join(OUT, 'commander', d['slug'] + '.json'), {**row, 'cmdlist': d['cmd'], 'main': d['main'], 'usd_miss': miss})
+        for _, n in allc: card_index.setdefault(n, {'f': {}})
+    save(os.path.join(OUT, 'commander', 'index.json'), {'decks': cmd_index})
     # índice de cartas e variações de preço
     cards = {}
     for n, ci in card_index.items():

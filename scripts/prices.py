@@ -20,6 +20,11 @@ def used_names():
         ev = load(os.path.join(RAW, f), {})
         for d in ev.get('decks', []):
             for _, n in d['main'] + d['side']: s.add(n)
+    try:
+        import commander
+        s.update(commander.names())
+    except Exception as e:
+        print('listas de Commander ignoradas:', e)
     return s
 
 
