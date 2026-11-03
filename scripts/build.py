@@ -270,6 +270,19 @@ def main():
         save(os.path.join(OUT, 'commander', d['slug'] + '.json'), {**row, 'cmdlist': d['cmd'], 'main': d['main'], 'usd_miss': miss})
         for _, n in allc: card_index.setdefault(n, {'f': {}})
     save(os.path.join(OUT, 'commander', 'index.json'), {'decks': cmd_index})
+    # cache: index.html aponta para app.js/style.css com a versão do conteúdo, para o navegador sempre pegar o novo
+    import hashlib, re as _re
+    site = os.path.dirname(OUT); idx = os.path.join(site, 'index.html')
+    try:
+        html = open(idx, encoding='utf-8').read()
+        for asset in ('app.js', 'conta.js', 'style.css'):
+            fp = os.path.join(site, asset)
+            if os.path.exists(fp):
+                v = hashlib.sha1(open(fp, 'rb').read()).hexdigest()[:10]
+                html = _re.sub(r'(["\'])' + _re.escape(asset) + r'(\?v=[0-9a-f]+)?(["\'])', r'\g<1>' + asset + '?v=' + v + r'\g<3>', html)
+        open(idx, 'w', encoding='utf-8').write(html)
+    except OSError as e:
+        print('versão dos arquivos não aplicada:', e)
     # índice de cartas e variações de preço
     cards = {}
     for n, ci in card_index.items():
