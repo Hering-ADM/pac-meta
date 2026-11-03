@@ -185,6 +185,7 @@ def main():
             ca = collections.Counter(x[2]['aslug'] for x in cur); pa = collections.Counter(x[2]['aslug'] for x in prev)
             names = {x[2]['aslug']: x[2]['arch'] for x in cur}
             top8 = collections.Counter(x[2]['aslug'] for x in cur if x[0]['kind'] != 'league' and (x[2]['rank'] or 99) <= 8)
+            l50 = collections.Counter(x[2]['aslug'] for x in cur if x[0]['kind'] == 'league')
             rows = []
             for s, k in ca.most_common():
                 ds = [x[2] for x in cur if x[2]['aslug'] == s]
@@ -192,7 +193,7 @@ def main():
                 typs, _ = avg_list(ds, 'side', 15)
                 inc = collections.Counter(n for d in ds for _, n in d['main'] if not C.is_land(n))
                 rows.append({'slug': s, 'name': names[s], 'decks': k, 'share': round(100 * k / len(cur), 2),
-                             'prev': round(100 * pa[s] / len(prev), 2) if prev else None, 'top8': top8[s],
+                             'prev': round(100 * pa[s] / len(prev), 2) if prev else None, 'top8': top8[s], 'l50': l50[s],
                              'colors': collections.Counter(d['col'] for d in ds).most_common(1)[0][0],
                              'usd': price(typ + typs, C, C.usd)[0], 'tix': price(typ + typs, C, C.tix)[0],
                              'key': [n for n, _ in inc.most_common(4)], 'art': art_for(names[s], typ, rules_by_name, C)})
@@ -211,7 +212,8 @@ def main():
                 'usd': price(typ + typs, C, C.usd)[0], 'tix': price(typ + typs, C, C.tix)[0], 'art': art_for(ds[0]['arch'], typ, rules_by_name, C),
                 'key': [n for n, _ in collections.Counter(n for d in ds for _, n in d['main'] if not C.is_land(n)).most_common(5)],
                 'recent': [{'ev': e['id'], 'evname': e['name'], 'date': e['date'], 'kind': e['kind'], 'i': i, 'player': d['player'],
-                            'rank': d['rank'], 'w': d['wins'], 'l': d['losses'], 'usd': d['usd']} for e, i, d in xs[:60]]})
+                            'rank': d['rank'], 'w': d['wins'], 'l': d['losses'], 'usd': d['usd']} for e, i, d in xs[:60]],
+                'l50': sum(1 for e, _, _ in xs if e['kind'] == 'league')})
         # eventos
         lst = []
         for e in evs:

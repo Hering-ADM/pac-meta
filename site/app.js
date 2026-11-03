@@ -58,7 +58,7 @@ function tile(f, a, rank) {
   return h('a', { class: 'tile', href: `#/f/${f}/a/${a.slug}`, style: `--grad:${grad(a.colors)}` },
     h('div', { class: 'art' }, fan(a.key, 3), rank ? h('span', { class: 'rk' }, '#' + rank) : null, h('span', { class: 'pp' }, pips(a.colors)), h('span', { class: 'sh' }, pct(a.share))),
     h('div', { class: 'bd' }, h('b', { class: 'ellip' }, a.name), h('div', { class: 'meter' }, h('i', { style: `width:${Math.min(100, a.share * 4)}%` })),
-      h('div', { class: 'pr' }, h('span', null, usd(a.usd)), h('span', null, tix(a.tix)))));
+      h('div', { class: 'pr' }, h('span', null, usd(a.usd)), h('span', null, tix(a.tix))), a.l50 ? h('span', { class: 'l50' }, a.l50 + '× 5-0 nas ligas') : null));
 }
 
 /* ---------- prévia da imagem ao passar o mouse ---------- */
@@ -143,12 +143,12 @@ async function metagame(f, params) {
     const mx = Math.max(1, ...w.rows.map((r) => r.share));
     const th = (k, t, cls) => h('th', { class: cls, 'aria-sort': sortK === k ? (sortD === 1 ? 'ascending' : 'descending') : null }, h('button', { class: 'sortb', onclick: () => { if (sortK === k) sortD = -sortD; else { sortK = k; sortD = k === 'name' ? 1 : -1; } draw(); } }, t + (sortK === k ? (sortD === 1 ? ' ↑' : ' ↓') : '')));
     const table = h('div', { class: 'tbox' }, h('table', { class: 't' },
-      h('thead', null, h('tr', null, th('name', 'Arquétipo'), th('share', 'Meta', 'n'), th('trend', 'Tendência', 'n hide-sm'), th('decks', 'Listas', 'n hide-sm'), th('top8', 'Top 8', 'n hide-sm'), th('usd', 'Papel', 'n'), th('tix', 'MTGO', 'n hide-sm'))),
+      h('thead', null, h('tr', null, th('name', 'Arquétipo'), th('share', 'Meta', 'n'), th('trend', 'Tendência', 'n hide-sm'), th('decks', 'Listas', 'n hide-sm'), th('top8', 'Top 8', 'n hide-sm'), th('l50', '5-0', 'n hide-sm'), th('usd', 'Papel', 'n'), th('tix', 'MTGO', 'n hide-sm'))),
       h('tbody', null, rows.map((r) => h('tr', null,
         h('td', { class: 'nm' }, h('a', { href: `#/f/${f}/a/${r.slug}` }, pips(r.colors), r.name), h('br'), h('small', null, r.key.join(' · '))),
         h('td', { class: 'n' }, h('span', { class: 'bar', style: `width:${Math.max(2, r.share / mx * 4.5)}rem` }), pct(r.share)),
         h('td', { class: 'n hide-sm ' + (r.trend == null ? '' : r.trend >= 0 ? 'up' : 'down') }, r.trend == null ? '—' : (r.trend >= 0 ? '▲ +' : '▼ ') + pct(r.trend)),
-        h('td', { class: 'n hide-sm' }, r.decks), h('td', { class: 'n hide-sm' }, r.top8 || '—'), h('td', { class: 'n' }, usd(r.usd)), h('td', { class: 'n hide-sm' }, tix(r.tix)))))));
+        h('td', { class: 'n hide-sm' }, r.decks), h('td', { class: 'n hide-sm' }, r.top8 || '—'), h('td', { class: 'n hide-sm' }, r.l50 ? h('a', { href: `#/f/${f}/5-0?a=${r.slug}` }, r.l50) : '—'), h('td', { class: 'n' }, usd(r.usd)), h('td', { class: 'n hide-sm' }, tix(r.tix)))))));
     body.replaceChildren(
       h('div', { class: 'stats', style: 'margin:0 0 1rem' }, h('div', { class: 'stat' }, h('b', null, w.decks), h('small', null, 'listas')), h('div', { class: 'stat' }, h('b', null, w.events), h('small', null, 'torneios')), h('div', { class: 'stat' }, h('b', null, w.rows.length), h('small', null, 'arquétipos'))),
       view === 'blocos' ? h('div', null, h('div', { class: 'tiles' }, w.rows.slice(0, 24).map((r, i) => tile(f, r, i + 1))), w.rows.length > 24 ? h('h2', { style: 'margin:1.6rem 0 .6rem' }, 'Todos os arquétipos') : null, w.rows.length > 24 ? table : null) : table);
@@ -232,9 +232,10 @@ async function archetype(f, s) {
       h('div', { class: 'stats' }, h('div', { class: 'stat' }, h('b', null, pct(a.share)), h('small', null, 'do meta em 30 dias')), h('div', { class: 'stat' }, h('b', null, a.decks), h('small', null, 'listas')), h('div', { class: 'stat' }, h('b', null, usd(a.usd)), h('small', null, 'papel')), h('div', { class: 'stat' }, h('b', null, tix(a.tix)), h('small', null, 'MTGO'))))),
     guide ? h('div', { class: 'notice row between' }, h('span', null, 'Este deck tem guia: o que ele faz, como ganha, cartas-chave e turnos decisivos.'), h('a', { class: 'btn pri', href: '#/guias/modern/' + s }, 'Abrir o guia')) : null,
     card(h('div', { class: 'row between' }, seg, h('small', { class: 'crumb' }, 'Lista típica: junta as ' + a.decks + ' listas dos últimos 30 dias, cada carta com o número médio de cópias.')), h('div', { style: 'height:1rem' }), box),
-    card(h('h2', null, 'Listas recentes'), h('div', { class: 'tbox' }, h('table', { class: 't' },
+    (() => { const ls = a.recent.filter((r) => r.kind === 'league'); return ls.length ? card(h('h2', null, 'Listas 5-0 nas ligas', h('a', { href: `#/f/${f}/5-0?a=${s}` }, 'ver todas (' + (a.l50 || ls.length) + ') →')), h('div', { class: 'tbox' }, h('table', { class: 't' }, h('thead', null, h('tr', null, h('th', null, 'Data'), h('th', null, 'Jogador'), h('th', { class: 'n' }, 'Papel'))), h('tbody', null, ls.slice(0, 12).map((r) => h('tr', null, h('td', null, dat(r.date)), h('td', { class: 'nm' }, h('a', { href: `#/e/${r.ev}/${r.i}` }, r.player)), h('td', { class: 'n' }, usd(r.usd)))))))) : null; })(),
+    card(h('h2', null, 'Listas recentes de torneios'), h('div', { class: 'tbox' }, h('table', { class: 't' },
       h('thead', null, h('tr', null, h('th', null, 'Data'), h('th', null, 'Jogador'), h('th', null, 'Torneio'), h('th', { class: 'n' }, 'Resultado'), h('th', { class: 'n hide-sm' }, 'Preço'))),
-      h('tbody', null, a.recent.map((r) => h('tr', null, h('td', null, dat(r.date)), h('td', { class: 'nm' }, h('a', { href: `#/e/${r.ev}/${r.i}` }, r.player)), h('td', null, h('a', { href: '#/e/' + r.ev }, r.evname)), h('td', { class: 'n' }, r.kind === 'league' ? '5-0' : (r.rank ? r.rank + 'º' : '') + (r.w != null ? ' (' + record(r.w, r.l) + ')' : '')), h('td', { class: 'n hide-sm' }, usd(r.usd)))))))));
+      h('tbody', null, a.recent.filter((r) => r.kind !== 'league').map((r) => h('tr', null, h('td', null, dat(r.date)), h('td', { class: 'nm' }, h('a', { href: `#/e/${r.ev}/${r.i}` }, r.player)), h('td', null, h('a', { href: '#/e/' + r.ev }, r.evname)), h('td', { class: 'n' }, r.kind === 'league' ? '5-0' : (r.rank ? r.rank + 'º' : '') + (r.w != null ? ' (' + record(r.w, r.l) + ')' : '')), h('td', { class: 'n hide-sm' }, usd(r.usd)))))))));
 }
 
 async function eventsPage(f) {
@@ -303,11 +304,11 @@ async function precos() {
 }
 
 
-async function ligas(f) {
+async function ligas(f, params) {
   f = f || store.get('fmt50', 'modern'); store.set('fmt50', f);
   title('Listas 5-0 de ' + FNAME[f]);
   const [list] = await Promise.all([get(`data/${f}/league.json`).catch(() => []), cards()]);
-  let arch = '', q = '', page = 0; const PER = 60;
+  let arch = (params && params.get('a')) || '', q = '', page = 0; const PER = 60;
   const box = h('div'); const info = h('p', { class: 'crumb', role: 'status' });
   const archs = [...new Map(list.map((x) => [x.aslug, x.arch])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
   const cnt = {}; list.forEach((x) => { cnt[x.aslug] = (cnt[x.aslug] || 0) + 1; });
@@ -322,7 +323,7 @@ async function ligas(f) {
         h('thead', null, h('tr', null, h('th', null, 'Data'), h('th', null, 'Deck'), h('th', { class: 'hide-sm' }, 'Cartas-chave'), h('th', null, 'Jogador'), h('th', { class: 'n' }, 'Papel'), h('th', { class: 'n hide-sm' }, 'MTGO'))),
         h('tbody', null, view.map((x) => h('tr', null,
           h('td', null, dat(x.date)),
-          h('td', { class: 'nm' }, h('a', { href: `#/e/${x.ev}/${x.i}` }, pips(x.col), x.arch)),
+          h('td', { class: 'nm' }, h('a', { href: `#/f/${f}/a/${x.aslug}` }, pips(x.col), x.arch), h('br'), h('a', { class: 'crumb', href: `#/e/${x.ev}/${x.i}` }, 'ver esta lista →')),
           h('td', { class: 'hide-sm' }, h('span', { class: 'thumbs' }, x.key.map((n) => C[n] && C[n].img ? h('img', { src: C[n].img, alt: n, title: n, 'data-card': n, loading: 'lazy' }) : null))),
           h('td', null, x.player), h('td', { class: 'n' }, usd(x.usd)), h('td', { class: 'n hide-sm' }, tix(x.tix))))))),
       rows.length > PER ? h('div', { class: 'row', style: 'margin-top:.8rem' },
@@ -331,7 +332,7 @@ async function ligas(f) {
         h('button', { class: 'btn', disabled: (page + 1) * PER >= rows.length, onclick: () => { page++; draw(); scrollTo(0, 0); } }, 'Próximas →')) : null);
   }
   const fsel = h('select', { 'aria-label': 'Formato', onchange: (e) => { location.hash = '#/f/' + e.target.value + '/5-0'; } }, FORMATS.map(([k, n]) => h('option', { value: k, selected: k === f }, n)));
-  const asel = h('select', { 'aria-label': 'Arquétipo', onchange: (e) => { arch = e.target.value; page = 0; draw(); } }, h('option', { value: '' }, 'Todos os arquétipos'), archs.map(([k, n]) => h('option', { value: k }, n + ' (' + cnt[k] + ')')));
+  const asel = h('select', { 'aria-label': 'Arquétipo', onchange: (e) => { arch = e.target.value; page = 0; draw(); } }, h('option', { value: '' }, 'Todos os arquétipos'), archs.map(([k, n]) => h('option', { value: k, selected: k === arch }, n + ' (' + cnt[k] + ')')));
   const qi = h('input', { class: 'input', type: 'search', placeholder: 'Jogador ou deck', 'aria-label': 'Buscar jogador ou deck', oninput: (e) => { q = e.target.value; page = 0; draw(); } });
   draw();
   $main.replaceChildren(
@@ -441,9 +442,9 @@ async function route() {
   $main.replaceChildren(h('p', { class: 'loading' }, 'Carregando…'));
   try {
     if (!p[0]) await home();
-    else if (p[0] === 'f' && FNAME[p[1]]) { if (p[2] === 'a' && p[3]) await archetype(p[1], p[3]); else if (p[2] === 'torneios') await eventsPage(p[1]); else if (p[2] === '5-0') await ligas(p[1]); else await metagame(p[1], params); }
+    else if (p[0] === 'f' && FNAME[p[1]]) { if (p[2] === 'a' && p[3]) await archetype(p[1], p[3]); else if (p[2] === 'torneios') await eventsPage(p[1]); else if (p[2] === '5-0') await ligas(p[1], params); else await metagame(p[1], params); }
     else if (p[0] === 'torneios') await eventsPage(null);
-    else if (p[0] === '5-0') await ligas(null);
+    else if (p[0] === '5-0') await ligas(null, params);
     else if (p[0] === 'e' && p[1]) await eventPage(p[1], p[2]);
     else if (p[0] === 'c' && p[1]) await cardPage(p[1]);
     else if (p[0] === 'precos') await precos();

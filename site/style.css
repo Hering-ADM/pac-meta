@@ -242,3 +242,5 @@ table.dt tr.sp td { height: .5rem; border: 0; }
 .thumbs { display: inline-flex; gap: 3px; }
 .thumbs img { width: 2.1rem; aspect-ratio: 63 / 88; border-radius: 3px; object-fit: cover; object-position: top; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
 .btn[disabled] { opacity: .45; cursor: default; }
+
+.tile .bd .l50 { font-size: .74rem; font-weight: 600; color: var(--in); }
