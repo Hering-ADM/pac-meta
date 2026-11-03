@@ -87,6 +87,17 @@
    "jogador": "Angelo Zannin",
    "data": "2026-11-03",
    "fonte": ""
+  },
+  {
+   "slug": "urza-yan",
+   "categoria": "bhell",
+   "nome": "Urza, Lord High Artificer",
+   "comandante": [
+    "Urza, Lord High Artificer"
+   ],
+   "jogador": "Yan Barros",
+   "data": "2026-11-03",
+   "fonte": "https://archidekt.com/decks/24853088/urza_climbed_the_tower"
   }
  ]
 }

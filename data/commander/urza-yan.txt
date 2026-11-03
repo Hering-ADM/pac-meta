@@ -1,0 +1,90 @@
+Commander
+1 Urza, Lord High Artificer
+
+Deck
+1 Academy Ruins
+1 Aetherflux Reservoir
+1 Agna Qel'a
+1 Amphibian Downpour
+1 An Offer You Can't Refuse
+1 Arcane Denial
+1 Arcane Signet
+1 Bilbo, Thief in the Night
+1 Cephalid Coliseum
+1 Cloud Key
+1 Counterbalance
+1 Counterspell
+1 Crystal Skull, Isu Spyglass
+1 Crystal Vein
+1 Darksteel Citadel
+1 Defense Grid
+1 Drift of Phantasms
+1 Emry, Lurker of the Loch
+1 Etherium Sculptor
+1 Fabricate
+1 Flare of Denial
+1 Fomori Vault
+1 Forensic Gadgeteer
+1 Frantic Search
+1 Ghost Quarter
+1 Grafdigger's Cage
+1 Hydroelectric Specimen // Hydroelectric Laboratory
+1 Into the Flood Maw
+1 Inventors' Fair
+1 Laboratory Maniac
+1 Lady Octopus, Inspired Inventor
+1 Leyline of Anticipation
+1 Liquimetal Torque
+1 Long-Term Plans
+1 Lotus Petal
+1 Mana Vault
+1 Mental Misstep
+1 Mind Stone
+1 Moonsilver Key
+1 Mox Amber
+1 Muddle the Mixture
+1 Mystic Forge
+1 Mystic Remora
+1 Mystic Sanctuary
+1 Pact of Negation
+1 Phyrexian Metamorph
+1 Pili-Pala
+1 Pithing Needle
+1 Plaza of Heroes
+1 Pongify
+1 Remand
+1 Reshape
+1 Rhystic Study
+1 Riddlesmith
+1 Sai, Master Thopterist
+1 Sapphire Medallion
+1 Seat of the Synod
+1 Semblance Anvil
+1 Sensei's Divining Top
+1 Shimmer Myr
+1 Shuri, Wakandan Inventor
+1 Snap
+1 Sol Ring
+1 Spellskite
+1 Spider-Sense
+1 Stifle
+1 Storage Matrix
+1 Strix Serenade
+1 Sudden Substitution
+1 Swan Song
+1 Tezzeret the Seeker
+1 Tezzeret, Cruel Captain
+1 The One Ring
+1 Thought Vessel
+1 Three Steps Ahead
+1 Tormod's Crypt
+1 Trinisphere
+1 Trinket Mage
+1 Unwinding Clock
+1 Urza's Saga
+1 Uthros Research Craft
+1 Volatile Stormdrake
+1 Voltaic Key
+1 Whir of Invention
+1 Worldwalker Helm
+14 Island
