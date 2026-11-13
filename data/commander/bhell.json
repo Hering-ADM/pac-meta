@@ -2,7 +2,7 @@
  "nome": "8º Torneio PacDeck",
  "season": 8,
  "sheet": "1P09WEy9uMgmG6GO1Zf9QAHj47kEi3JDCEXaNyyYM01o",
- "atualizado": "2026-11-13T15:07Z",
+ "atualizado": "2026-11-13T16:09Z",
  "etapas_jogadas": [
   1,
   2,
@@ -2572,6 +2572,24 @@
       "Etapa",
       "E2-E4"
      ]
+    ],
+    [
+     [
+      "Jogador",
+      "Vitor Arraes"
+     ],
+     [
+      "Quantas",
+      "5"
+     ],
+     [
+      "Season",
+      "8"
+     ],
+     [
+      "Etapa",
+      "E1-E3"
+     ]
     ]
    ]
   },
@@ -2712,6 +2730,16 @@
       "Quantas",
       "1x João · 1x Luiz"
      ]
+    ],
+    [
+     [
+      "Jogador",
+      "Caio Pires"
+     ],
+     [
+      "Quantas",
+      "1x João · 1x Luiz"
+     ]
     ]
    ]
   },
@@ -2730,7 +2758,7 @@
      ],
      [
       "",
-      "3"
+      "4"
      ]
     ],
     [
@@ -2744,7 +2772,7 @@
      ],
      [
       "",
-      "3"
+      "4"
      ]
     ],
     [
@@ -2758,7 +2786,7 @@
      ],
      [
       "",
-      "3"
+      "4"
      ]
     ],
     [
@@ -2800,7 +2828,7 @@
      ],
      [
       "",
-      "3"
+      "4"
      ]
     ]
    ]
