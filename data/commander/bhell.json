@@ -2,7 +2,7 @@
  "nome": "8º Torneio PacDeck",
  "season": 8,
  "sheet": "1P09WEy9uMgmG6GO1Zf9QAHj47kEi3JDCEXaNyyYM01o",
- "atualizado": "2026-11-13T12:10Z",
+ "atualizado": "2026-11-13T13:31Z",
  "etapas_jogadas": [
   1,
   2,
@@ -1532,78 +1532,78 @@
   {
    "pos": 1,
    "jogador": "Vitor Arraes",
-   "rating": 1642.1,
-   "dif": 11.9,
+   "rating": 1632.1,
+   "dif": -10.0,
    "mov": 0
   },
   {
    "pos": 2,
-   "jogador": "Angelo Zannin",
-   "rating": 1625.0,
-   "dif": 16.5,
-   "mov": 2
+   "jogador": "guilherme marques",
+   "rating": 1621.4,
+   "dif": -0.3,
+   "mov": 1
   },
   {
    "pos": 3,
-   "jogador": "guilherme marques",
-   "rating": 1621.7,
-   "dif": -1.0,
+   "jogador": "Angelo Zannin",
+   "rating": 1616.2,
+   "dif": -8.8,
    "mov": -1
   },
   {
    "pos": 4,
+   "jogador": "Caio Pires",
+   "rating": 1590.2,
+   "dif": 23.3,
+   "mov": 2
+  },
+  {
+   "pos": 5,
+   "jogador": "Ubiratan",
+   "rating": 1581.2,
+   "dif": 28.9,
+   "mov": 4
+  },
+  {
+   "pos": 6,
    "jogador": "PH Campos",
-   "rating": 1608.5,
+   "rating": 1580.3,
+   "dif": -28.2,
+   "mov": -2
+  },
+  {
+   "pos": 7,
+   "jogador": "cristiano matos",
+   "rating": 1578.5,
+   "dif": 4.3,
+   "mov": -2
+  },
+  {
+   "pos": 8,
+   "jogador": "Taian Aoki",
+   "rating": 1562.7,
    "dif": 0.0,
    "mov": -1
   },
   {
-   "pos": 5,
-   "jogador": "cristiano matos",
-   "rating": 1574.3,
-   "dif": -12.3,
-   "mov": 0
-  },
-  {
-   "pos": 6,
-   "jogador": "Caio Pires",
-   "rating": 1566.9,
-   "dif": 3.6,
-   "mov": 2
-  },
-  {
-   "pos": 7,
-   "jogador": "Taian Aoki",
-   "rating": 1562.7,
-   "dif": 5.8,
-   "mov": 2
-  },
-  {
-   "pos": 8,
-   "jogador": "Douglas Capelossi",
-   "rating": 1559.7,
-   "dif": -8.6,
-   "mov": -2
-  },
-  {
    "pos": 9,
-   "jogador": "Ubiratan",
-   "rating": 1552.3,
-   "dif": 6.0,
-   "mov": 1
+   "jogador": "Douglas Capelossi",
+   "rating": 1562.4,
+   "dif": 2.7,
+   "mov": -1
   },
   {
    "pos": 10,
    "jogador": "eliza shiroma",
-   "rating": 1552.2,
-   "dif": -14.9,
-   "mov": -3
+   "rating": 1550.1,
+   "dif": -2.1,
+   "mov": 0
   },
   {
    "pos": 11,
    "jogador": "João Hering",
-   "rating": 1540.8,
-   "dif": 0.4,
+   "rating": 1546.4,
+   "dif": 5.6,
    "mov": 0
   },
   {
@@ -1615,478 +1615,478 @@
   },
   {
    "pos": 13,
-   "jogador": "Flavio Romeo Sellam",
-   "rating": 1531.2,
-   "dif": 0.0,
-   "mov": 0
+   "jogador": "andre filho",
+   "rating": 1535.0,
+   "dif": 7.5,
+   "mov": 2
   },
   {
    "pos": 14,
    "jogador": "Andre Barbarini",
-   "rating": 1528.3,
-   "dif": 28.3,
-   "mov": 23
+   "rating": 1532.4,
+   "dif": 4.2,
+   "mov": 0
   },
   {
    "pos": 15,
-   "jogador": "andre filho",
-   "rating": 1527.5,
-   "dif": -2.2,
-   "mov": -1
+   "jogador": "Flavio Romeo Sellam",
+   "rating": 1531.2,
+   "dif": 0.0,
+   "mov": -2
   },
   {
    "pos": 16,
-   "jogador": "Hugo Oliveira",
-   "rating": 1521.2,
-   "dif": 0.0,
-   "mov": 1
+   "jogador": "Rodrigo Garcia",
+   "rating": 1530.1,
+   "dif": 26.7,
+   "mov": 19
   },
   {
    "pos": 17,
-   "jogador": "Victor Kanetinho",
-   "rating": 1519.0,
-   "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 18,
-   "jogador": "Ruki Macedo",
-   "rating": 1517.1,
-   "dif": 0.0,
-   "mov": 3
-  },
-  {
-   "pos": 19,
-   "jogador": "Thelso",
-   "rating": 1515.3,
-   "dif": 0.0,
-   "mov": 3
-  },
-  {
-   "pos": 20,
-   "jogador": "Yago Leles",
-   "rating": 1511.8,
-   "dif": -14.3,
-   "mov": -5
-  },
-  {
-   "pos": 21,
-   "jogador": "Trupisco",
-   "rating": 1508.7,
-   "dif": 0.0,
-   "mov": 2
-  },
-  {
-   "pos": 22,
-   "jogador": "Hugo Riou",
-   "rating": 1508.4,
-   "dif": 21.4,
-   "mov": 32
-  },
-  {
-   "pos": 23,
-   "jogador": "Karl Lieb",
-   "rating": 1508.4,
-   "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 24,
-   "jogador": "Jorge Tanaka",
-   "rating": 1508.3,
-   "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 25,
-   "jogador": "Joao Zamboni",
-   "rating": 1507.5,
-   "dif": 0.0,
-   "mov": 2
-  },
-  {
-   "pos": 26,
-   "jogador": "Felipe Galdino",
-   "rating": 1506.8,
-   "dif": -15.7,
-   "mov": -10
-  },
-  {
-   "pos": 27,
-   "jogador": "Luan Aoki",
-   "rating": 1506.7,
-   "dif": -10.7,
-   "mov": -7
-  },
-  {
-   "pos": 28,
-   "jogador": "Victor Albuquerque",
-   "rating": 1506.3,
-   "dif": 0.0,
-   "mov": 0
-  },
-  {
-   "pos": 29,
-   "jogador": "Arane",
-   "rating": 1506.1,
-   "dif": 0.0,
-   "mov": 0
-  },
-  {
-   "pos": 30,
-   "jogador": "Lucas Santos APAE",
-   "rating": 1504.8,
-   "dif": 0.0,
-   "mov": 0
-  },
-  {
-   "pos": 31,
-   "jogador": "AceSanka APAE",
-   "rating": 1504.7,
-   "dif": 0.0,
-   "mov": 0
-  },
-  {
-   "pos": 32,
-   "jogador": "Leozinho",
-   "rating": 1504.5,
-   "dif": 3.1,
-   "mov": 3
-  },
-  {
-   "pos": 33,
-   "jogador": "Rafael Kawakubo",
-   "rating": 1503.5,
-   "dif": -4.4,
-   "mov": -7
-  },
-  {
-   "pos": 34,
-   "jogador": "Phill Fonseca",
-   "rating": 1503.5,
-   "dif": 0.0,
-   "mov": -2
-  },
-  {
-   "pos": 35,
-   "jogador": "Rodrigo Garcia",
-   "rating": 1503.5,
-   "dif": -14.0,
-   "mov": -16
-  },
-  {
-   "pos": 36,
-   "jogador": "Thiago Miguel",
-   "rating": 1501.8,
-   "dif": 0.0,
-   "mov": -2
-  },
-  {
-   "pos": 37,
-   "jogador": "Leandro Carvalho Cechinel",
-   "rating": 1500.1,
+   "jogador": "Hugo Oliveira",
+   "rating": 1521.2,
    "dif": 0.0,
    "mov": -1
   },
   {
-   "pos": 38,
+   "pos": 18,
+   "jogador": "Hugo Riou",
+   "rating": 1520.9,
+   "dif": 12.5,
+   "mov": 4
+  },
+  {
+   "pos": 19,
+   "jogador": "Victor Kanetinho",
+   "rating": 1519.0,
+   "dif": 0.0,
+   "mov": -2
+  },
+  {
+   "pos": 20,
+   "jogador": "Ruki Macedo",
+   "rating": 1517.1,
+   "dif": 0.0,
+   "mov": -2
+  },
+  {
+   "pos": 21,
+   "jogador": "Thelso",
+   "rating": 1515.3,
+   "dif": 0.0,
+   "mov": -2
+  },
+  {
+   "pos": 22,
+   "jogador": "Luan Aoki",
+   "rating": 1515.1,
+   "dif": 8.5,
+   "mov": 5
+  },
+  {
+   "pos": 23,
+   "jogador": "Yago Leles",
+   "rating": 1514.7,
+   "dif": 3.0,
+   "mov": -3
+  },
+  {
+   "pos": 24,
+   "jogador": "Trupisco",
+   "rating": 1508.7,
+   "dif": 0.0,
+   "mov": -3
+  },
+  {
+   "pos": 25,
+   "jogador": "Karl Lieb",
+   "rating": 1508.4,
+   "dif": 0.0,
+   "mov": -2
+  },
+  {
+   "pos": 26,
+   "jogador": "Joao Zamboni",
+   "rating": 1507.5,
+   "dif": 0.0,
+   "mov": -1
+  },
+  {
+   "pos": 27,
+   "jogador": "Victor Albuquerque",
+   "rating": 1506.3,
+   "dif": 0.0,
+   "mov": 1
+  },
+  {
+   "pos": 28,
+   "jogador": "Arane",
+   "rating": 1506.1,
+   "dif": 0.0,
+   "mov": 1
+  },
+  {
+   "pos": 29,
+   "jogador": "Lucas Santos APAE",
+   "rating": 1504.8,
+   "dif": 0.0,
+   "mov": 1
+  },
+  {
+   "pos": 30,
+   "jogador": "AceSanka APAE",
+   "rating": 1504.7,
+   "dif": 0.0,
+   "mov": 1
+  },
+  {
+   "pos": 31,
+   "jogador": "Jorge Tanaka",
+   "rating": 1504.5,
+   "dif": -3.8,
+   "mov": -7
+  },
+  {
+   "pos": 32,
+   "jogador": "Phill Fonseca",
+   "rating": 1503.5,
+   "dif": 0.0,
+   "mov": 2
+  },
+  {
+   "pos": 33,
+   "jogador": "Bruno Ribeiro",
+   "rating": 1501.9,
+   "dif": 18.8,
+   "mov": 26
+  },
+  {
+   "pos": 34,
+   "jogador": "Thiago Miguel",
+   "rating": 1501.8,
+   "dif": 0.0,
+   "mov": 2
+  },
+  {
+   "pos": 35,
+   "jogador": "Leandro Carvalho Cechinel",
+   "rating": 1500.1,
+   "dif": 0.0,
+   "mov": 2
+  },
+  {
+   "pos": 36,
    "jogador": "Gabriel Oliveira Paes",
    "rating": 1497.2,
    "dif": 0.0,
    "mov": 2
   },
   {
-   "pos": 39,
+   "pos": 37,
+   "jogador": "Felipe Galdino",
+   "rating": 1496.9,
+   "dif": -9.9,
+   "mov": -11
+  },
+  {
+   "pos": 38,
    "jogador": "Pedro Khalil",
    "rating": 1495.4,
    "dif": 0.0,
-   "mov": 2
+   "mov": 1
   },
   {
-   "pos": 40,
-   "jogador": "Yan Barros",
+   "pos": 39,
+   "jogador": "Leozinho",
    "rating": 1495.1,
-   "dif": -7.7,
+   "dif": -9.4,
    "mov": -7
   },
   {
-   "pos": 41,
+   "pos": 40,
    "jogador": "Lucas da Cunha",
    "rating": 1493.8,
    "dif": 0.0,
    "mov": 1
   },
   {
-   "pos": 42,
+   "pos": 41,
    "jogador": "Camila",
    "rating": 1493.6,
    "dif": 0.0,
    "mov": 1
   },
   {
-   "pos": 43,
+   "pos": 42,
    "jogador": "Yuji Nakada",
    "rating": 1493.5,
    "dif": 0.0,
    "mov": 1
   },
   {
-   "pos": 44,
+   "pos": 43,
    "jogador": "Guilherme Horoi",
    "rating": 1493.1,
    "dif": 0.0,
    "mov": 1
   },
   {
+   "pos": 44,
+   "jogador": "Iruatan Pimenta",
+   "rating": 1493.1,
+   "dif": 12.3,
+   "mov": 19
+  },
+  {
    "pos": 45,
    "jogador": "Cesar Simões",
    "rating": 1491.9,
    "dif": 0.0,
-   "mov": 1
+   "mov": 0
   },
   {
    "pos": 46,
-   "jogador": "Thiago Alves",
-   "rating": 1491.7,
-   "dif": -6.8,
-   "mov": -8
-  },
-  {
-   "pos": 47,
    "jogador": "Douglas Caneshiro",
    "rating": 1491.6,
    "dif": 0.0,
-   "mov": 0
+   "mov": 1
   },
   {
-   "pos": 48,
+   "pos": 47,
    "jogador": "Guilherme Faria",
    "rating": 1489.5,
    "dif": 0.0,
-   "mov": 0
+   "mov": 1
   },
   {
-   "pos": 49,
-   "jogador": "Alex Sandro da Mota Silva",
-   "rating": 1489.3,
-   "dif": 11.6,
-   "mov": 13
-  },
-  {
-   "pos": 50,
-   "jogador": "Vagner",
-   "rating": 1488.9,
-   "dif": 20.3,
-   "mov": 16
-  },
-  {
-   "pos": 51,
+   "pos": 48,
    "jogador": "Dennis Nick",
    "rating": 1488.1,
    "dif": 0.0,
-   "mov": -2
+   "mov": 3
   },
   {
-   "pos": 52,
+   "pos": 49,
    "jogador": "Pedro Shinji",
    "rating": 1487.9,
    "dif": 0.0,
-   "mov": -2
+   "mov": 3
   },
   {
-   "pos": 53,
+   "pos": 50,
    "jogador": "Lucas Praça",
    "rating": 1487.8,
    "dif": 0.0,
-   "mov": -2
+   "mov": 3
   },
   {
-   "pos": 54,
+   "pos": 51,
    "jogador": "Breno",
    "rating": 1487.5,
    "dif": 0.0,
-   "mov": -2
+   "mov": 3
   },
   {
-   "pos": 55,
+   "pos": 52,
    "jogador": "Luiz miguel",
    "rating": 1487.1,
    "dif": 0.0,
-   "mov": -2
+   "mov": 3
   },
   {
-   "pos": 56,
+   "pos": 53,
    "jogador": "Victor Isique",
    "rating": 1486.6,
    "dif": 0.0,
-   "mov": -1
+   "mov": 3
   },
   {
-   "pos": 57,
+   "pos": 54,
+   "jogador": "Rafael Kawakubo",
+   "rating": 1486.2,
+   "dif": -17.3,
+   "mov": -21
+  },
+  {
+   "pos": 55,
+   "jogador": "Yan Barros",
+   "rating": 1485.0,
+   "dif": -10.2,
+   "mov": -15
+  },
+  {
+   "pos": 56,
    "jogador": "Pedro Bedoni",
    "rating": 1484.2,
    "dif": 0.0,
-   "mov": -1
+   "mov": 1
   },
   {
-   "pos": 58,
+   "pos": 57,
    "jogador": "Rodrigo Biffi",
    "rating": 1484.0,
    "dif": 0.0,
-   "mov": -1
+   "mov": 1
   },
   {
-   "pos": 59,
-   "jogador": "Bruno Ribeiro",
-   "rating": 1483.1,
-   "dif": 0.0,
-   "mov": -1
-  },
-  {
-   "pos": 60,
+   "pos": 58,
    "jogador": "Meimei",
    "rating": 1482.7,
    "dif": 0.0,
-   "mov": -1
+   "mov": 2
   },
   {
-   "pos": 61,
+   "pos": 59,
+   "jogador": "Thiago Alves",
+   "rating": 1482.5,
+   "dif": -9.2,
+   "mov": -13
+  },
+  {
+   "pos": 60,
    "jogador": "Gabriel Datovo",
    "rating": 1482.2,
    "dif": 0.0,
-   "mov": -1
+   "mov": 1
+  },
+  {
+   "pos": 61,
+   "jogador": "Alex Sandro da Mota Silva",
+   "rating": 1481.1,
+   "dif": -8.1,
+   "mov": -12
   },
   {
    "pos": 62,
    "jogador": "BLUE",
    "rating": 1481.0,
    "dif": 0.0,
-   "mov": -1
+   "mov": 0
   },
   {
    "pos": 63,
-   "jogador": "Iruatan Pimenta",
-   "rating": 1480.8,
-   "dif": -17.0,
-   "mov": -24
-  },
-  {
-   "pos": 64,
    "jogador": "Kaike Rodrigues",
    "rating": 1475.0,
    "dif": 0.0,
-   "mov": 0
+   "mov": 1
+  },
+  {
+   "pos": 64,
+   "jogador": "Vagner",
+   "rating": 1473.8,
+   "dif": -15.1,
+   "mov": -14
   },
   {
    "pos": 65,
    "jogador": "Danilo Marcondes",
-   "rating": 1474.7,
-   "dif": 7.7,
-   "mov": 2
+   "rating": 1470.2,
+   "dif": -4.5,
+   "mov": 0
   },
   {
    "pos": 66,
-   "jogador": "Crackinho",
-   "rating": 1472.6,
-   "dif": 9.6,
-   "mov": 3
+   "jogador": "Brunno Carvalho",
+   "rating": 1464.8,
+   "dif": -6.9,
+   "mov": 1
   },
   {
    "pos": 67,
-   "jogador": "Brunno Carvalho",
-   "rating": 1471.8,
-   "dif": 18.2,
-   "mov": 7
-  },
-  {
-   "pos": 68,
-   "jogador": "Hideo Fujino",
-   "rating": 1464.9,
-   "dif": -12.3,
-   "mov": -5
-  },
-  {
-   "pos": 69,
-   "jogador": "Alexandre Romansine",
-   "rating": 1463.3,
-   "dif": 6.0,
-   "mov": 3
-  },
-  {
-   "pos": 70,
    "jogador": "Francisco barros",
    "rating": 1463.1,
    "dif": 0.0,
-   "mov": -2
+   "mov": 3
   },
   {
-   "pos": 71,
+   "pos": 68,
    "jogador": "Bruno Cezar",
    "rating": 1461.2,
    "dif": 0.0,
-   "mov": -1
+   "mov": 3
+  },
+  {
+   "pos": 69,
+   "jogador": "Crackinho",
+   "rating": 1460.7,
+   "dif": -11.9,
+   "mov": -3
+  },
+  {
+   "pos": 70,
+   "jogador": "Rafael Laet",
+   "rating": 1457.8,
+   "dif": 0.0,
+   "mov": 3
+  },
+  {
+   "pos": 71,
+   "jogador": "matheus honda",
+   "rating": 1457.1,
+   "dif": 24.3,
+   "mov": 8
   },
   {
    "pos": 72,
    "jogador": "vitor lopes",
-   "rating": 1459.7,
-   "dif": -10.9,
-   "mov": -7
+   "rating": 1456.3,
+   "dif": -3.4,
+   "mov": 0
   },
   {
    "pos": 73,
-   "jogador": "Rafael Laet",
-   "rating": 1457.8,
-   "dif": 0.0,
-   "mov": -2
+   "jogador": "Alexandre Romansine",
+   "rating": 1455.4,
+   "dif": -8.0,
+   "mov": -4
   },
   {
    "pos": 74,
+   "jogador": "Hideo Fujino",
+   "rating": 1455.4,
+   "dif": -9.6,
+   "mov": -6
+  },
+  {
+   "pos": 75,
+   "jogador": "gustavo oliveira",
+   "rating": 1452.9,
+   "dif": 21.0,
+   "mov": 5
+  },
+  {
+   "pos": 76,
    "jogador": "Paulo pascoal",
-   "rating": 1456.9,
+   "rating": 1449.8,
+   "dif": -7.1,
+   "mov": -2
+  },
+  {
+   "pos": 77,
+   "jogador": "Lucas matos",
+   "rating": 1447.1,
    "dif": 0.0,
    "mov": -1
   },
   {
-   "pos": 75,
-   "jogador": "Aline Pontes",
-   "rating": 1450.4,
-   "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 76,
-   "jogador": "Lucas matos",
-   "rating": 1447.1,
-   "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 77,
-   "jogador": "Matheus Denoni",
-   "rating": 1445.1,
-   "dif": -6.6,
-   "mov": -2
-  },
-  {
    "pos": 78,
-   "jogador": "Pedro Blanco",
-   "rating": 1437.1,
-   "dif": 0.0,
-   "mov": 1
+   "jogador": "Matheus Denoni",
+   "rating": 1441.3,
+   "dif": -3.8,
+   "mov": -1
   },
   {
    "pos": 79,
-   "jogador": "matheus honda",
-   "rating": 1432.8,
-   "dif": -4.1,
-   "mov": 1
+   "jogador": "Aline Pontes",
+   "rating": 1439.4,
+   "dif": -11.0,
+   "mov": -4
   },
   {
    "pos": 80,
-   "jogador": "gustavo oliveira",
-   "rating": 1432.0,
-   "dif": -6.8,
+   "jogador": "Pedro Blanco",
+   "rating": 1437.1,
+   "dif": 0.0,
    "mov": -2
   },
   {
