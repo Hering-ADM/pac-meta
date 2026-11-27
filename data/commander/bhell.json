@@ -2,28 +2,29 @@
  "nome": "8º Torneio PacDeck",
  "season": 8,
  "sheet": "1P09WEy9uMgmG6GO1Zf9QAHj47kEi3JDCEXaNyyYM01o",
- "atualizado": "2026-11-27T17:27Z",
+ "atualizado": "2026-11-27T19:20Z",
  "etapas_jogadas": [
   1,
   2,
   3,
   4,
-  5
+  5,
+  6
  ],
  "etapas_total": 7,
- "inscricoes": 1390.0,
+ "inscricoes": 1670.0,
  "classificados": "Classificados Copa Pac",
  "ranking": [
   {
    "pos": 1,
    "jogador": "Vitor Arraes",
-   "pts": 41,
-   "pv": 67.0,
-   "v": 10,
-   "vj3": 3,
+   "pts": 53,
+   "pv": 87.0,
+   "v": 13,
+   "vj3": 4,
    "bye": 0,
    "premio_pct": 35.0,
-   "premio": 486.5,
+   "premio": 584.5,
    "etapas": [
     [
      1,
@@ -69,22 +70,31 @@
       3,
       1
      ]
+    ],
+    [
+     6,
+     9,
+     [
+      3,
+      3,
+      3
+     ]
     ]
    ],
    "d": 4,
    "e": 1,
-   "j": 15
+   "j": 18
   },
   {
    "pos": 2,
    "jogador": "Ubiratan",
-   "pts": 35,
+   "pts": 37,
    "pv": 47.0,
    "v": 7,
    "vj3": 3,
    "bye": 0,
    "premio_pct": 20.0,
-   "premio": 278.0,
+   "premio": 334.0,
    "etapas": [
     [
      1,
@@ -130,23 +140,41 @@
       3,
       3
      ]
+    ],
+    [
+     6,
+     2,
+     [
+      1,
+      1,
+      0
+     ]
     ]
    ],
-   "d": 5,
-   "e": 3,
-   "j": 15
+   "d": 6,
+   "e": 5,
+   "j": 18
   },
   {
    "pos": 3,
-   "jogador": "guilherme marques",
-   "pts": 26,
-   "pv": 50.0,
+   "jogador": "PH Campos",
+   "pts": 29,
+   "pv": 40.0,
    "v": 6,
-   "vj3": 2,
+   "vj3": 3,
    "bye": 0,
    "premio_pct": 15.0,
-   "premio": 208.5,
+   "premio": 250.5,
    "etapas": [
+    [
+     1,
+     6,
+     [
+      0,
+      3,
+      3
+     ]
+    ],
     [
      2,
      3,
@@ -157,21 +185,12 @@
      ]
     ],
     [
-     3,
      4,
+     0,
      [
-      3,
       0,
-      1
-     ]
-    ],
-    [
-     4,
-     6,
-     [
-      3,
       0,
-      3
+      0
      ]
     ],
     [
@@ -182,22 +201,31 @@
       3,
       3
      ]
+    ],
+    [
+     6,
+     5,
+     [
+      1,
+      1,
+      3
+     ]
     ]
    ],
-   "d": 5,
-   "e": 1,
-   "j": 12
+   "d": 7,
+   "e": 2,
+   "j": 15
   },
   {
    "pos": 4,
    "jogador": "eliza shiroma",
-   "pts": 26,
-   "pv": 43.0,
+   "pts": 29,
+   "pv": 35.0,
    "v": 6,
    "vj3": 2,
    "bye": 0,
    "premio_pct": 10.0,
-   "premio": 139.0,
+   "premio": 167.0,
    "etapas": [
     [
      1,
@@ -243,22 +271,92 @@
       3,
       1
      ]
+    ],
+    [
+     6,
+     2,
+     [
+      0,
+      1,
+      1
+     ]
     ]
    ],
-   "d": 7,
-   "e": 1,
-   "j": 14
+   "d": 8,
+   "e": 3,
+   "j": 17
   },
   {
    "pos": 5,
-   "jogador": "Caio Pires",
-   "pts": 24,
+   "jogador": "guilherme marques",
+   "pts": 28,
    "pv": 40.0,
    "v": 6,
-   "vj3": 1,
+   "vj3": 2,
    "bye": 0,
    "premio_pct": 8.0,
-   "premio": 111.2,
+   "premio": 133.6,
+   "etapas": [
+    [
+     2,
+     3,
+     [
+      3,
+      0,
+      0
+     ]
+    ],
+    [
+     3,
+     4,
+     [
+      3,
+      0,
+      1
+     ]
+    ],
+    [
+     4,
+     6,
+     [
+      3,
+      0,
+      3
+     ]
+    ],
+    [
+     5,
+     6,
+     [
+      0,
+      3,
+      3
+     ]
+    ],
+    [
+     6,
+     2,
+     [
+      1,
+      1,
+      0
+     ]
+    ]
+   ],
+   "d": 6,
+   "e": 3,
+   "j": 15
+  },
+  {
+   "pos": 6,
+   "jogador": "Caio Pires",
+   "pts": 28,
+   "pv": 39.0,
+   "v": 7,
+   "vj3": 1,
+   "bye": 0,
+   "premio_pct": 5.0,
+   "premio": 83.5,
    "etapas": [
     [
      1,
@@ -304,22 +402,31 @@
       0,
       0
      ]
+    ],
+    [
+     6,
+     4,
+     [
+      3,
+      1,
+      0
+     ]
     ]
    ],
-   "d": 7,
-   "e": 2,
-   "j": 15
+   "d": 8,
+   "e": 3,
+   "j": 18
   },
   {
-   "pos": 6,
+   "pos": 7,
    "jogador": "Luan Aoki",
-   "pts": 24,
-   "pv": 27.0,
+   "pts": 26,
+   "pv": 22.0,
    "v": 4,
    "vj3": 2,
    "bye": 0,
-   "premio_pct": 5.0,
-   "premio": 69.5,
+   "premio_pct": 4.0,
+   "premio": 66.8,
    "etapas": [
     [
      1,
@@ -365,74 +472,31 @@
       0,
       1
      ]
-    ]
-   ],
-   "d": 7,
-   "e": 4,
-   "j": 15
-  },
-  {
-   "pos": 7,
-   "jogador": "PH Campos",
-   "pts": 21,
-   "pv": 42.0,
-   "v": 5,
-   "vj3": 2,
-   "bye": 0,
-   "premio_pct": 4.0,
-   "premio": 55.6,
-   "etapas": [
+    ],
     [
+     6,
      1,
-     6,
-     [
-      0,
-      3,
-      3
-     ]
-    ],
-    [
-     2,
-     3,
-     [
-      3,
-      0,
-      0
-     ]
-    ],
-    [
-     4,
-     0,
      [
       0,
       0,
-      0
-     ]
-    ],
-    [
-     5,
-     6,
-     [
-      0,
-      3,
-      3
+      1
      ]
     ]
    ],
-   "d": 7,
-   "e": 0,
-   "j": 12
+   "d": 9,
+   "e": 5,
+   "j": 18
   },
   {
    "pos": 8,
    "jogador": "Leozinho",
-   "pts": 19,
-   "pv": 20.0,
-   "v": 3,
+   "pts": 24,
+   "pv": 22.0,
+   "v": 4,
    "vj3": 2,
    "bye": 1,
    "premio_pct": 3.0,
-   "premio": 41.7,
+   "premio": 50.1,
    "etapas": [
     [
      1,
@@ -478,18 +542,27 @@
       0,
       3
      ]
+    ],
+    [
+     6,
+     4,
+     [
+      3,
+      0,
+      1
+     ]
     ]
    ],
-   "d": 10,
-   "e": 1,
-   "j": 15
+   "d": 11,
+   "e": 2,
+   "j": 18
   },
   {
    "pos": 9,
    "jogador": "Yago Leles",
-   "pts": 19,
-   "pv": 20.0,
-   "v": 3,
+   "pts": 22,
+   "pv": 27.0,
+   "v": 4,
    "vj3": 2,
    "bye": 0,
    "premio_pct": null,
@@ -539,17 +612,96 @@
       0,
       1
      ]
+    ],
+    [
+     6,
+     3,
+     [
+      0,
+      3,
+      0
+     ]
     ]
    ],
-   "d": 10,
+   "d": 12,
    "e": 2,
-   "j": 15
+   "j": 18
   },
   {
    "pos": 10,
+   "jogador": "andre filho",
+   "pts": 21,
+   "pv": 22.0,
+   "v": 4,
+   "vj3": 1,
+   "bye": 1,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     1,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     2,
+     3,
+     [
+      0,
+      3,
+      0
+     ]
+    ],
+    [
+     3,
+     1,
+     [
+      0,
+      null,
+      1
+     ]
+    ],
+    [
+     4,
+     4,
+     [
+      3,
+      1,
+      0
+     ]
+    ],
+    [
+     5,
+     3,
+     [
+      0,
+      0,
+      3
+     ]
+    ],
+    [
+     6,
+     3,
+     [
+      0,
+      3,
+      0
+     ]
+    ]
+   ],
+   "d": 11,
+   "e": 2,
+   "j": 18
+  },
+  {
+   "pos": 11,
    "jogador": "Rodrigo Garcia",
    "pts": 18,
-   "pv": 29.0,
+   "pv": 24.0,
    "v": 4,
    "vj3": 2,
    "bye": 0,
@@ -600,72 +752,20 @@
       0,
       0
      ]
-    ]
-   ],
-   "d": 10,
-   "e": 0,
-   "j": 14
-  },
-  {
-   "pos": 11,
-   "jogador": "andre filho",
-   "pts": 18,
-   "pv": 20.0,
-   "v": 3,
-   "vj3": 1,
-   "bye": 1,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
+    ],
     [
-     1,
+     6,
      0,
      [
       0,
       0,
       0
      ]
-    ],
-    [
-     2,
-     3,
-     [
-      0,
-      3,
-      0
-     ]
-    ],
-    [
-     3,
-     1,
-     [
-      0,
-      null,
-      1
-     ]
-    ],
-    [
-     4,
-     4,
-     [
-      3,
-      1,
-      0
-     ]
-    ],
-    [
-     5,
-     3,
-     [
-      0,
-      0,
-      3
-     ]
     ]
    ],
-   "d": 9,
-   "e": 2,
-   "j": 15
+   "d": 13,
+   "e": 0,
+   "j": 17
   },
   {
    "pos": 12,
@@ -721,9 +821,192 @@
   },
   {
    "pos": 13,
-   "jogador": "Hugo Riou",
-   "pts": 15,
+   "jogador": "Angelo Zannin",
+   "pts": 17,
+   "pv": 22.0,
+   "v": 4,
+   "vj3": 0,
+   "bye": 0,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     1,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     2,
+     1,
+     [
+      1,
+      0,
+      0
+     ]
+    ],
+    [
+     3,
+     6,
+     [
+      3,
+      3,
+      0
+     ]
+    ],
+    [
+     4,
+     3,
+     [
+      3,
+      0,
+      0
+     ]
+    ],
+    [
+     5,
+     3,
+     [
+      3,
+      0,
+      0
+     ]
+    ],
+    [
+     6,
+     3,
+     [
+      1,
+      1,
+      1
+     ]
+    ]
+   ],
+   "d": 10,
+   "e": 4,
+   "j": 18
+  },
+  {
+   "pos": 14,
+   "jogador": "João Hering",
+   "pts": 16,
+   "pv": 33.0,
+   "v": 4,
+   "vj3": 1,
+   "bye": 0,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     3,
+     3,
+     [
+      0,
+      0,
+      3
+     ]
+    ],
+    [
+     4,
+     3,
+     [
+      0,
+      3,
+      0
+     ]
+    ],
+    [
+     5,
+     4,
+     [
+      3,
+      1,
+      0
+     ]
+    ],
+    [
+     6,
+     3,
+     [
+      3,
+      0,
+      0
+     ]
+    ]
+   ],
+   "d": 7,
+   "e": 1,
+   "j": 12
+  },
+  {
+   "pos": 15,
+   "jogador": "Crackinho",
+   "pts": 16,
    "pv": 20.0,
+   "v": 3,
+   "vj3": 1,
+   "bye": 0,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     1,
+     3,
+     [
+      0,
+      0,
+      3
+     ]
+    ],
+    [
+     2,
+     4,
+     [
+      3,
+      1,
+      0
+     ]
+    ],
+    [
+     3,
+     3,
+     [
+      3,
+      0,
+      0
+     ]
+    ],
+    [
+     4,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     6,
+     2,
+     [
+      0,
+      1,
+      1
+     ]
+    ]
+   ],
+   "d": 9,
+   "e": 3,
+   "j": 15
+  },
+  {
+   "pos": 16,
+   "jogador": "Hugo Riou",
+   "pts": 16,
+   "pv": 17.0,
    "v": 3,
    "vj3": 0,
    "bye": 0,
@@ -774,14 +1057,215 @@
       0,
       0
      ]
+    ],
+    [
+     6,
+     1,
+     [
+      0,
+      1,
+      0
+     ]
     ]
    ],
-   "d": 8,
-   "e": 4,
-   "j": 15
+   "d": 10,
+   "e": 5,
+   "j": 18
   },
   {
-   "pos": 14,
+   "pos": 17,
+   "jogador": "gustavo oliveira",
+   "pts": 16,
+   "pv": 11.0,
+   "v": 2,
+   "vj3": 1,
+   "bye": 1,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     1,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     2,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     3,
+     0,
+     [
+      0,
+      0,
+      null
+     ]
+    ],
+    [
+     4,
+     4,
+     [
+      1,
+      3,
+      0
+     ]
+    ],
+    [
+     5,
+     3,
+     [
+      0,
+      0,
+      3
+     ]
+    ],
+    [
+     6,
+     2,
+     [
+      0,
+      1,
+      1
+     ]
+    ]
+   ],
+   "d": 12,
+   "e": 3,
+   "j": 18
+  },
+  {
+   "pos": 18,
+   "jogador": "Andre Barbarini",
+   "pts": 15,
+   "pv": 25.0,
+   "v": 3,
+   "vj3": 1,
+   "bye": 0,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     3,
+     6,
+     [
+      0,
+      3,
+      3
+     ]
+    ],
+    [
+     4,
+     3,
+     [
+      3,
+      0,
+      0
+     ]
+    ],
+    [
+     5,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     6,
+     2,
+     [
+      1,
+      0,
+      1
+     ]
+    ]
+   ],
+   "d": 7,
+   "e": 2,
+   "j": 12
+  },
+  {
+   "pos": 19,
+   "jogador": "Alexandre Romansine",
+   "pts": 15,
+   "pv": 17.0,
+   "v": 3,
+   "vj3": 1,
+   "bye": 0,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     1,
+     4,
+     [
+      1,
+      0,
+      3
+     ]
+    ],
+    [
+     2,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     3,
+     3,
+     [
+      3,
+      0,
+      0
+     ]
+    ],
+    [
+     4,
+     1,
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    [
+     5,
+     3,
+     [
+      3,
+      0,
+      0
+     ]
+    ],
+    [
+     6,
+     1,
+     [
+      0,
+      1,
+      0
+     ]
+    ]
+   ],
+   "d": 12,
+   "e": 3,
+   "j": 18
+  },
+  {
+   "pos": 20,
    "jogador": "Thiago Alves",
    "pts": 15,
    "pv": 13.0,
@@ -842,11 +1326,11 @@
    "j": 15
   },
   {
-   "pos": 15,
-   "jogador": "Alexandre Romansine",
-   "pts": 14,
-   "pv": 20.0,
-   "v": 3,
+   "pos": 21,
+   "jogador": "Hideo Fujino",
+   "pts": 15,
+   "pv": 11.0,
+   "v": 2,
    "vj3": 1,
    "bye": 0,
    "premio_pct": null,
@@ -854,9 +1338,9 @@
    "etapas": [
     [
      1,
-     4,
+     3,
      [
-      1,
+      0,
       0,
       3
      ]
@@ -872,92 +1356,6 @@
     ],
     [
      3,
-     3,
-     [
-      3,
-      0,
-      0
-     ]
-    ],
-    [
-     4,
-     1,
-     [
-      0,
-      1,
-      0
-     ]
-    ],
-    [
-     5,
-     3,
-     [
-      3,
-      0,
-      0
-     ]
-    ]
-   ],
-   "d": 10,
-   "e": 2,
-   "j": 15
-  },
-  {
-   "pos": 16,
-   "jogador": "João Hering",
-   "pts": 13,
-   "pv": 33.0,
-   "v": 3,
-   "vj3": 1,
-   "bye": 0,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
-    [
-     3,
-     3,
-     [
-      0,
-      0,
-      3
-     ]
-    ],
-    [
-     4,
-     3,
-     [
-      0,
-      3,
-      0
-     ]
-    ],
-    [
-     5,
-     4,
-     [
-      3,
-      1,
-      0
-     ]
-    ]
-   ],
-   "d": 5,
-   "e": 1,
-   "j": 9
-  },
-  {
-   "pos": 17,
-   "jogador": "Angelo Zannin",
-   "pts": 13,
-   "pv": 27.0,
-   "v": 4,
-   "vj3": 0,
-   "bye": 0,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
-    [
-     1,
      0,
      [
       0,
@@ -966,103 +1364,42 @@
      ]
     ],
     [
-     2,
-     1,
+     4,
+     0,
      [
-      1,
+      0,
       0,
       0
      ]
     ],
     [
-     3,
+     5,
+     5,
+     [
+      3,
+      1,
+      1
+     ]
+    ],
+    [
      6,
-     [
-      3,
-      3,
-      0
-     ]
-    ],
-    [
-     4,
-     3,
-     [
-      3,
-      0,
-      0
-     ]
-    ],
-    [
-     5,
-     3,
-     [
-      3,
-      0,
-      0
-     ]
-    ]
-   ],
-   "d": 10,
-   "e": 1,
-   "j": 15
-  },
-  {
-   "pos": 18,
-   "jogador": "Crackinho",
-   "pts": 13,
-   "pv": 25.0,
-   "v": 3,
-   "vj3": 1,
-   "bye": 0,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
-    [
-     1,
-     3,
-     [
-      0,
-      0,
-      3
-     ]
-    ],
-    [
      2,
-     4,
      [
-      3,
+      0,
       1,
-      0
-     ]
-    ],
-    [
-     3,
-     3,
-     [
-      3,
-      0,
-      0
-     ]
-    ],
-    [
-     4,
-     0,
-     [
-      0,
-      0,
-      0
+      1
      ]
     ]
    ],
-   "d": 8,
-   "e": 1,
-   "j": 12
+   "d": 12,
+   "e": 4,
+   "j": 18
   },
   {
-   "pos": 19,
+   "pos": 22,
    "jogador": "Iruatan Pimenta",
-   "pts": 13,
-   "pv": 17.0,
+   "pts": 14,
+   "pv": 13.0,
    "v": 2,
    "vj3": 2,
    "bye": 0,
@@ -1104,20 +1441,29 @@
       0,
       3
      ]
+    ],
+    [
+     6,
+     1,
+     [
+      1,
+      0,
+      0
+     ]
     ]
    ],
-   "d": 9,
-   "e": 1,
-   "j": 12
+   "d": 11,
+   "e": 2,
+   "j": 15
   },
   {
-   "pos": 20,
-   "jogador": "gustavo oliveira",
-   "pts": 13,
+   "pos": 23,
+   "jogador": "Vagner",
+   "pts": 14,
    "pv": 13.0,
    "v": 2,
    "vj3": 1,
-   "bye": 1,
+   "bye": 0,
    "premio_pct": null,
    "premio": null,
    "etapas": [
@@ -1132,6 +1478,24 @@
     ],
     [
      2,
+     1,
+     [
+      0,
+      0,
+      1
+     ]
+    ],
+    [
+     3,
+     4,
+     [
+      3,
+      0,
+      1
+     ]
+    ],
+    [
+     4,
      0,
      [
       0,
@@ -1140,16 +1504,59 @@
      ]
     ],
     [
-     3,
+     5,
      0,
      [
       0,
       0,
-      null
+      0
      ]
     ],
     [
+     6,
      4,
+     [
+      0,
+      1,
+      3
+     ]
+    ]
+   ],
+   "d": 13,
+   "e": 3,
+   "j": 18
+  },
+  {
+   "pos": 24,
+   "jogador": "Taian Aoki",
+   "pts": 13,
+   "pv": 7.0,
+   "v": 1,
+   "vj3": 0,
+   "bye": 0,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     1,
+     1,
+     [
+      1,
+      0,
+      0
+     ]
+    ],
+    [
+     2,
+     2,
+     [
+      1,
+      1,
+      0
+     ]
+    ],
+    [
+     3,
      4,
      [
       1,
@@ -1159,63 +1566,29 @@
     ],
     [
      5,
+     2,
+     [
+      1,
+      1,
+      0
+     ]
+    ],
+    [
+     6,
      3,
      [
-      0,
-      0,
-      3
+      1,
+      1,
+      1
      ]
     ]
    ],
-   "d": 11,
-   "e": 1,
+   "d": 5,
+   "e": 9,
    "j": 15
   },
   {
-   "pos": 21,
-   "jogador": "Andre Barbarini",
-   "pts": 12,
-   "pv": 33.0,
-   "v": 3,
-   "vj3": 1,
-   "bye": 0,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
-    [
-     3,
-     6,
-     [
-      0,
-      3,
-      3
-     ]
-    ],
-    [
-     4,
-     3,
-     [
-      3,
-      0,
-      0
-     ]
-    ],
-    [
-     5,
-     0,
-     [
-      0,
-      0,
-      0
-     ]
-    ]
-   ],
-   "d": 6,
-   "e": 0,
-   "j": 9
-  },
-  {
-   "pos": 22,
+   "pos": 25,
    "jogador": "Brunno Carvalho",
    "pts": 12,
    "pv": 13.0,
@@ -1276,11 +1649,11 @@
    "j": 15
   },
   {
-   "pos": 23,
-   "jogador": "Hideo Fujino",
+   "pos": 26,
+   "jogador": "Rafael Kawakubo",
    "pts": 12,
-   "pv": 13.0,
-   "v": 2,
+   "pv": 6.0,
+   "v": 1,
    "vj3": 1,
    "bye": 0,
    "premio_pct": null,
@@ -1297,20 +1670,20 @@
     ],
     [
      2,
-     0,
+     1,
      [
       0,
       0,
-      0
+      1
      ]
     ],
     [
      3,
-     0,
+     1,
      [
+      null,
       0,
-      0,
-      0
+      1
      ]
     ],
     [
@@ -1324,20 +1697,29 @@
     ],
     [
      5,
-     5,
+     1,
      [
-      3,
       1,
-      1
+      0,
+      0
+     ]
+    ],
+    [
+     6,
+     1,
+     [
+      0,
+      1,
+      0
      ]
     ]
    ],
-   "d": 11,
-   "e": 2,
-   "j": 15
+   "d": 12,
+   "e": 4,
+   "j": 17
   },
   {
-   "pos": 24,
+   "pos": 27,
    "jogador": "cristiano matos",
    "pts": 11,
    "pv": 27.0,
@@ -1389,181 +1771,77 @@
    "j": 11
   },
   {
-   "pos": 25,
-   "jogador": "Rafael Kawakubo",
-   "pts": 11,
-   "pv": 7.0,
-   "v": 1,
-   "vj3": 1,
-   "bye": 0,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
-    [
-     1,
-     3,
-     [
-      0,
-      0,
-      3
-     ]
-    ],
-    [
-     2,
-     1,
-     [
-      0,
-      0,
-      1
-     ]
-    ],
-    [
-     3,
-     1,
-     [
-      null,
-      0,
-      1
-     ]
-    ],
-    [
-     4,
-     0,
-     [
-      0,
-      0,
-      0
-     ]
-    ],
-    [
-     5,
-     1,
-     [
-      1,
-      0,
-      0
-     ]
-    ]
-   ],
-   "d": 10,
-   "e": 3,
-   "j": 14
-  },
-  {
-   "pos": 26,
-   "jogador": "Taian Aoki",
-   "pts": 9,
-   "pv": 8.0,
-   "v": 1,
-   "vj3": 0,
-   "bye": 0,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
-    [
-     1,
-     1,
-     [
-      1,
-      0,
-      0
-     ]
-    ],
-    [
-     2,
-     2,
-     [
-      1,
-      1,
-      0
-     ]
-    ],
-    [
-     3,
-     4,
-     [
-      1,
-      3,
-      0
-     ]
-    ],
-    [
-     5,
-     2,
-     [
-      1,
-      1,
-      0
-     ]
-    ]
-   ],
-   "d": 5,
-   "e": 6,
-   "j": 12
-  },
-  {
-   "pos": 27,
-   "jogador": "matheus honda",
-   "pts": 8,
-   "pv": 7.0,
-   "v": 1,
-   "vj3": 0,
-   "bye": 0,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
-    [
-     1,
-     0,
-     [
-      0,
-      0,
-      0
-     ]
-    ],
-    [
-     2,
-     1,
-     [
-      0,
-      0,
-      1
-     ]
-    ],
-    [
-     3,
-     0,
-     [
-      0,
-      0,
-      0
-     ]
-    ],
-    [
-     4,
-     4,
-     [
-      3,
-      0,
-      1
-     ]
-    ],
-    [
-     5,
-     1,
-     [
-      1,
-      0,
-      0
-     ]
-    ]
-   ],
-   "d": 11,
-   "e": 3,
-   "j": 15
-  },
-  {
    "pos": 28,
+   "jogador": "matheus honda",
+   "pts": 10,
+   "pv": 6.0,
+   "v": 1,
+   "vj3": 0,
+   "bye": 0,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     1,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     2,
+     1,
+     [
+      0,
+      0,
+      1
+     ]
+    ],
+    [
+     3,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     4,
+     4,
+     [
+      3,
+      0,
+      1
+     ]
+    ],
+    [
+     5,
+     1,
+     [
+      1,
+      0,
+      0
+     ]
+    ],
+    [
+     6,
+     1,
+     [
+      0,
+      0,
+      1
+     ]
+    ]
+   ],
+   "d": 13,
+   "e": 4,
+   "j": 18
+  },
+  {
+   "pos": 29,
    "jogador": "vitor lopes",
    "pts": 8,
    "pv": 7.0,
@@ -1608,14 +1886,23 @@
       0,
       1
      ]
+    ],
+    [
+     6,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
     ]
    ],
-   "d": 8,
+   "d": 11,
    "e": 1,
-   "j": 11
+   "j": 14
   },
   {
-   "pos": 29,
+   "pos": 30,
    "jogador": "Jorge Tanaka",
    "pts": 7,
    "pv": 11.0,
@@ -1656,67 +1943,6 @@
    "d": 5,
    "e": 3,
    "j": 9
-  },
-  {
-   "pos": 30,
-   "jogador": "Vagner",
-   "pts": 7,
-   "pv": 7.0,
-   "v": 1,
-   "vj3": 0,
-   "bye": 0,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
-    [
-     1,
-     0,
-     [
-      0,
-      0,
-      0
-     ]
-    ],
-    [
-     2,
-     1,
-     [
-      0,
-      0,
-      1
-     ]
-    ],
-    [
-     3,
-     4,
-     [
-      3,
-      0,
-      1
-     ]
-    ],
-    [
-     4,
-     0,
-     [
-      0,
-      0,
-      0
-     ]
-    ],
-    [
-     5,
-     0,
-     [
-      0,
-      0,
-      0
-     ]
-    ]
-   ],
-   "d": 12,
-   "e": 2,
-   "j": 15
   },
   {
    "pos": 31,
@@ -1985,6 +2211,49 @@
   },
   {
    "pos": 38,
+   "jogador": "João Pedro",
+   "pts": 4,
+   "pv": 11.0,
+   "v": 1,
+   "vj3": 0,
+   "bye": 0,
+   "premio_pct": null,
+   "premio": null,
+   "etapas": [
+    [
+     2,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     5,
+     1,
+     [
+      1,
+      0,
+      0
+     ]
+    ],
+    [
+     6,
+     3,
+     [
+      3,
+      0,
+      0
+     ]
+    ]
+   ],
+   "d": 7,
+   "e": 1,
+   "j": 9
+  },
+  {
+   "pos": 39,
    "jogador": "Gabriel Oliveira Paes",
    "pts": 3,
    "pv": 17.0,
@@ -2018,7 +2287,7 @@
    "j": 6
   },
   {
-   "pos": 39,
+   "pos": 40,
    "jogador": "Danilo Marcondes",
    "pts": 3,
    "pv": 0.0,
@@ -2063,14 +2332,23 @@
       0,
       0
      ]
+    ],
+    [
+     6,
+     0,
+     [
+      0,
+      0,
+      0
+     ]
     ]
    ],
-   "d": 10,
+   "d": 13,
    "e": 2,
-   "j": 12
+   "j": 15
   },
   {
-   "pos": 40,
+   "pos": 41,
    "jogador": "Francisco barros",
    "pts": 2,
    "pv": 0.0,
@@ -2095,7 +2373,7 @@
    "j": 3
   },
   {
-   "pos": 41,
+   "pos": 42,
    "jogador": "Kaique Rodrigues",
    "pts": 2,
    "pv": 0.0,
@@ -2118,40 +2396,6 @@
    "d": 2,
    "e": 1,
    "j": 3
-  },
-  {
-   "pos": 42,
-   "jogador": "João Pedro",
-   "pts": 1,
-   "pv": 0.0,
-   "v": 0,
-   "vj3": 0,
-   "bye": 0,
-   "premio_pct": null,
-   "premio": null,
-   "etapas": [
-    [
-     2,
-     0,
-     [
-      0,
-      0,
-      0
-     ]
-    ],
-    [
-     5,
-     1,
-     [
-      1,
-      0,
-      0
-     ]
-    ]
-   ],
-   "d": 5,
-   "e": 1,
-   "j": 6
   },
   {
    "pos": 43,
@@ -2244,44 +2488,44 @@
   {
    "pos": 1,
    "jogador": "Vitor Arraes",
-   "rating": 1647.4,
-   "dif": 15.4,
+   "rating": 1677.0,
+   "dif": 29.5,
    "mov": 0
   },
   {
    "pos": 2,
    "jogador": "guilherme marques",
-   "rating": 1624.2,
-   "dif": 2.8,
+   "rating": 1608.0,
+   "dif": -16.2,
    "mov": 0
   },
   {
    "pos": 3,
    "jogador": "Angelo Zannin",
-   "rating": 1610.8,
-   "dif": -5.4,
+   "rating": 1605.0,
+   "dif": -5.8,
    "mov": 0
   },
   {
    "pos": 4,
    "jogador": "PH Campos",
-   "rating": 1598.0,
-   "dif": 17.7,
-   "mov": 2
+   "rating": 1602.6,
+   "dif": 4.6,
+   "mov": 0
   },
   {
    "pos": 5,
    "jogador": "Ubiratan",
-   "rating": 1597.4,
-   "dif": 16.2,
+   "rating": 1590.0,
+   "dif": -7.4,
    "mov": 0
   },
   {
    "pos": 6,
    "jogador": "Caio Pires",
-   "rating": 1586.5,
-   "dif": -3.8,
-   "mov": -2
+   "rating": 1588.5,
+   "dif": 2.0,
+   "mov": 0
   },
   {
    "pos": 7,
@@ -2295,41 +2539,41 @@
    "jogador": "Douglas Capelossi",
    "rating": 1562.4,
    "dif": 0.0,
-   "mov": 1
+   "mov": 0
   },
   {
    "pos": 9,
    "jogador": "João Hering",
-   "rating": 1555.3,
-   "dif": 8.9,
-   "mov": 2
-  },
-  {
-   "pos": 10,
-   "jogador": "eliza shiroma",
-   "rating": 1553.3,
-   "dif": 3.2,
+   "rating": 1555.9,
+   "dif": 0.6,
    "mov": 0
   },
   {
-   "pos": 11,
+   "pos": 10,
    "jogador": "Taian Aoki",
-   "rating": 1549.4,
-   "dif": -13.4,
-   "mov": -3
+   "rating": 1550.0,
+   "dif": 0.6,
+   "mov": 1
+  },
+  {
+   "pos": 11,
+   "jogador": "eliza shiroma",
+   "rating": 1539.1,
+   "dif": -14.2,
+   "mov": -1
   },
   {
    "pos": 12,
-   "jogador": "andre filho",
-   "rating": 1536.9,
-   "dif": 1.9,
+   "jogador": "Fabricio",
+   "rating": 1535.1,
+   "dif": 0.0,
    "mov": 1
   },
   {
    "pos": 13,
-   "jogador": "Fabricio",
-   "rating": 1535.1,
-   "dif": 0.0,
+   "jogador": "andre filho",
+   "rating": 1533.8,
+   "dif": -3.2,
    "mov": -1
   },
   {
@@ -2337,203 +2581,203 @@
    "jogador": "Flavio Romeo Sellam",
    "rating": 1531.2,
    "dif": 0.0,
-   "mov": 1
+   "mov": 0
   },
   {
    "pos": 15,
    "jogador": "Hugo Oliveira",
    "rating": 1521.2,
    "dif": 0.0,
-   "mov": 2
+   "mov": 0
   },
   {
    "pos": 16,
    "jogador": "Victor Kanetinho",
    "rating": 1519.0,
    "dif": 0.0,
-   "mov": 3
+   "mov": 0
   },
   {
    "pos": 17,
-   "jogador": "Ruki Macedo",
-   "rating": 1517.1,
-   "dif": 0.0,
-   "mov": 3
+   "jogador": "Leozinho",
+   "rating": 1517.2,
+   "dif": 13.0,
+   "mov": 13
   },
   {
    "pos": 18,
-   "jogador": "Thelso",
-   "rating": 1515.3,
+   "jogador": "Ruki Macedo",
+   "rating": 1517.1,
    "dif": 0.0,
-   "mov": 3
+   "mov": -1
   },
   {
    "pos": 19,
-   "jogador": "Andre Barbarini",
-   "rating": 1513.4,
-   "dif": -19.0,
-   "mov": -5
+   "jogador": "Thelso",
+   "rating": 1515.3,
+   "dif": 0.0,
+   "mov": -1
   },
   {
    "pos": 20,
-   "jogador": "Rodrigo Garcia",
-   "rating": 1511.8,
-   "dif": -18.3,
-   "mov": -4
+   "jogador": "Yago Leles",
+   "rating": 1510.4,
+   "dif": 8.6,
+   "mov": 14
   },
   {
    "pos": 21,
-   "jogador": "Trupisco",
-   "rating": 1508.7,
-   "dif": 0.0,
-   "mov": 3
+   "jogador": "Andre Barbarini",
+   "rating": 1508.9,
+   "dif": -4.6,
+   "mov": -2
   },
   {
    "pos": 22,
-   "jogador": "Karl Lieb",
-   "rating": 1508.4,
+   "jogador": "Trupisco",
+   "rating": 1508.7,
    "dif": 0.0,
-   "mov": 3
+   "mov": -1
   },
   {
    "pos": 23,
-   "jogador": "Joao Zamboni",
-   "rating": 1507.5,
+   "jogador": "Karl Lieb",
+   "rating": 1508.4,
    "dif": 0.0,
-   "mov": 3
+   "mov": -1
   },
   {
    "pos": 24,
-   "jogador": "Luan Aoki",
-   "rating": 1506.9,
-   "dif": -8.3,
-   "mov": -2
+   "jogador": "Joao Zamboni",
+   "rating": 1507.5,
+   "dif": 0.0,
+   "mov": -1
   },
   {
    "pos": 25,
    "jogador": "Victor Albuquerque",
    "rating": 1506.3,
    "dif": 0.0,
-   "mov": 2
+   "mov": 0
   },
   {
    "pos": 26,
    "jogador": "Arane",
    "rating": 1506.1,
    "dif": 0.0,
-   "mov": 2
+   "mov": 0
   },
   {
    "pos": 27,
-   "jogador": "Lucas Santos APAE",
-   "rating": 1504.8,
-   "dif": 0.0,
-   "mov": 2
+   "jogador": "Luan Aoki",
+   "rating": 1505.3,
+   "dif": -1.6,
+   "mov": -3
   },
   {
    "pos": 28,
-   "jogador": "AceSanka APAE",
-   "rating": 1504.7,
-   "dif": 0.0,
-   "mov": 2
-  },
-  {
-   "pos": 29,
-   "jogador": "Jorge Tanaka",
-   "rating": 1504.5,
-   "dif": 0.0,
-   "mov": 2
-  },
-  {
-   "pos": 30,
-   "jogador": "Leozinho",
-   "rating": 1504.1,
-   "dif": 9.1,
-   "mov": 10
-  },
-  {
-   "pos": 31,
-   "jogador": "Phill Fonseca",
-   "rating": 1503.5,
-   "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 32,
-   "jogador": "Thiago Alves",
-   "rating": 1502.1,
-   "dif": 19.6,
-   "mov": 28
-  },
-  {
-   "pos": 33,
-   "jogador": "Thiago Miguel",
-   "rating": 1501.8,
-   "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 34,
-   "jogador": "Yago Leles",
-   "rating": 1501.8,
-   "dif": -12.9,
-   "mov": -11
-  },
-  {
-   "pos": 35,
-   "jogador": "Hugo Riou",
-   "rating": 1501.0,
-   "dif": -19.9,
-   "mov": -17
-  },
-  {
-   "pos": 36,
-   "jogador": "Leandro Carvalho Cechinel",
-   "rating": 1500.1,
+   "jogador": "Lucas Santos APAE",
+   "rating": 1504.8,
    "dif": 0.0,
    "mov": -1
   },
   {
-   "pos": 37,
+   "pos": 29,
+   "jogador": "AceSanka APAE",
+   "rating": 1504.7,
+   "dif": 0.0,
+   "mov": -1
+  },
+  {
+   "pos": 30,
+   "jogador": "Rafael",
+   "rating": 1504.7,
+   "dif": 4.7,
+   "mov": 7
+  },
+  {
+   "pos": 31,
+   "jogador": "Jorge Tanaka",
+   "rating": 1504.5,
+   "dif": 0.0,
+   "mov": -2
+  },
+  {
+   "pos": 32,
+   "jogador": "Phill Fonseca",
+   "rating": 1503.5,
+   "dif": 0.0,
+   "mov": -1
+  },
+  {
+   "pos": 33,
+   "jogador": "Thiago Alves",
+   "rating": 1502.1,
+   "dif": 0.0,
+   "mov": -1
+  },
+  {
+   "pos": 34,
+   "jogador": "Thiago Miguel",
+   "rating": 1501.8,
+   "dif": 0.0,
+   "mov": -1
+  },
+  {
+   "pos": 35,
+   "jogador": "Leandro Carvalho Cechinel",
+   "rating": 1500.1,
+   "dif": 0.0,
+   "mov": 1
+  },
+  {
+   "pos": 36,
    "jogador": "Gabriel Oliveira Paes",
    "rating": 1497.2,
    "dif": 0.0,
-   "mov": 0
+   "mov": 2
   },
   {
-   "pos": 38,
+   "pos": 37,
    "jogador": "Felipe Galdino",
    "rating": 1496.9,
    "dif": 0.0,
-   "mov": 0
+   "mov": 2
   },
   {
-   "pos": 39,
+   "pos": 38,
    "jogador": "Pedro Khalil",
    "rating": 1495.4,
    "dif": 0.0,
-   "mov": 0
+   "mov": 2
   },
   {
-   "pos": 40,
+   "pos": 39,
    "jogador": "Lucas da Cunha",
    "rating": 1493.8,
    "dif": 0.0,
-   "mov": 1
+   "mov": 2
   },
   {
-   "pos": 41,
+   "pos": 40,
    "jogador": "Camila",
    "rating": 1493.6,
    "dif": 0.0,
-   "mov": 1
+   "mov": 2
   },
   {
-   "pos": 42,
+   "pos": 41,
    "jogador": "Yuji Nakada",
    "rating": 1493.5,
    "dif": 0.0,
-   "mov": 1
+   "mov": 2
+  },
+  {
+   "pos": 42,
+   "jogador": "Hugo Riou",
+   "rating": 1493.3,
+   "dif": -7.7,
+   "mov": -7
   },
   {
    "pos": 43,
@@ -2544,279 +2788,286 @@
   },
   {
    "pos": 44,
-   "jogador": "Iruatan Pimenta",
-   "rating": 1493.1,
-   "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 45,
    "jogador": "Cesar Simões",
    "rating": 1491.9,
    "dif": 0.0,
-   "mov": 1
+   "mov": 2
   },
   {
-   "pos": 46,
+   "pos": 45,
    "jogador": "Douglas Caneshiro",
    "rating": 1491.6,
    "dif": 0.0,
-   "mov": 1
+   "mov": 2
   },
   {
-   "pos": 47,
+   "pos": 46,
    "jogador": "Guilherme Faria",
    "rating": 1489.5,
    "dif": 0.0,
-   "mov": 1
+   "mov": 2
+  },
+  {
+   "pos": 47,
+   "jogador": "Rodrigo Biffi",
+   "rating": 1489.4,
+   "dif": 0.0,
+   "mov": 2
   },
   {
    "pos": 48,
-   "jogador": "Rodrigo Biffi",
-   "rating": 1489.4,
-   "dif": 5.4,
-   "mov": 10
-  },
-  {
-   "pos": 49,
    "jogador": "Dennis Nick",
    "rating": 1488.1,
    "dif": 0.0,
-   "mov": 0
+   "mov": 2
   },
   {
-   "pos": 50,
+   "pos": 49,
    "jogador": "Pedro Shinji",
    "rating": 1487.9,
    "dif": 0.0,
-   "mov": 0
+   "mov": 2
   },
   {
-   "pos": 51,
+   "pos": 50,
    "jogador": "Lucas Praça",
    "rating": 1487.8,
    "dif": 0.0,
-   "mov": 0
+   "mov": 2
   },
   {
-   "pos": 52,
+   "pos": 51,
    "jogador": "Breno",
    "rating": 1487.5,
    "dif": 0.0,
-   "mov": 0
+   "mov": 2
   },
   {
-   "pos": 53,
+   "pos": 52,
    "jogador": "Luiz miguel",
    "rating": 1487.1,
    "dif": 0.0,
-   "mov": 0
+   "mov": 2
+  },
+  {
+   "pos": 53,
+   "jogador": "Bruno Ribeiro",
+   "rating": 1487.1,
+   "dif": 0.0,
+   "mov": 2
   },
   {
    "pos": 54,
-   "jogador": "Bruno Ribeiro",
-   "rating": 1487.1,
-   "dif": -14.8,
-   "mov": -21
-  },
-  {
-   "pos": 55,
    "jogador": "Victor Isique",
    "rating": 1486.6,
    "dif": 0.0,
-   "mov": -1
+   "mov": 2
+  },
+  {
+   "pos": 55,
+   "jogador": "Iruatan Pimenta",
+   "rating": 1485.2,
+   "dif": -7.9,
+   "mov": -10
   },
   {
    "pos": 56,
    "jogador": "Yan Barros",
    "rating": 1485.0,
    "dif": 0.0,
-   "mov": 0
+   "mov": 1
   },
   {
    "pos": 57,
    "jogador": "Pedro Bedoni",
    "rating": 1484.2,
    "dif": 0.0,
-   "mov": 0
+   "mov": 1
   },
   {
    "pos": 58,
    "jogador": "Sablom",
    "rating": 1484.1,
-   "dif": -15.9,
-   "mov": -22
+   "dif": 0.0,
+   "mov": 1
   },
   {
    "pos": 59,
-   "jogador": "Rafael Kawakubo",
-   "rating": 1484.0,
-   "dif": -2.1,
-   "mov": -4
+   "jogador": "Rodrigo Garcia",
+   "rating": 1483.5,
+   "dif": -28.3,
+   "mov": -39
   },
   {
    "pos": 60,
+   "jogador": "Rafael Kawakubo",
+   "rating": 1482.9,
+   "dif": -1.1,
+   "mov": 0
+  },
+  {
+   "pos": 61,
+   "jogador": "Vagner",
+   "rating": 1482.9,
+   "dif": 22.6,
+   "mov": 12
+  },
+  {
+   "pos": 62,
    "jogador": "Meimei",
    "rating": 1482.7,
    "dif": 0.0,
    "mov": -1
   },
   {
-   "pos": 61,
+   "pos": 63,
    "jogador": "Gabriel Datovo",
    "rating": 1482.2,
    "dif": 0.0,
-   "mov": 0
-  },
-  {
-   "pos": 62,
-   "jogador": "Alex Sandro da Mota Silva",
-   "rating": 1481.1,
-   "dif": 0.0,
-   "mov": 0
-  },
-  {
-   "pos": 63,
-   "jogador": "BLUE",
-   "rating": 1481.0,
-   "dif": 0.0,
-   "mov": 0
+   "mov": -1
   },
   {
    "pos": 64,
-   "jogador": "Brunno Carvalho",
-   "rating": 1480.0,
-   "dif": 15.2,
-   "mov": 3
+   "jogador": "Alex Sandro da Mota Silva",
+   "rating": 1481.1,
+   "dif": 0.0,
+   "mov": -1
   },
   {
    "pos": 65,
-   "jogador": "Hideo Fujino",
-   "rating": 1475.2,
-   "dif": 19.9,
-   "mov": 10
+   "jogador": "BLUE",
+   "rating": 1481.0,
+   "dif": 0.0,
+   "mov": -1
   },
   {
    "pos": 66,
-   "jogador": "Kaike Rodrigues",
-   "rating": 1475.0,
+   "jogador": "Brunno Carvalho",
+   "rating": 1480.0,
    "dif": 0.0,
-   "mov": -2
+   "mov": -1
   },
   {
    "pos": 67,
-   "jogador": "Alexandre Romansine",
-   "rating": 1472.6,
-   "dif": 17.2,
-   "mov": 7
+   "jogador": "Hideo Fujino",
+   "rating": 1479.0,
+   "dif": 3.7,
+   "mov": -1
   },
   {
    "pos": 68,
-   "jogador": "Danilo Marcondes",
-   "rating": 1470.2,
-   "dif": 0.0,
-   "mov": -2
+   "jogador": "gustavo oliveira",
+   "rating": 1476.8,
+   "dif": 13.0,
+   "mov": 2
   },
   {
    "pos": 69,
-   "jogador": "gustavo oliveira",
-   "rating": 1463.8,
-   "dif": 10.9,
-   "mov": 7
+   "jogador": "Alexandre Romansine",
+   "rating": 1476.6,
+   "dif": 3.9,
+   "mov": -1
   },
   {
    "pos": 70,
+   "jogador": "Kaike Rodrigues",
+   "rating": 1475.0,
+   "dif": 0.0,
+   "mov": -3
+  },
+  {
+   "pos": 71,
+   "jogador": "Crackinho",
+   "rating": 1464.5,
+   "dif": 3.8,
+   "mov": 1
+  },
+  {
+   "pos": 72,
    "jogador": "Bruno Cezar",
    "rating": 1461.2,
    "dif": 0.0,
    "mov": -1
   },
   {
-   "pos": 71,
-   "jogador": "Crackinho",
-   "rating": 1460.7,
-   "dif": 0.0,
-   "mov": -1
-  },
-  {
-   "pos": 72,
-   "jogador": "Vagner",
-   "rating": 1460.3,
-   "dif": -13.5,
-   "mov": -7
-  },
-  {
    "pos": 73,
-   "jogador": "matheus honda",
-   "rating": 1458.9,
-   "dif": 1.8,
-   "mov": -1
+   "jogador": "Francisco barros",
+   "rating": 1458.6,
+   "dif": 0.0,
+   "mov": 2
   },
   {
    "pos": 74,
-   "jogador": "Francisco barros",
-   "rating": 1458.6,
-   "dif": -4.5,
-   "mov": -6
+   "jogador": "Danilo Marcondes",
+   "rating": 1458.2,
+   "dif": -12.0,
+   "mov": -5
   },
   {
    "pos": 75,
    "jogador": "Rafael Laet",
    "rating": 1457.8,
    "dif": 0.0,
-   "mov": -4
+   "mov": 1
   },
   {
    "pos": 76,
-   "jogador": "vitor lopes",
-   "rating": 1454.5,
-   "dif": -1.8,
-   "mov": -3
+   "jogador": "João Pedro",
+   "rating": 1449.9,
+   "dif": 17.1,
+   "mov": 7
   },
   {
    "pos": 77,
-   "jogador": "Lucas matos",
-   "rating": 1447.1,
-   "dif": 0.0,
-   "mov": 1
+   "jogador": "matheus honda",
+   "rating": 1449.2,
+   "dif": -9.7,
+   "mov": -3
   },
   {
    "pos": 78,
-   "jogador": "Paulo pascoal",
-   "rating": 1442.3,
-   "dif": -7.5,
-   "mov": -1
-  },
-  {
-   "pos": 79,
-   "jogador": "Aline Pontes",
-   "rating": 1439.4,
+   "jogador": "Lucas matos",
+   "rating": 1447.1,
    "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 80,
-   "jogador": "Pedro Blanco",
-   "rating": 1437.1,
-   "dif": 0.0,
-   "mov": 1
-  },
-  {
-   "pos": 81,
-   "jogador": "Matheus Denoni",
-   "rating": 1435.5,
-   "dif": -5.8,
-   "mov": -2
-  },
-  {
-   "pos": 82,
-   "jogador": "João Pedro",
-   "rating": 1432.9,
-   "dif": 1.6,
    "mov": 0
   },
   {
+   "pos": 79,
+   "jogador": "vitor lopes",
+   "rating": 1446.2,
+   "dif": -8.3,
+   "mov": -2
+  },
+  {
+   "pos": 80,
+   "jogador": "Paulo pascoal",
+   "rating": 1442.3,
+   "dif": 0.0,
+   "mov": -1
+  },
+  {
+   "pos": 81,
+   "jogador": "Aline Pontes",
+   "rating": 1439.4,
+   "dif": 0.0,
+   "mov": -1
+  },
+  {
+   "pos": 82,
+   "jogador": "Pedro Blanco",
+   "rating": 1437.1,
+   "dif": 0.0,
+   "mov": -1
+  },
+  {
    "pos": 83,
+   "jogador": "Matheus Denoni",
+   "rating": 1435.5,
+   "dif": 0.0,
+   "mov": -1
+  },
+  {
+   "pos": 84,
    "jogador": "Ramon Gubeissi Dias dos Santos",
    "rating": 1425.0,
    "dif": 0.0,
